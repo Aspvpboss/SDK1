@@ -3,12 +3,14 @@
 
 int main(){
 
+    SDL_Init(SDL_INIT_VIDEO);
+
     SDK_Time time = SDK_CreateTime(144);
+    SDK_Display display = SDK_CreateDisplay("SDK Window", 800, 800, SDL_WINDOW_MAXIMIZED);
     SDL_Event event;
     bool running = 1;
 
-    SDL_Window *window;
-    SDL_Renderer *renderer;
+
 
     while(running){
 
@@ -18,15 +20,18 @@ int main(){
                 running = 0;
             }
         }
-        SDK_LimitFPS(&time);
+
+        SDL_RenderClear(display.renderer);
+        SDL_RenderPresent(display.renderer);
+
         SDK_CalculateDT(&time);
+        SDK_LimitFPS(&time);
         SDK_CalculateFPS(&time);
+
+        
     }
 
-
-
-
-
+    
 
     return 0;
 }

@@ -10,6 +10,7 @@ typedef struct{
     double dt, fps;
     int fps_limit;
     double dt_buffer[SDK_FPS_POLL_RATE];
+    bool failure;
 
 } SDK_Time;
 

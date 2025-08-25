@@ -14,11 +14,16 @@ You should call the time functions in this order
     SDK_CalculateFPS(&time);
 */
 SDK_Time SDK_CreateTime(int fps_limit){
-    SDK_Time time = {
-        .dt = 0.0f,
-        .fps = 0.0f,
-        .fps_limit = fps_limit
-    };
+    SDK_Time time;
+
+    time.fps_limit = fps_limit;
+    time.dt = 0;
+    time.fps = 0;
+    time.failure = 0;
+
+    if(fps_limit <= 0){
+        time.failure = 1;
+    }
 
     return time;
 }
@@ -87,6 +92,7 @@ void SDK_CalculateFPS(SDK_Time *time){
 
     time->fps = 1 / (total / SDK_FPS_POLL_RATE);
     frame = 0;
+    printf("\r%f                ", time->fps);
 
     return;
 }
@@ -116,7 +122,7 @@ void SDK_LimitFPS(SDK_Time *time){
         return;
     }
 
-    double target_frame_time = 1.0 / time->fps_limit;
+    double target_frame_time = (1.0 / time->fps_limit);
 
     uint64_t now_counter = SDL_GetPerformanceCounter();
     double elapsed = (double)(now_counter - last_counter) / (double)freq;
@@ -124,17 +130,21 @@ void SDK_LimitFPS(SDK_Time *time){
 
     double remaining = target_frame_time - elapsed;
     if (remaining < 0){
+        last_counter = SDL_GetPerformanceCounter();
         return;
     }
 
 
-    if (remaining > SDK_BUSY_WAIT_MARGIN) 
-        SDL_Delay((Uint32)((remaining - SDK_BUSY_WAIT_MARGIN) * 1000.0));
-    
+    if (remaining > 0.002) {
+        SDL_Delay((Uint32)((remaining - 0.001) * 1000.0));
+    }
+
     do {
         now_counter = SDL_GetPerformanceCounter();
         elapsed = (double)(now_counter - last_counter) / (double)freq;
     } while (elapsed < target_frame_time);
+
+
 
     last_counter = SDL_GetPerformanceCounter();
 }
