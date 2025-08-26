@@ -24,3 +24,10 @@ int SDK_Keyboard_JustReleased(SDK_Input *input, SDL_Scancode scancode);
 void SDK_Update_Previous_KeyboardState(SDK_Input *input);
 
 int SDK_Mouse_Pressed(SDK_Input *input, uint32_t SDL_MouseButtonMask);
+int SDK_Mouse_JustPressed(SDK_Input *input, uint32_t SDL_MouseButtonMask);
+int SDK_Mouse_JustReleased(SDK_Input *input, uint32_t SDL_MouseButtonMask);
+void SDK_Mouse_UpdatePosition(SDK_Input *input);
+void SDK_Update_Previous_MouseState(SDK_Input *input);
+
+
+void SDK_Update_Previous_Inputs(SDK_Input *input);

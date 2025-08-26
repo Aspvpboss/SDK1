@@ -28,12 +28,14 @@ int main(){
                 running = 0;
             }
         }
+        if(SDK_Mouse_JustPressed(&input, SDL_BUTTON_LEFT))
+            printf("Left mouse button pressed\n");
 
-        if(SDK_Mouse_Pressed(&input, SDL_BUTTON_LEFT))
-            printf("mouse left click pressed\n");
+        printf("%f %f\n", input.mouse_x, input.mouse_y);
 
 
-        SDK_Update_Previous_KeyboardState(&input);
+        
+        SDK_Update_Previous_Inputs(&input);
         SDK_TimeFunctions(&time);
 
 
