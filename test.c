@@ -5,12 +5,20 @@ int main(){
 
     SDL_Init(SDL_INIT_VIDEO);
 
-    SDK_Time time = SDK_CreateTime(144);
-    SDK_Display display = SDK_CreateDisplay("SDK Window", 800, 800, SDL_WINDOW_MAXIMIZED);
+    SDK_Time time;
+    SDK_CreateTime(&time, 200);
+
+
+    SDK_Display display;
+    SDK_CreateDisplay(&display, "SDK Window", 800, 800, SDL_WINDOW_MAXIMIZED);
+
+
+    SDK_Input input;
+    SDK_CreateInput(&input);
+
+
     SDL_Event event;
     bool running = 1;
-
-
 
     while(running){
 
@@ -21,17 +29,20 @@ int main(){
             }
         }
 
+        if(SDK_Mouse_Pressed(&input, SDL_BUTTON_LEFT))
+            printf("mouse left click pressed\n");
+
+
+        SDK_Update_Previous_KeyboardState(&input);
+        SDK_TimeFunctions(&time);
+
+
         SDL_RenderClear(display.renderer);
         SDL_RenderPresent(display.renderer);
-
-        SDK_CalculateDT(&time);
-        SDK_LimitFPS(&time);
-        SDK_CalculateFPS(&time);
-
-        
     }
 
-    
+    SDK_DestroyDisplay(&display);
+    SDK_DestroyInput(&input);
 
     return 0;
 }

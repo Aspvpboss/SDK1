@@ -5,7 +5,9 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <stdbool.h>
+#include <stdlib.h>
 
 
 #include "time.h"
 #include "display.h"
+#include "input.h"

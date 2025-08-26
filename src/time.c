@@ -2,43 +2,29 @@
 
 
 /*
-Creates and returns a SDK_Time struct
-SDK_Time doesn't need to be freed after use
+    Creates and returns a SDK_Time struct
+    SDK_Time doesn't need to be freed after use
 
-**fps_limit can be changed during runtime*
-
-You should call the time functions in this order
-
-    SDK_LimitFPS(&time);
-    SDK_CalculateDT(&time);
-    SDK_CalculateFPS(&time);
+    **fps_limit can be changed during runtime*
 */
-SDK_Time SDK_CreateTime(int fps_limit){
-    SDK_Time time;
+int SDK_CreateTime(SDK_Time *time, int fps_limit){
 
-    time.fps_limit = fps_limit;
-    time.dt = 0;
-    time.fps = 0;
-    time.failure = 0;
+    time->fps_limit = fps_limit;
+    time->dt = 0;
+    time->fps = 0;
 
     if(fps_limit <= 0){
-        time.failure = 1;
+        return 1;
     }
 
-    return time;
+    return 0;
 }
 
 
 
 /*
-Updates 'dt' within SDK_Time with current delta time
 
-
-You should call the time functions in this order
-
-    SDK_LimitFPS(&time);
-    SDK_CalculateDT(&time);
-    SDK_CalculateFPS(&time);
+    Updates 'dt' within SDK_Time with current delta time
 
 */
 void SDK_CalculateDT(SDK_Time *time){
@@ -68,12 +54,6 @@ This functions uses dt_buffer to average the delta time
 over a defined amount of frame for a smoother fps.
 The amounts of frames to loop over is SDK_FPS_POLL_RATE
 
-
-You should call the time functions in this order
-
-    SDK_LimitFPS(&time);
-    SDK_CalculateDT(&time);
-    SDK_CalculateFPS(&time);
     
 
 */
@@ -104,12 +84,6 @@ This function limits the fps of the application.
 
 It uses 'int fps_limit' within SDK_Time as the fps limit.
 
-
-You should call the time functions in this order
-
-    SDK_LimitFPS(&time);
-    SDK_CalculateDT(&time);
-    SDK_CalculateFPS(&time);
 */
 void SDK_LimitFPS(SDK_Time *time){
 
@@ -149,3 +123,27 @@ void SDK_LimitFPS(SDK_Time *time){
     last_counter = SDL_GetPerformanceCounter();
 }
 
+
+
+/*
+
+    Calls the other time.h functions in order
+
+    This is for ease of use.
+
+    You can call the 
+    individual functions seperately
+    **
+    **
+    Functions Called:
+    
+    SDK_CalculateDT(&time);
+    SDK_LimitFPS(&time);
+    SDK_CalculateFPS(&time);    
+
+*/
+void SDK_TimeFunctions(SDK_Time *time){
+    SDK_CalculateDT(time);
+    SDK_LimitFPS(time);
+    SDK_CalculateFPS(time);
+}
