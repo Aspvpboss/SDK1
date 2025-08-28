@@ -18,10 +18,10 @@ typedef struct{
 } SDK_Time;
 
 
-int SDK_CreateTime(SDK_Time *time, int fps_limit);
-void SDK_TimeFunctions(SDK_Time *time);
+SDK1_API int SDK_CreateTime(SDK_Time *time, int fps_limit);
+SDK1_API void SDK_TimeFunctions(SDK_Time *time);
 
-void SDK_CalculateDT(SDK_Time *time);
-void SDK_CalculateFPS(SDK_Time *time);
-void SDK_LimitFPS(SDK_Time *time);
+SDK1_API void SDK_CalculateDT(SDK_Time *time);
+SDK1_API void SDK_CalculateFPS(SDK_Time *time);
+SDK1_API void SDK_LimitFPS(SDK_Time *time);
 

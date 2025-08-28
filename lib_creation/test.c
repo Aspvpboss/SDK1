@@ -31,9 +31,6 @@ int main(){
         if(SDK_Mouse_JustPressed(&input, SDL_BUTTON_LEFT))
             printf("Left mouse button pressed\n");
 
-        printf("%f %f\n", input.mouse_x, input.mouse_y);
-
-
         
         SDK_Update_Previous_Inputs(&input);
         SDK_TimeFunctions(&time);
