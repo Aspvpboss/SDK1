@@ -6,7 +6,7 @@ int main(){
     SDL_Init(SDL_INIT_VIDEO);
 
     SDK_Time time;
-    SDK_CreateTime(&time, 200);
+    SDK_CreateTime(&time, 100000000);
 
 
     SDK_Display display;
