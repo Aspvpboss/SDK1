@@ -31,3 +31,4 @@ SDK1_API void SDK_Update_Previous_MouseState(SDK_Input *input);
 
 
 SDK1_API void SDK_Update_Previous_Inputs(SDK_Input *input);
+

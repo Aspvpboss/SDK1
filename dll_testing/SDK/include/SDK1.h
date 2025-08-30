@@ -14,12 +14,15 @@
 #include <SDL3/SDL.h>
 #include <SDL3_image/SDL_image.h>
 #include <SDL3_ttf/SDL_ttf.h>
+
 #include <stdio.h>
 #include <stdint.h>
 #include <stdbool.h>
 #include <stdlib.h>
 
 
-#include "time.h"
-#include "display.h"
-#include "input.h"
+#include "SDK_time.h"
+#include "SDK_display.h"
+#include "SDK_input.h"
+#include "SDK_text.h"
+

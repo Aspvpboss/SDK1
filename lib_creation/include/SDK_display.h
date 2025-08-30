@@ -14,3 +14,5 @@ typedef struct{
 
 SDK1_API int SDK_CreateDisplay(SDK_Display *display, const char* window_title, int window_width, int window_height, SDL_WindowFlags window_flag);
 SDK1_API void SDK_DestroyDisplay(SDK_Display *display);
+SDK1_API int SDK_DisplaySetWindowed(SDK_Display *display, int width, int height);
+SDK1_API int SDK_DisplaySetFullscreen(SDK_Display *display);

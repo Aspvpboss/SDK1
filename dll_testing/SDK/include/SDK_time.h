@@ -1,12 +1,15 @@
 #pragma once
 
 #include "SDK1.h"
-#define SDK_FPS_POLL_RATE 100
-#define SDK_BUSY_WAIT_MARGIN 0.002
+#define SDK_FPS_POLL_RATE 200
 
 /*
 
 SDK_Time holds variable that are used for time calculations
+You use dt and fps for functions
+
+fps_updated becomes true whenever the fps gets updated
+becomes false after the update
 
 */
 typedef struct{
@@ -14,6 +17,7 @@ typedef struct{
     double dt, fps;
     int fps_limit;
     double dt_buffer[SDK_FPS_POLL_RATE];
+    bool fps_updated;
 
 } SDK_Time;
 

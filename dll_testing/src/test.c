@@ -6,7 +6,7 @@ int main(){
     SDL_Init(SDL_INIT_VIDEO);
 
     SDK_Time time;
-    SDK_CreateTime(&time, 100000000);
+    SDK_CreateTime(&time, 600);
 
 
     SDK_Display display;
@@ -28,13 +28,25 @@ int main(){
                 running = 0;
             }
         }
-        if(SDK_Mouse_JustPressed(&input, SDL_BUTTON_LEFT))
-            printf("Left mouse button pressed\n");
 
+        if(time.fps_updated)
+            printf("\r%f                 ", time.fps);
+
+        if(SDK_Keyboard_JustPressed(&input, SDL_SCANCODE_F11)){
+        
+            Uint32 flags = SDL_GetWindowFlags(display.window);
+
+            if(flags & SDL_WINDOW_FULLSCREEN) {
+                SDK_DisplaySetWindowed(&display, 300, 300);
+            } else{
+                SDK_DisplaySetFullscreen(&display);
+                printf("%d %d\n", display.width, display.height);
+            }
+        }
+            
         
         SDK_Update_Previous_Inputs(&input);
         SDK_TimeFunctions(&time);
-
 
         SDL_RenderClear(display.renderer);
         SDL_RenderPresent(display.renderer);

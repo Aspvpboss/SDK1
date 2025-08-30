@@ -1,5 +1,4 @@
-#include "time.h"
-
+#include "SDK_time.h"
 
 /*
     Creates and returns a SDK_Time struct
@@ -48,17 +47,20 @@ void SDK_CalculateDT(SDK_Time *time){
 
 
 /*
+
 Updates 'fps' within SDK_Time with current fps
 
 This functions uses dt_buffer to average the delta time
 over a defined amount of frame for a smoother fps.
 The amounts of frames to loop over is SDK_FPS_POLL_RATE
 
-    
-
 */
 void SDK_CalculateFPS(SDK_Time *time){
     static int frame = 0;
+
+    if(time->fps_updated){
+        time->fps_updated = 0;
+    }
 
     if(frame < SDK_FPS_POLL_RATE){
         time->dt_buffer[frame] = time->dt;
@@ -66,15 +68,16 @@ void SDK_CalculateFPS(SDK_Time *time){
         return;
     }
 
+
+
     double total = 0.0f;
     for(int i = 0; i < SDK_FPS_POLL_RATE; i++)
         total += time->dt_buffer[i];
 
     time->fps = 1 / (total / SDK_FPS_POLL_RATE);
     frame = 0;
-    printf("\r%f                ", time->fps);
 
-    return;
+    time->fps_updated = 1;
 }
 
 
