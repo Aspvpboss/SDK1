@@ -4,7 +4,7 @@ os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
 
 gcc = "C:\\MinGW\\bin\\gcc.exe"
-SDK = "-lSDK1 -ISDK/include -LSDK/lib"
+SDK = "-lSDK1 -ISDK1/include -LSDK1/lib"
 SDL = "-lSDL3 -lSDL3_image -lSDL3_ttf -LC:\\msys64\\mingw64\\lib -IC:\\msys64\\mingw64\\include"
 portable_SDL = "-lSDL3 -lSDL3_image -lSDL3_ttf -LC:\\MinGW\\lib -IC:\\MinGW\\include"
  

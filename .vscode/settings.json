@@ -6,6 +6,7 @@
         "sdk_input.h": "c",
         "random": "c",
         "sdk_text.h": "c",
-        "sdl_image.h": "c"
+        "sdl_image.h": "c",
+        "common_libs.h": "c"
     }
 }

@@ -13,7 +13,7 @@ int SDK_CreateText(SDK_TextDisplay *text, SDK_Display *display, const char *font
 
     if(font_path == NULL){
 
-        text->font = TTF_OpenFont("./assets/default.ttf", font_size);
+        text->font = TTF_OpenFont("./SDK1/assets/default.ttf", font_size);
         if(text->font == NULL)
             return 1;
 

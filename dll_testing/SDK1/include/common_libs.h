@@ -19,10 +19,4 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include <stdlib.h>
-
-
-#include "SDK_time.h"
-#include "SDK_display.h"
-#include "SDK_input.h"
-#include "SDK_text.h"
-
+#include <string.h>

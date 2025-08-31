@@ -1,6 +1,6 @@
 #pragma once
+#include "common_libs.h"
 
-#include "SDK1.h"
 #define SDK_FPS_POLL_RATE 200
 
 /*

@@ -1,5 +1,5 @@
 #pragma once
-#include "SDK1.h"
+#include "common_libs.h"
 #include "SDK_display.h"
 
 /*

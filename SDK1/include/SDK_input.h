@@ -1,5 +1,5 @@
 #pragma once
-#include "SDK1.h"
+#include "common_libs.h"
 
 /*
     SDK_Input contains variables need for SDK input functions
