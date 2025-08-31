@@ -1,11 +1,7 @@
 #include "SDK_time.h"
 
-/*
-    Creates and returns a SDK_Time struct
-    SDK_Time doesn't need to be freed after use
 
-    **fps_limit can be changed during runtime*
-*/
+
 int SDK_CreateTime(SDK_Time *time, int fps_limit){
 
     time->fps_limit = fps_limit;
@@ -20,12 +16,6 @@ int SDK_CreateTime(SDK_Time *time, int fps_limit){
 }
 
 
-
-/*
-
-    Updates 'dt' within SDK_Time with current delta time
-
-*/
 void SDK_CalculateDT(SDK_Time *time){
 
     static uint64_t previous = 0;
@@ -45,16 +35,6 @@ void SDK_CalculateDT(SDK_Time *time){
 }
 
 
-
-/*
-
-Updates 'fps' within SDK_Time with current fps
-
-This functions uses dt_buffer to average the delta time
-over a defined amount of frame for a smoother fps.
-The amounts of frames to loop over is SDK_FPS_POLL_RATE
-
-*/
 void SDK_CalculateFPS(SDK_Time *time){
     static int frame = 0;
 
@@ -81,13 +61,6 @@ void SDK_CalculateFPS(SDK_Time *time){
 }
 
 
-
-/*
-This function limits the fps of the application. 
-
-It uses 'int fps_limit' within SDK_Time as the fps limit.
-
-*/
 void SDK_LimitFPS(SDK_Time *time){
 
     static uint64_t last_counter = 0;
@@ -127,24 +100,6 @@ void SDK_LimitFPS(SDK_Time *time){
 }
 
 
-
-/*
-
-    Calls the other time.h functions in order
-
-    This is for ease of use.
-
-    You can call the 
-    individual functions seperately
-    **
-    **
-    Functions Called:
-    
-    SDK_CalculateDT(&time);
-    SDK_LimitFPS(&time);
-    SDK_CalculateFPS(&time);    
-
-*/
 void SDK_TimeFunctions(SDK_Time *time){
     SDK_CalculateDT(time);
     SDK_LimitFPS(time);

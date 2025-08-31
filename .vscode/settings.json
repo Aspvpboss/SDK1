@@ -3,6 +3,9 @@
         "stdio.h": "c",
         "stdlib.h": "c",
         "sdk_time.h": "c",
-        "sdk_input.h": "c"
+        "sdk_input.h": "c",
+        "random": "c",
+        "sdk_text.h": "c",
+        "sdl_image.h": "c"
     }
 }
