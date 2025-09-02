@@ -52,6 +52,9 @@ int SDK_DisplaySetWindowed(SDK_Display *display, int width, int height){
         return 1;
     }
 
+    display->width = width;
+    display->height = height;
+
     return 0;
 }
 

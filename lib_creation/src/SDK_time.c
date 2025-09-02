@@ -5,12 +5,15 @@
 int SDK_CreateTime(SDK_Time *time, int fps_limit){
 
     time->fps_limit = fps_limit;
+    time->prev_fps_limit = fps_limit;
     time->dt = 0;
     time->fps = 0;
 
     if(fps_limit <= 0){
         return 1;
     }
+
+    time->dt_buffer = malloc(sizeof(double) * fps_limit);
 
     return 0;
 }
@@ -36,28 +39,46 @@ void SDK_CalculateDT(SDK_Time *time){
 
 
 void SDK_CalculateFPS(SDK_Time *time){
+
     static int frame = 0;
 
-    if(time->fps_updated){
+    if(time->fps_updated == 1){
         time->fps_updated = 0;
     }
 
-    if(frame < SDK_FPS_POLL_RATE){
-        time->dt_buffer[frame] = time->dt;
-        frame++;
+    if(time->fps_limit != time->prev_fps_limit){
+        time->dt_buffer = realloc(time->dt_buffer, sizeof(double) * time->fps_limit);
+        time->prev_fps_limit = time->fps_limit;
+        frame = 0;
         return;
     }
 
+    time->prev_fps_limit = time->fps_limit;
 
 
-    double total = 0.0f;
-    for(int i = 0; i < SDK_FPS_POLL_RATE; i++)
+    if(frame < time->fps_limit){
+
+        time->dt_buffer[frame] = time->dt;
+        frame++;
+        return;
+
+    }
+
+
+    double total = 0.0;
+    for(int i = 0; i < time->fps_limit; i++)
         total += time->dt_buffer[i];
 
-    time->fps = 1 / (total / SDK_FPS_POLL_RATE);
+    if(total <= 0){
+        time->fps = 0.0;
+    } else{
+        time->fps = 1.0 / (total / time->fps_limit);
+    }
+
     frame = 0;
 
     time->fps_updated = 1;
+
 }
 
 

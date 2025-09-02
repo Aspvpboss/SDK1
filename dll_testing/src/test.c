@@ -1,15 +1,26 @@
 #include "SDK.h"
 #include <stdio.h>
 
+void render_text(SDK_TextDisplay *text, const char *string, int x, int y){
+
+    SDK_Text_UpdatePosition(text, x, y);
+    SDK_Text_UpdateString(text, string);
+    SDK_Text_Render(text);
+
+}
+
+
 int main(){
 
-    SDL_Init(SDL_INIT_VIDEO);
-    TTF_Init();
+    if(SDK_Init()){
+        SDL_Log("%s\n", SDL_GetError());
+        return 1;
+    }
 
 
 
     SDK_Time time;
-    SDK_CreateTime(&time, 240);
+    SDK_CreateTime(&time, 24000);
 
 
     SDK_Display display;
@@ -20,7 +31,7 @@ int main(){
     SDK_CreateInput(&input);
 
     SDK_TextDisplay text;
-    if(SDK_CreateText(&text, &display, NULL, 50, 5, 5, (SDL_Color){255, 255, 0, 255})){
+    if(SDK_CreateText(&text, &display, NULL, 50, 5, 5, (SDL_Color){255, 0, 0, 255})){
         SDL_Log("%s\n", SDL_GetError());
         return 1;
     }
@@ -31,6 +42,8 @@ int main(){
 
     while(running){
 
+        SDL_RenderClear(display.renderer);
+
         while(SDL_PollEvent(&event)){
 
             if(event.type == SDL_EVENT_QUIT){
@@ -39,33 +52,36 @@ int main(){
         }
 
 
-        if(SDK_Keyboard_JustPressed(&input, SDL_SCANCODE_F11)){
-        
-            Uint32 flags = SDL_GetWindowFlags(display.window);
-
-            if(flags & SDL_WINDOW_FULLSCREEN) {
-                SDK_DisplaySetWindowed(&display, 300, 300);
-                SDK_Text_UpdateFontSize(&text, 50);
-            } else{
-                SDK_DisplaySetFullscreen(&display);
-                SDK_Text_UpdateFontSize(&text, 10);
+        if(SDK_Keyboard_Pressed(&input, SDL_SCANCODE_LEFT)){
+            time.fps_limit += (int)(-1000 * time.dt);
+            if(time.fps_limit < 10){
+                time.fps_limit = 10;
             }
         }
 
-        if (time.fps_updated) {
-            char fps_string[32];
-            snprintf(fps_string, sizeof(fps_string), "FPS: %.1f", time.fps);
-            SDK_Text_UpdateString(&text, fps_string);
-        }       
+        if(SDK_Keyboard_Pressed(&input, SDL_SCANCODE_RIGHT)){
+            time.fps_limit += (int)(1000 * time.dt);
+            if(time.fps_limit > 100000){
+                time.fps_limit = 1000;
+            }
+        }
 
 
 
-        SDL_RenderClear(display.renderer);
+        char fps_string[32];
+        snprintf(fps_string, sizeof(fps_string), "FPS: %.1f", time.fps);
+        render_text(&text, fps_string, 0, 0);
 
-        SDK_Text_Render(&text);
+
+        char fps_limit_text[32];
+        snprintf(fps_limit_text, sizeof(fps_limit_text), "FPS Limit: %d", time.fps_limit);
+
+        render_text(&text, fps_limit_text, 0, 50);
+
+
+        
 
         SDL_RenderPresent(display.renderer);
-
         SDK_Update_Previous_Inputs(&input);
         SDK_TimeFunctions(&time);
     }
@@ -74,9 +90,7 @@ int main(){
     SDK_DestroyDisplay(&display);
     SDK_DestroyInput(&input);
     SDK_DestroyText(&text);
-    TTF_Quit();
-    SDL_QuitSubSystem(SDL_INIT_VIDEO);
-    SDL_Quit();
+    SDK_Quit();
 
     return 0;
 }

@@ -1,7 +1,6 @@
 #pragma once
 #include "common_libs.h"
 
-#define SDK_FPS_POLL_RATE 200
 
 /*
 
@@ -15,8 +14,8 @@
 typedef struct{
 
     double dt, fps;
-    int fps_limit;
-    double dt_buffer[SDK_FPS_POLL_RATE];
+    int fps_limit, prev_fps_limit;
+    double *dt_buffer;
     bool fps_updated;
 
 } SDK_Time;

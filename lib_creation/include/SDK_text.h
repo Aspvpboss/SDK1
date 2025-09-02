@@ -14,7 +14,8 @@ typedef struct{
     SDL_Color color;
     TTF_Text *text;
     TTF_TextEngine *engine;
-    int x_pos, y_pos, wrap_width;
+    SDL_FRect rect;
+    int wrap_width;
     float font_size;
 
 } SDK_TextDisplay;
@@ -27,7 +28,7 @@ typedef struct{
     and update the text using
 
     returns 0 for success, 1 for failure
-    Use TTF_GetError() for more error details
+    Use SDL_GetError() for more error details
 */
 SDK1_API int SDK_CreateText(SDK_TextDisplay *text, SDK_Display *display, const char *font_path, float font_size, int x, int y, SDL_Color color);
 
@@ -42,7 +43,7 @@ SDK1_API void SDK_DestroyText(SDK_TextDisplay *text);
     updates the font, and font size of a SDK_TextDisplay object
 
     returns 0 for success, 1 for failure
-    Use TTF_GetError() for more error details
+    Use SDL_GetError() for more error details
 */
 SDK1_API int SDK_Text_UpdateFont(SDK_TextDisplay *text, const char *font_path, float font_size);
 
@@ -51,7 +52,7 @@ SDK1_API int SDK_Text_UpdateFont(SDK_TextDisplay *text, const char *font_path, f
     updates font size of a SDK_TextDisplay object
 
     returns 0 for success, 1 for failure
-    Use TTF_GetError() for more error details
+    Use SDL_GetError() for more error details
 */
 SDK1_API int SDK_Text_UpdateFontSize(SDK_TextDisplay *text, float font_size);
 
@@ -60,7 +61,7 @@ SDK1_API int SDK_Text_UpdateFontSize(SDK_TextDisplay *text, float font_size);
     updates display text of a SDK_TextDisplay object
 
     returns 0 for success, 1 for failure
-    Use TTF_GetError() for more error details
+    Use SDL_GetError() for more error details
 */
 SDK1_API int SDK_Text_UpdateString(SDK_TextDisplay *text, const char *string);
 
@@ -69,7 +70,7 @@ SDK1_API int SDK_Text_UpdateString(SDK_TextDisplay *text, const char *string);
     updates display text of a SDK_TextDisplay object
 
     returns 0 for success, 1 for failure
-    Use TTF_GetError() for more error details
+    Use SDL_GetError() for more error details
 */
 SDK1_API int SDK_Text_UpdatePosition(SDK_TextDisplay *text, int x, int y);
 
@@ -79,7 +80,7 @@ SDK1_API int SDK_Text_UpdatePosition(SDK_TextDisplay *text, int x, int y);
     set wrap_width to 0 for no wrap around
 
     returns 0 for success, 1 for failure
-    Use TTF_GetError() for more error details
+    Use SDL_GetError() for more error details
 */
 SDK1_API int SDK_Text_UpdateWrapWidth(SDK_TextDisplay *text, int wrap_width);
 
@@ -88,7 +89,7 @@ SDK1_API int SDK_Text_UpdateWrapWidth(SDK_TextDisplay *text, int wrap_width);
     updates color of a SDK_TextDisplay object
 
     returns 0 for success, 1 for failure
-    Use TTF_GetError() for more error details
+    Use SDL_GetError() for more error details
 */
 SDK1_API int SDK_Text_UpdateColor(SDK_TextDisplay *text, SDL_Color color);
 
@@ -97,6 +98,6 @@ SDK1_API int SDK_Text_UpdateColor(SDK_TextDisplay *text, SDL_Color color);
     renders the SDK_TextDisplay object to the renderer
 
     returns 0 for success, 1 for failure
-    Use TTF_GetError() for more error details
+    Use SDL_GetError() for more error details
 */
 SDK1_API int SDK_Text_Render(SDK_TextDisplay *text);

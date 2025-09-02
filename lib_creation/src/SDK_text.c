@@ -6,8 +6,8 @@ int SDK_CreateText(SDK_TextDisplay *text, SDK_Display *display, const char *font
     
     text->engine = display->text_engine;
     text->color = color;
-    text->x_pos = x;
-    text->y_pos = y;
+    text->rect.x = x;
+    text->rect.y = y;
     text->font_size = font_size;
     text->wrap_width = 0;
 
@@ -25,12 +25,26 @@ int SDK_CreateText(SDK_TextDisplay *text, SDK_Display *display, const char *font
 
     }
 
+
+
     text->text = TTF_CreateText(text->engine, text->font, "", text->wrap_width);
+    
     if(text->text == NULL){
         return 1;
     }
+    
+    TTF_SetTextColor(text->text, color.r, color.g, color.b, color.a);
 
     TTF_SetTextWrapWidth(text->text, 0);
+
+    int w, h;
+
+    if(!TTF_GetTextSize(text->text, &w,  &h)){
+        return 1;
+    }
+
+    text->rect.w = w;
+    text->rect.h = h;
 
     return 0;
 }
@@ -99,8 +113,23 @@ int SDK_Text_UpdatePosition(SDK_TextDisplay *text, int x, int y){
         return 1;
     }
 
-    text->x_pos = x;
-    text->y_pos = y;
+    text->rect.x = x;
+    text->rect.y = y;
+
+    return 0;
+}
+
+
+int SDK_Text_UpdateSize(SDK_TextDisplay *text){
+
+    int w, h;
+
+    if(!TTF_GetTextSize(text->text, &w, &h)){
+        return 1;
+    }
+
+    text->rect.w = w;
+    text->rect.h = h;
 
     return 0;
 }
@@ -132,7 +161,7 @@ int SDK_Text_UpdateColor(SDK_TextDisplay *text, SDL_Color color){
 
 int SDK_Text_Render(SDK_TextDisplay *text){
 
-    if(!TTF_DrawRendererText(text->text, (float)text->x_pos, (float)text->y_pos))
+    if(!TTF_DrawRendererText(text->text, text->rect.x, text->rect.y))
         return 1;
 
     return 0;
