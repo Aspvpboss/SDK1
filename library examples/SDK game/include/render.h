@@ -1,3 +1,3 @@
 #pragma once
 
-int render(Appstate *state);
+int App_Render(Appstate *state);

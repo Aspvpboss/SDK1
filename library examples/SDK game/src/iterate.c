@@ -14,12 +14,12 @@ SDL_AppResult SDL_AppIterate(void *appstate){
         return SDL_APP_FAILURE;          
     }
 
-    if(update(state)){
+    if(App_Update(state)){
         SDL_Log("%s\n", SDL_GetError());
         return SDL_APP_FAILURE;    
     }
 
-    if(render(state)){
+    if(App_Render(state)){
         SDL_Log("%s\n", SDL_GetError());
         return SDL_APP_FAILURE;            
     }

@@ -6,15 +6,21 @@ void render_text(SDK_TextDisplay *text, int amount_text){
     }
 }
 
-int render(Appstate *state){
+int App_Render(Appstate *state){
 
     SDK_Display *display = &state->display;
-    SDK_TextDisplay *text = state->text_array;
+    SDK_TextDisplay *text = state->Text.text_array;
+    PlayerClass *Player = &state->Player;
     SDL_RenderClear(display->renderer);
 
 
 
-    render_text(text, state->amount_text);
+    render_text(text, state->Text.amount_text);
+
+
+    for(int i = 0; i < Player->amount_players; i++){
+        Player->player_func[i].render(state, i);
+    }
 
 
     

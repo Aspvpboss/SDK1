@@ -1,11 +1,12 @@
 #pragma once
+#include "SDK.h"
 
 typedef struct{
 
-    void (*quit)(void*);
-    void (*handle_events)(void*);
-    void (*update)(void*);
-    void (*render)(void*);
+    void (*quit)(void*, int);
+    void (*handle_events)(void*, int);
+    void (*update)(void*, int);
+    void (*render)(void*, int);
 
 } Entity_Method;
 

@@ -9,3 +9,5 @@ typedef struct{
     int amount_players;
 
 } PlayerClass;
+
+int player_init(void *appstate);

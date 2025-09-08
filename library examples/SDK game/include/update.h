@@ -1,3 +1,3 @@
 #pragma once
 
-int update(Appstate *state);
+int App_Update(Appstate *state);

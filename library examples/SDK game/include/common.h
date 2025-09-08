@@ -2,7 +2,9 @@
 
 #include "SDK.h"
 #include "textdisplay.h"
+#include "entity.h"
 #include "player.h"
+
 
 
 
