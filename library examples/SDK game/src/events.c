@@ -4,11 +4,8 @@ int frame_events(Appstate *state){
 
     PlayerClass *Player = &state->Player;
 
-    for(int i = 0; i < Player->amount_players; i++){
-        Player->player_func[i].handle_events(state, i);
-    }
-
-
+    Player->player_func.handle_events(state, 0);
+    
     return 0;
 }
 

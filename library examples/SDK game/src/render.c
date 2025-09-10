@@ -15,15 +15,10 @@ int App_Render(Appstate *state){
 
 
 
+    Player->player_func.render(state, 0);
     render_text(text, state->Text.amount_text);
-
-
-    for(int i = 0; i < Player->amount_players; i++){
-        Player->player_func[i].render(state, i);
-    }
-
-
     
+
     SDL_RenderPresent(display->renderer);
     return 0;
     

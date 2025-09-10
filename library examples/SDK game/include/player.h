@@ -4,9 +4,11 @@
 
 typedef struct{
 
-    Entity_Method *player_func;
-    Entity_Sprite *player_sprite;
+    Entity_Method player_func;
+    Entity_Sprite player_sprite;
     int amount_players;
+    PhysicsBody physics;
+    enum Facing_Direction facing;
 
 } PlayerClass;
 

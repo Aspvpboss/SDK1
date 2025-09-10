@@ -8,13 +8,8 @@ void SDL_AppQuit(void *appstate, SDL_AppResult result){
     PlayerClass *Player = &state->Player;
     TextClass *Text = &state->Text;
 
-
-    for(int i = 0; i < Player->amount_players; i++){
-        Player->player_func[i].quit(state, i);
-    }
-    free(Player->player_func);
-    free(Player->player_sprite);
-
+    Player->player_func.quit(state, 0);
+    
 
     for(int i = 0; i < Text->amount_text; i++){
         SDK_DestroyText(&Text->text_array[i]);

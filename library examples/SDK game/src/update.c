@@ -14,11 +14,8 @@ int App_Update(Appstate *state){
         SDK_Text_UpdateString(&text[FPS_TEXT], fps_string);
     }
 
-
-
-    for(int i = 0; i < Player->amount_players; i++){
-        Player->player_func[i].update(state, i);
-    }
+    Player->player_func.update(state, 0);
+    
 
 
     SDK_TimeFunctions(time);
