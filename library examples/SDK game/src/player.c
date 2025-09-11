@@ -17,14 +17,16 @@ void normalize_velocitys(PhysicsBody *physics){
 }
 
 
-void clamp_float(float *value, float min, float max){
+void clamp_float(float *value, float *velocity, float min, float max){
 
     if(*value < min){
         *value = min;
+        *velocity *= -1;
     }
 
     if(*value > max){
         *value = max;
+        *velocity *= -1;
     }
 
 }
@@ -43,6 +45,35 @@ void apply_friction(float *velocity, float friction, double dt){
 }
 
 
+void update_direction(PlayerClass *Player){
+
+    if(Player->physics.x_velocity < 0){
+        Player->facing = FACING_LEFT;
+        Player->player_sprite.atlas_frame.x = 18;
+        Player->player_sprite.atlas_frame.y = 32;
+    }
+    
+    if(Player->physics.x_velocity > 0){
+        Player->facing = FACING_LEFT;
+        Player->player_sprite.atlas_frame.x = 18;
+        Player->player_sprite.atlas_frame.y = 48;
+    }
+
+    if(Player->physics.y_velocity < 0){
+        Player->facing = FACING_DOWN;
+        Player->player_sprite.atlas_frame.x = 18;
+        Player->player_sprite.atlas_frame.y = 64;
+    }
+
+    if(Player->physics.y_velocity > 0){
+        Player->facing = FACING_UP;
+        Player->player_sprite.atlas_frame.x = 18;
+        Player->player_sprite.atlas_frame.y = 16;
+    }
+
+}
+
+
 void Player_Update(void *appstate, int index){
     Appstate *state = (Appstate*) appstate;
 
@@ -54,22 +85,17 @@ void Player_Update(void *appstate, int index){
     PhysicsBody *physics = &Player->physics;
 
     
-
     apply_friction(&physics->x_velocity, physics->friction, time->dt);
-    
     position->x += (physics->x_velocity * physics->speed * time->dt);
-
-    clamp_float(&position->x, 0, display->width - (atlas_frame->w * physics->w_scale));
+    clamp_float(&position->x, &physics->x_velocity, 0, display->width - (atlas_frame->w * physics->w_scale));
 
 
     apply_friction(&physics->y_velocity, physics->friction, time->dt);
-    
     position->y += (physics->y_velocity * physics->speed * time->dt);
-
-    clamp_float(&position->y, 0, display->height - (atlas_frame->h * physics->h_scale));
-
+    clamp_float(&position->y, &physics->y_velocity, 0, display->height - (atlas_frame->h * physics->h_scale));
 
 
+    update_direction(Player);
 }
 
 
@@ -81,33 +107,23 @@ void Player_Events(void *appstate, int index){
     if(SDK_Keyboard_Pressed(input, SDL_SCANCODE_W)){
         Player->physics.y_velocity = -1;
         normalize_velocitys(&Player->physics);
-        Player->facing = FACING_UP;
-        Player->player_sprite.atlas_frame.x = 18;
-        Player->player_sprite.atlas_frame.y = 64;
     }
 
     if(SDK_Keyboard_Pressed(input, SDL_SCANCODE_S)){
         Player->physics.y_velocity = 1;
         normalize_velocitys(&Player->physics);
-        Player->facing = FACING_DOWN;
-        Player->player_sprite.atlas_frame.x = 18;
-        Player->player_sprite.atlas_frame.y = 16;
     }
 
     if(SDK_Keyboard_Pressed(input, SDL_SCANCODE_A)){
         Player->physics.x_velocity = -1;
         normalize_velocitys(&Player->physics);
-        Player->facing = FACING_LEFT;
-        Player->player_sprite.atlas_frame.x = 18;
-        Player->player_sprite.atlas_frame.y = 32;
+
     }
 
     if(SDK_Keyboard_Pressed(input, SDL_SCANCODE_D)){
         Player->physics.x_velocity = 1;
         normalize_velocitys(&Player->physics);
-        Player->facing = FACING_RIGHT;
-        Player->player_sprite.atlas_frame.x = 18;
-        Player->player_sprite.atlas_frame.y = 48;
+
     }
 
     
@@ -146,7 +162,7 @@ int player_init(void *appstate){
     Player->physics.x_velocity = 0.0f;
     Player->physics.y_velocity = 0.0f;
     Player->physics.speed = 300.0f;
-    Player->physics.friction = 6.0f;
+    Player->physics.friction = 1.0f;
     
     Player->player_sprite.atlas = IMG_LoadTexture(display->renderer, TEXTURE_PATH);
     if(Player->player_sprite.atlas == NULL)
