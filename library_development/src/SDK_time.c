@@ -13,7 +13,7 @@ int SDK_CreateTime(SDK_Time *time, int fps_limit){
         return 1;
     }
 
-    time->dt_buffer = malloc(sizeof(double) * fps_limit);
+    time->dt_buffer = t_malloc(sizeof(double) * fps_limit);
 
     return 0;
 }
@@ -47,7 +47,7 @@ void SDK_CalculateFPS(SDK_Time *time){
     }
 
     if(time->fps_limit != time->prev_fps_limit){
-        time->dt_buffer = realloc(time->dt_buffer, sizeof(double) * time->fps_limit);
+        time->dt_buffer = t_realloc(time->dt_buffer, sizeof(double) * time->fps_limit);
         time->prev_fps_limit = time->fps_limit;
         frame = 0;
         return;

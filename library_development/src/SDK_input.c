@@ -4,7 +4,7 @@
 int SDK_CreateInput(SDK_Input *input){
     
     SDL_GetKeyboardState(&input->num_keys);
-    input->previous_keyboard = malloc(sizeof(bool) * input->num_keys);
+    input->previous_keyboard = t_malloc(sizeof(bool) * input->num_keys);
     if(input->previous_keyboard == NULL){
         return 1;
     }
@@ -20,7 +20,7 @@ int SDK_CreateInput(SDK_Input *input){
 
 void SDK_DestroyInput(SDK_Input *input){
 
-    free(input->previous_keyboard);
+    t_free(input->previous_keyboard);
     input->previous_keyboard = NULL;
 
 }
