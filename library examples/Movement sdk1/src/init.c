@@ -11,7 +11,7 @@ int App_Init(SDK_Display *display, SDK_Time *time, SDK_Input *input, Player *pla
         return 1;
     }
 
-    if(SDK_CreateTime(time, 800)){
+    if(SDK_CreateTime(time, 10000)){
         return 1;
     }
 
