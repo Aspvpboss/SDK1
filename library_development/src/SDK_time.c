@@ -2,20 +2,34 @@
 
 
 
-int SDK_CreateTime(SDK_Time *time, int fps_limit){
+SDK_Time* SDK_CreateTime(int fps_limit){
 
+    SDK_Time *time = t_malloc(sizeof(SDK_Time));
     time->fps_limit = fps_limit;
     time->prev_fps_limit = fps_limit;
     time->dt = 0;
     time->fps = 0;
 
     if(fps_limit <= 0){
-        return 1;
+        t_free(time);
+        return NULL;
     }
 
     time->dt_buffer = t_malloc(sizeof(double) * fps_limit);
 
-    return 0;
+    if(!time->dt_buffer){
+        t_free(time);
+        return NULL;
+    }
+
+    return time;
+}
+
+void SDK_DestroyTime(SDK_Time *time){
+
+    t_free(time->dt_buffer);
+    t_free(time);
+
 }
 
 

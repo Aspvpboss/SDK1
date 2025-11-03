@@ -30,7 +30,7 @@ typedef struct{
     returns 0 for success, 1 for failure
     Use SDL_GetError() for more error details
 */
-SDK1_API int SDK_CreateText(SDK_TextDisplay *text, SDK_Display *display, const char *font_path, float font_size, int x, int y, SDL_Color color);
+SDK1_API SDK_TextDisplay* SDK_CreateText(SDK_Display *display, const char *font_path, float font_size, int x, int y, SDL_Color color);
 
 
 /*

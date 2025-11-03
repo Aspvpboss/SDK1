@@ -2,8 +2,9 @@
 
 
 
-int SDK_CreateDisplay(SDK_Display *display, const char* window_title, int window_width, int window_height, SDL_WindowFlags window_flag){
+SDK_Display* SDK_CreateDisplay(const char* window_title, int window_width, int window_height, SDL_WindowFlags window_flag){
 
+    SDK_Display *display = t_malloc(sizeof(SDK_Display));
     display->window_flag = window_flag;
     display->width = window_width;
     display->height = window_height;
@@ -11,24 +12,33 @@ int SDK_CreateDisplay(SDK_Display *display, const char* window_title, int window
 
     display->window = SDL_CreateWindow(window_title, window_width, window_height, window_flag);
     if(!display->window){
-        return 1;
+        t_free(display);
+        return NULL;
     }
 
     display->renderer = SDL_CreateRenderer(display->window, NULL);
     if(!display->renderer){
-        return 1;
+        SDL_DestroyWindow(display->window);
+        t_free(display);
+        return NULL;
     }
 
     display->text_engine = TTF_CreateRendererTextEngine(display->renderer);
     if(!display->text_engine){
-        return 1;
+        SDL_DestroyWindow(display->window);
+        SDL_DestroyRenderer(display->renderer);
+        t_free(display);
+        return NULL;
     }
 
-    return 0;
+    return display;
 }
 
 
 void SDK_DestroyDisplay(SDK_Display *display){
+
+    if(!display)
+        return;
 
     SDL_DestroyWindow(display->window);
     display->window = NULL;
@@ -38,6 +48,8 @@ void SDK_DestroyDisplay(SDK_Display *display){
 
     TTF_DestroyRendererTextEngine(display->text_engine);
     display->text_engine = NULL;
+
+    t_free(display);
 
 }
 

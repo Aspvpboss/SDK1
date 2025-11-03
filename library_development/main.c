@@ -4,7 +4,7 @@
 
 int main(){
 
-
+    SDK_Init();
 
     return 0;
 }

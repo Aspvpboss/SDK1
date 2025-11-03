@@ -24,14 +24,20 @@ typedef struct{
 
 /*
     Creates and returns a SDK_Time struct
-    SDK_Time doesn't need to be freed after use
 
     fps_limit can be changed during runtime
 
     returns 0 for success, returns 1 for failure
     call SDL_GetError() for more info
 */
-SDK1_API int SDK_CreateTime(SDK_Time *time, int fps_limit);
+SDK1_API SDK_Time* SDK_CreateTime(int fps_limit);
+
+/*
+    Destroys an SDK_Time struct
+
+    make sure to set pointer to NULL after calling
+*/
+SDK1_API void SDK_DestroyTime(SDK_Time *time);
 
 /*
     Calls the time.h functions in order of use

@@ -29,7 +29,7 @@ typedef struct{
     returns 0 for success, returns 1 for failure
     call SDL_GetError() for more info    
 */
-SDK1_API int SDK_CreateInput(SDK_Input *input);
+SDK1_API SDK_Input* SDK_CreateInput();
 
 /*
     destroys a SDK_Input object

@@ -1,5 +1,6 @@
 #include "SDK_init.h"
 
+static MemTrack_Context ctx;
 
 int SDK_Init(){
 
@@ -11,6 +12,11 @@ int SDK_Init(){
         return 1;
     }
 
+    Set_MemTrack_Context(&ctx);
+
+    ctx.config.memory_failure_abort = true;
+    ctx.config.print_error_info = true;
+
     return 0;
 }
 
@@ -21,5 +27,7 @@ void SDK_Quit(){
     SDL_QuitSubSystem(SDL_INIT_AUDIO);
     SDL_Quit();
     TTF_Quit();
+
+    free_tracking_info();
 
 }

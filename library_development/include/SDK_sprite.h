@@ -12,13 +12,13 @@ enum SDK_SpriteType{
 
 struct SDK_StaticSprite_Data{
 
-    SDL_FRect dst_rect;
+    SDL_FRect src_rect;
 
 };
 
 struct SDK_AnimatedSprite_Data{
 
-    SDL_FRect dst_rect;
+    SDL_FRect src_rect;
     uint16_t amount_frames;
     uint16_t current_frame;
     double frame_duration;
@@ -33,13 +33,13 @@ typedef struct{
 
     union{
 
-        SDK_StaticSprite_Data *static_s;
-        SDK_AnimatedSprite_Data *animate_s;
+        struct SDK_StaticSprite_Data *static_s;
+        struct SDK_AnimatedSprite_Data *animate_s;
 
     } data;
 
     SDL_Texture *texture;
-    SDL_FRect src_rect;
+    SDL_FRect dest_rect;
     SDL_FlipMode flip_mode;
 
     double scale;

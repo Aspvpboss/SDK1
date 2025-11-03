@@ -2,8 +2,10 @@
 
 
 
-int SDK_CreateText(SDK_TextDisplay *text, SDK_Display *display, const char *font_path, float font_size, int x, int y, SDL_Color color){
+SDK_TextDisplay* SDK_CreateText(SDK_Display *display, const char *font_path, float font_size, int x, int y, SDL_Color color){
     
+    SDK_TextDisplay *text = t_malloc(sizeof(SDK_TextDisplay));
+
     text->engine = display->text_engine;
     text->color = color;
     text->rect.x = x;
@@ -14,14 +16,20 @@ int SDK_CreateText(SDK_TextDisplay *text, SDK_Display *display, const char *font
     if(font_path == NULL){
 
         text->font = TTF_OpenFont("./SDK1/assets/default.ttf", font_size);
-        if(text->font == NULL)
-            return 1;
+        if(text->font == NULL){
+            t_free(text);
+            return NULL;
+        }
+            
 
     } else{
 
         text->font = TTF_OpenFont(font_path, font_size);
-        if(text->font == NULL)
-            return 1;
+        if(text->font == NULL){
+            t_free(text);
+            return NULL;
+        }
+            
 
     }
 
@@ -30,7 +38,8 @@ int SDK_CreateText(SDK_TextDisplay *text, SDK_Display *display, const char *font
     text->text = TTF_CreateText(text->engine, text->font, "", text->wrap_width);
     
     if(text->text == NULL){
-        return 1;
+        t_free(text);
+        return NULL;
     }
     
     TTF_SetTextColor(text->text, color.r, color.g, color.b, color.a);
@@ -40,13 +49,15 @@ int SDK_CreateText(SDK_TextDisplay *text, SDK_Display *display, const char *font
     int w, h;
 
     if(!TTF_GetTextSize(text->text, &w,  &h)){
-        return 1;
+        TTF_DestroyText(text->text);
+        t_free(text);
+        return NULL;
     }
 
     text->rect.w = w;
     text->rect.h = h;
 
-    return 0;
+    return text;
 }
 
 
@@ -55,6 +66,7 @@ void SDK_DestroyText(SDK_TextDisplay *text){
     TTF_DestroyText(text->text);
     TTF_CloseFont(text->font);
     text->engine = NULL;
+    t_free(text);
 
 }
 

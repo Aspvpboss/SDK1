@@ -1,8 +1,10 @@
 #include "SDK_sprite.h"
 
-int sprite(){
+SDK_Sprite* SDK_Create_StaticSprite(const char *texture_path){
 
-
+    
     
     return 0;
 }
+
+

@@ -1,12 +1,14 @@
 #include "SDK_input.h"
 
 
-int SDK_CreateInput(SDK_Input *input){
+SDK_Input* SDK_CreateInput(){
     
+    SDK_Input *input = t_malloc(sizeof(SDK_Input));
     SDL_GetKeyboardState(&input->num_keys);
     input->previous_keyboard = t_malloc(sizeof(bool) * input->num_keys);
     if(input->previous_keyboard == NULL){
-        return 1;
+        t_free(input);
+        return NULL;
     }
     input->current_keyboard = NULL;
     input->mouse_x = 0;
@@ -14,7 +16,7 @@ int SDK_CreateInput(SDK_Input *input){
     input->current_mouse = 0;
     input->previous_mouse = 0;
 
-    return 0;
+    return input;
 }
 
 
@@ -22,6 +24,7 @@ void SDK_DestroyInput(SDK_Input *input){
 
     t_free(input->previous_keyboard);
     input->previous_keyboard = NULL;
+    t_free(input);
 
 }
 

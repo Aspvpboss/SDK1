@@ -26,7 +26,7 @@ typedef struct{
     returns 0 for success, returns 1 for failure
     call SDL_GetError() for more info
 */
-SDK1_API int SDK_CreateDisplay(SDK_Display *display, const char* window_title, int window_width, int window_height, SDL_WindowFlags window_flag);
+SDK1_API SDK_Display* SDK_CreateDisplay(const char* window_title, int window_width, int window_height, SDL_WindowFlags window_flag);
 
 /*
     This function frees SDK_Display's contents
