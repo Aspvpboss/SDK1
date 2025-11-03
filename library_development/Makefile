@@ -22,7 +22,7 @@ build_lib:
 	@${GCC} ${OPT} ${SRC_LIB} -o ${DLL_OUTPUT} -DTRACK_ALLOCATIONS -DDLL_EXPORTS ${DLL_FLAGS} ${INCLUDE} ${FLAGS} ${LIB} ${LINK}
 
 build: build_lib
-	@${GCC} main.c -o ${OUTPUT} ${INCLUDE} -DTRACK_ALLOCATIONS -L. -lSDK1 ${LINK} ${LIB} ${FLAGS}  
+	@${GCC} main.c -o ${OUTPUT} -Iinclude -DTRACK_ALLOCATIONS -L. -lSDK1 ${LINK} ${LIB} ${FLAGS}  
 
 run:
 	@${OUTPUT}

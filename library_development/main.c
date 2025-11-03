@@ -2,9 +2,9 @@
 
 void update_text(SDK_TextDisplay *text, double fps){
 
-    static char fps_text[20];
+    static char fps_text[40];
 
-    snprintf(fps_text, sizeof(fps_text), "%.2f", fps);
+    snprintf(fps_text, sizeof(fps_text), "%f", fps);
 
     SDK_Text_UpdateString(text, fps_text);
 
@@ -14,10 +14,13 @@ int main(){
 
     SDK_Init();
 
-    SDK_Display *display = SDK_CreateDisplay("SDK window", 400, 400, SDL_WINDOW_MAXIMIZED);
+    SDK_Display *display = SDK_CreateDisplay("SDK window", 800, 800, SDL_WINDOW_MAXIMIZED);
     SDK_Time *time = SDK_CreateTime(500);
     SDK_Input *input = SDK_CreateInput();
-    SDK_TextDisplay *text = SDK_CreateText(display, NULL, 20, 5, 5, (SDL_Color){255, 255, 255, 255});
+    SDK_TextDisplay *text = SDK_CreateText(display, NULL, 20, 5, 5, (SDL_Color){255, 0, 0, 0});
+    SDK_Text_UpdateString(text, "this is text");
+
+    
 
     if(!text){
         printf("Kys!\n");
@@ -41,21 +44,32 @@ int main(){
             running = false;
         }
 
-        if(time->fps_updated)
-            update_text(text, time->fps);
+        if(time->fps_updated){
+            //update_text(text, time->fps);
+        }
+            
 
-        //SDK_Text_Render(text);
-        SDK_TimeFunctions(time);
-        SDK_Update_Previous_Inputs(input);
 
         SDL_RenderClear(display->renderer);
+
+        SDK_Text_Render(text);
+   
         SDL_RenderPresent(display->renderer);
+
+        SDK_TimeFunctions(time);
+        SDK_Update_Previous_Inputs(input);
     }
 
-    //SDK_DestroyDisplay(display);
-    //SDK_DestroyInput(input);
-    //SDK_DestroyTime(time);
-    //SDK_DestroyText(text);
+    SDK_DestroyDisplay(display);
+    display = NULL;
+    SDK_DestroyInput(input);
+    input = NULL;
+    SDK_DestroyTime(time);
+    time = NULL;
+    SDK_DestroyText(text);
+    text = NULL;
+
+    SDK_Quit();
 
     return 0;
 }
