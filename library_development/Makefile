@@ -9,7 +9,7 @@ SRC_LIB = src/*.c
 
 
 FLAGS = -Wall -Werror -Wpedantic -pedantic
-OPT = -O2 -march=native -flto 
+OPT = -O2 -march=native 
 OUTPUT = out.exe
 
 DLL_FLAGS = -fPIC -shared  -Wl,--out-implib,libSDK1.a
@@ -19,10 +19,10 @@ default: build run
 
 
 build_lib:
-	@${GCC} ${OPT} ${SRC_LIB} -o ${DLL_OUTPUT} -DDLL_EXPORTS ${DLL_FLAGS} ${INCLUDE} ${FLAGS} ${LIB} ${LINK}
+	@${GCC} ${OPT} ${SRC_LIB} -o ${DLL_OUTPUT} -DTRACK_ALLOCATIONS -DDLL_EXPORTS ${DLL_FLAGS} ${INCLUDE} ${FLAGS} ${LIB} ${LINK}
 
-build: 
-	@${GCC} ${SRC_LIB} -o ${OUTPUT} -DSTATIC_LINK ${INCLUDE} ${LINK} ${LIB} ${FLAGS}  
+build: build_lib
+	@${GCC} main.c -o ${OUTPUT} ${INCLUDE} -lSDK1 ${LINK} ${LIB} ${FLAGS}  
 
 run:
 	@${OUTPUT}
