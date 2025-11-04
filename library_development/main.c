@@ -19,6 +19,7 @@ int main(){
     SDK_Input *input = SDK_CreateInput();
     SDK_TextDisplay *text = SDK_CreateText(display, NULL, 20, 5, 5, (SDL_Color){255, 255, 255, 255});
     
+    t_malloc(2);
 
     if(!text){
         printf("Kys!\n");
