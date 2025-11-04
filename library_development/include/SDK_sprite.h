@@ -43,6 +43,8 @@ typedef struct{
     SDL_Texture *texture;
     double base_width;
     double base_height;
+    SDL_FPoint position;
+    SDL_FRect collision_rect;
     SDL_FRect dst_rect;
     SDL_FlipMode flip_mode;
 

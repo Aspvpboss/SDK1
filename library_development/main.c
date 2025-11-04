@@ -104,12 +104,9 @@ int main(){
     SDK_DestroySprite(sprite);
     sprite = NULL;
 
+    
     SDK_Quit();
 
-    // if(check_memory_leak())
-    //     print_tracking_info();
-
-    // free_tracking_info();
 
     return 0;
 }
