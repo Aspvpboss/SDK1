@@ -1,6 +1,8 @@
 #include "SDK_time.h"
 
 
+#define MAX_SAMPLES 100
+
 
 SDK_Time* SDK_CreateTime(int fps_limit){
 
@@ -15,19 +17,12 @@ SDK_Time* SDK_CreateTime(int fps_limit){
         return NULL;
     }
 
-    time->dt_buffer = t_malloc(sizeof(double) * fps_limit);
-
-    if(!time->dt_buffer){
-        t_free(time);
-        return NULL;
-    }
 
     return time;
 }
 
 void SDK_DestroyTime(SDK_Time *time){
 
-    t_free(time->dt_buffer);
     t_free(time);
 
 }
@@ -54,45 +49,31 @@ void SDK_CalculateDT(SDK_Time *time){
 
 void SDK_CalculateFPS(SDK_Time *time){
 
-    static int frame = 0;
+    static uint64_t update_count = 0;
+    static uint16_t frame = 0;
+    static uint16_t collected_frames = 0;
+    static double total = 0.0;
+    static double dt_buffer[MAX_SAMPLES] = {0};
 
     if(time->fps_updated == 1){
         time->fps_updated = 0;
     }
 
-    if(time->fps_limit != time->prev_fps_limit){
-        time->dt_buffer = t_realloc(time->dt_buffer, sizeof(double) * time->fps_limit);
-        time->prev_fps_limit = time->fps_limit;
-        frame = 0;
-        return;
+    total -= dt_buffer[frame];
+    dt_buffer[frame] = time->dt;
+    total += time->dt;
+    
+    if(collected_frames < MAX_SAMPLES) collected_frames++;
+
+    frame = (frame + 1) % MAX_SAMPLES;
+    time->fps = 1 / (total / collected_frames);
+    update_count++;
+
+    if(update_count > time->fps_limit){
+        time->fps_updated = 1;
+        update_count = 0;
     }
-
-    time->prev_fps_limit = time->fps_limit;
-
-
-    if(frame < time->fps_limit){
-
-        time->dt_buffer[frame] = time->dt;
-        frame++;
-        return;
-
-    }
-
-
-    double total = 0.0;
-    for(int i = 0; i < time->fps_limit; i++)
-        total += time->dt_buffer[i];
-
-    if(total <= 0){
-        time->fps = 0.0;
-    } else{
-        time->fps = 1.0 / (total / time->fps_limit);
-    }
-
-    frame = 0;
-
-    time->fps_updated = 1;
-
+        
 }
 
 
