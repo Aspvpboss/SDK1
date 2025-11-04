@@ -31,27 +31,54 @@ SDK_Sprite* SDK_Create_StaticSprite(SDK_Display *display, const char *texture_pa
     sprite->dst_rect.y = sprite_pos.y;
     sprite->dst_rect.w = src_rect.w;
     sprite->dst_rect.h = src_rect.h;
+    sprite->base_width = src_rect.w;
+    sprite->base_height = src_rect.h;
+
     
     return sprite;
+}
+
+int SDK_Sprite_UpdateScale(SDK_Sprite *sprite, double new_scale){
+
+    if(!sprite)
+        return 1;
+
+    SDL_FRect *dst_rect = &sprite->dst_rect;
+    sprite->scale = new_scale;
+
+    dst_rect->w = sprite->base_width * new_scale;
+    dst_rect->h = sprite->base_height * new_scale;
+
+    return 0;
 }
 
 
 int SDK_RenderSprite(SDK_Display *display, SDK_Sprite *sprite){
 
-    SDL_FRect src_rect;
+    SDL_FRect *src_rect;
 
     if(sprite->sprite_type == SDK_ANIMATED_SPRITE){
 
-        src_rect = sprite->data.animate_s->src_rect;
+        src_rect = &sprite->data.animate_s->src_rect;
 
     } else{
 
-        src_rect = sprite->data.static_s->src_rect;
+        src_rect = &sprite->data.static_s->src_rect;
+        
+    }
+
+    if(sprite->angle == 0.0f && sprite->flip_mode == SDL_FLIP_NONE){
+
+        if(!SDL_RenderTexture(display->renderer, sprite->texture, src_rect, &sprite->dst_rect))
+            return 1;
+
+    } else{
+
+        if(!SDL_RenderTextureRotated(display->renderer, sprite->texture, src_rect, &sprite->dst_rect, sprite->angle, NULL, sprite->flip_mode))
+            return 1;
 
     }
 
-    if(!SDL_RenderTextureRotated(display->renderer, sprite->texture, &src_rect, &sprite->dst_rect, sprite->angle, NULL, sprite->flip_mode))
-        return 1;
 
     return 0;
 }

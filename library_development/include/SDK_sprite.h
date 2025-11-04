@@ -41,6 +41,8 @@ typedef struct{
     } data;
 
     SDL_Texture *texture;
+    double base_width;
+    double base_height;
     SDL_FRect dst_rect;
     SDL_FlipMode flip_mode;
 
@@ -54,5 +56,7 @@ typedef struct{
 SDK1_API SDK_Sprite* SDK_Create_StaticSprite(SDK_Display *display, const char *texture_path, SDL_FPoint sprite_pos, SDL_FRect src_rect);
 
 SDK1_API void SDK_DestroySprite(SDK_Sprite *sprite);
+
+SDK1_API int SDK_Sprite_UpdateScale(SDK_Sprite *sprite, double new_scale);
 
 SDK1_API int SDK_RenderSprite(SDK_Display *display, SDK_Sprite *sprite);

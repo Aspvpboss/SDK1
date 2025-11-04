@@ -14,6 +14,30 @@ void update_text(SDK_TextDisplay *text, double fps){
 }
 
 
+void update_sprite_angle(SDK_Sprite *sprite, SDK_Input *input){
+
+    if(SDK_Keyboard_JustPressed(input, SDL_SCANCODE_RIGHT)){
+        sprite->angle += 5;
+    }
+    if(SDK_Keyboard_JustPressed(input, SDL_SCANCODE_LEFT)){
+        sprite->angle -= 5;
+    }
+
+}
+
+
+void render(SDK_Display *display, SDK_TextDisplay *text, SDK_Sprite *sprite){
+
+    SDL_RenderClear(display->renderer);
+
+    SDK_RenderSprite(display, sprite);
+    SDK_Text_Render(text);
+
+    SDL_RenderPresent(display->renderer);
+
+}
+
+
 int main(){
 
 
@@ -24,8 +48,10 @@ int main(){
     SDK_Input *input = SDK_CreateInput();
     SDK_TextDisplay *text = SDK_CreateText(display, NULL, 20, 5, 5, (SDL_Color){255, 255, 255, 255});
     
-    SDK_Sprite *sprite = SDK_Create_StaticSprite(display, TEXTURE_PATH, (SDL_FPoint){0, 0}, (SDL_FRect){0, 0, 100, 400});
+    SDK_Sprite *sprite = SDK_Create_StaticSprite(display, TEXTURE_PATH, (SDL_FPoint){50, 50}, (SDL_FRect){0, 0, 100, 200});
 
+    SDK_Sprite_UpdateScale(sprite, 1.0f);
+    sprite->angle = 0;
 
     if(!sprite){
         printf("Kys!\n");
@@ -57,16 +83,14 @@ int main(){
         if(time->fps_updated){
             update_text(text, time->fps);
         }
+
+        update_sprite_angle(sprite, input);
             
         SDK_TimeFunctions(time);
         SDK_Update_Previous_Inputs(input);
 
-        SDL_RenderClear(display->renderer);
+        render(display, text, sprite);
 
-        SDK_RenderSprite(display, sprite);
-        SDK_Text_Render(text);
-
-        SDL_RenderPresent(display->renderer);
     }
 
     SDK_DestroyDisplay(display);
