@@ -1,5 +1,8 @@
 #include "SDK.h"
 
+#define TEXTURE_PATH "./SDK1/assets/blue.bmp"
+
+
 void update_text(SDK_TextDisplay *text, double fps){
 
     static char fps_text[40];
@@ -10,6 +13,7 @@ void update_text(SDK_TextDisplay *text, double fps){
 
 }
 
+
 int main(){
 
     SDK_Init();
@@ -19,7 +23,12 @@ int main(){
     SDK_Input *input = SDK_CreateInput();
     SDK_TextDisplay *text = SDK_CreateText(display, NULL, 20, 5, 5, (SDL_Color){255, 255, 255, 255});
     
-    t_malloc(2);
+    SDK_Sprite *sprite = SDK_Create_StaticSprite(display, TEXTURE_PATH, (SDL_FRect){0, 0, 400, 400}, (SDL_FRect){});
+
+    if(!sprite){
+        printf("Kys!\n");
+        return 1;
+    }
 
     if(!text){
         printf("Kys!\n");
@@ -51,7 +60,10 @@ int main(){
         SDK_Update_Previous_Inputs(input);
 
         SDL_RenderClear(display->renderer);
+
+        SDK_RenderSprite(display, sprite);
         SDK_Text_Render(text);
+
         SDL_RenderPresent(display->renderer);
     }
 
@@ -63,6 +75,8 @@ int main(){
     time = NULL;
     SDK_DestroyText(text);
     text = NULL;
+    SDK_DestroySprite(sprite);
+    sprite = NULL;
 
     SDK_Quit();
 
