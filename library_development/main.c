@@ -16,6 +16,7 @@ void update_text(SDK_TextDisplay *text, double fps){
 
 int main(){
 
+
     SDK_Init();
 
     SDK_Display *display = SDK_CreateDisplay("SDK window", 800, 800, SDL_WINDOW_MAXIMIZED);
@@ -23,7 +24,8 @@ int main(){
     SDK_Input *input = SDK_CreateInput();
     SDK_TextDisplay *text = SDK_CreateText(display, NULL, 20, 5, 5, (SDL_Color){255, 255, 255, 255});
     
-    SDK_Sprite *sprite = SDK_Create_StaticSprite(display, TEXTURE_PATH, (SDL_FRect){0, 0, 400, 400}, (SDL_FRect){});
+    SDK_Sprite *sprite = SDK_Create_StaticSprite(display, TEXTURE_PATH, (SDL_FPoint){0, 0}, (SDL_FRect){0, 0, 100, 400});
+
 
     if(!sprite){
         printf("Kys!\n");
@@ -79,6 +81,11 @@ int main(){
     sprite = NULL;
 
     SDK_Quit();
+
+    // if(check_memory_leak())
+    //     print_tracking_info();
+
+    // free_tracking_info();
 
     return 0;
 }

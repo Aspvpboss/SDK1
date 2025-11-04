@@ -15,14 +15,16 @@ OUTPUT = out.exe
 DLL_FLAGS = -fPIC -shared  -Wl,--out-implib,libSDK1.a
 DLL_OUTPUT = libSDK1.dll
 
+MEMTRACK_SETTING = -DTRACK_ALLOCATIONS
+
 default: build run
 
 
 build_lib:
-	@${GCC} ${OPT} ${SRC_LIB} -o ${DLL_OUTPUT} -DSTD_ALLOCATIONS -DDLL_EXPORTS ${DLL_FLAGS} ${INCLUDE} ${FLAGS} ${LIB} ${LINK}
+	@${GCC} ${OPT} ${SRC_LIB} -o ${DLL_OUTPUT} ${MEMTRACK_SETTING} -DDLL_EXPORTS ${DLL_FLAGS} ${INCLUDE} ${FLAGS} ${LIB} ${LINK}
 
 build: build_lib
-	@${GCC} main.c -o ${OUTPUT} -Iinclude -DTRACK_ALLOCATIONS -L. -lSDK1 ${LINK} ${LIB} ${FLAGS}  
+	@${GCC} main.c -o ${OUTPUT} -Iinclude ${MEMTRACK_SETTING} -L. -lSDK1 ${LINK} ${LIB} ${FLAGS}  
 
 run:
 	@${OUTPUT}

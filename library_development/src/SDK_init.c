@@ -28,6 +28,9 @@ void SDK_Quit(){
     SDL_Quit();
     TTF_Quit();
 
+    if(check_memory_leak())
+        print_tracking_info();
+
     free_tracking_info();
 
 }

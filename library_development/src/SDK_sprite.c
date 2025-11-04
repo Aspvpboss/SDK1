@@ -1,13 +1,13 @@
 #include "SDK_sprite.h"
 
 
-SDK_Sprite* SDK_Create_StaticSprite(SDK_Display *display, const char *texture_path, SDL_FRect dst_rect, SDL_FRect src_rect){
+SDK_Sprite* SDK_Create_StaticSprite(SDK_Display *display, const char *texture_path, SDL_FPoint sprite_pos, SDL_FRect src_rect){
 
     SDK_Sprite *sprite = t_malloc(sizeof(SDK_Sprite));
 
     if(!sprite)
         return NULL;
-
+    
     sprite->texture = IMG_LoadTexture(display->renderer, texture_path);
     if(!sprite->texture){
         t_free(sprite);
@@ -27,7 +27,10 @@ SDK_Sprite* SDK_Create_StaticSprite(SDK_Display *display, const char *texture_pa
     sprite->angle = 0.0f;
     sprite->scale = 1.0f;
     sprite->flip_mode = SDL_FLIP_NONE;
-    sprite->dst_rect = dst_rect;
+    sprite->dst_rect.x = sprite_pos.x;
+    sprite->dst_rect.y = sprite_pos.y;
+    sprite->dst_rect.w = src_rect.w;
+    sprite->dst_rect.h = src_rect.h;
     
     return sprite;
 }

@@ -51,7 +51,7 @@ typedef struct{
 } SDK_Sprite;
 
 
-SDK1_API SDK_Sprite* SDK_Create_StaticSprite(SDK_Display *display, const char *texture_path, SDL_FRect dst_rect, SDL_FRect src_rect);
+SDK1_API SDK_Sprite* SDK_Create_StaticSprite(SDK_Display *display, const char *texture_path, SDL_FPoint sprite_pos, SDL_FRect src_rect);
 
 SDK1_API void SDK_DestroySprite(SDK_Sprite *sprite);
 
