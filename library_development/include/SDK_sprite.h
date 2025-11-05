@@ -45,7 +45,7 @@ typedef struct{
     double base_height;
     SDL_FPoint position;
     SDL_FRect collision_rect;
-    SDL_FRect dst_rect;
+    SDL_FRect render_rect;
     SDL_FlipMode flip_mode;
 
     double scale;
@@ -59,6 +59,11 @@ SDK1_API SDK_Sprite* SDK_Create_StaticSprite(SDK_Display *display, const char *t
 
 SDK1_API void SDK_DestroySprite(SDK_Sprite *sprite);
 
+SDK1_API int SDK_RenderSprite(SDK_Display *display, SDK_Sprite *sprite);
+
 SDK1_API int SDK_Sprite_UpdateScale(SDK_Sprite *sprite, double new_scale);
 
-SDK1_API int SDK_RenderSprite(SDK_Display *display, SDK_Sprite *sprite);
+SDK1_API int SDK_Sprite_CheckCollision(SDK_Sprite *sprite_dest, SDK_Sprite *sprite_src);
+
+SDK1_API void SDK_Sprite_UpdatePosition(SDK_Sprite *sprite, bool update_collsion, bool update_render);
+
