@@ -1,6 +1,7 @@
 #include "SDK.h"
 
-#define TEXTURE_PATH "./SDK1/assets/blue.png"
+#define TEXTURE_PATH_BLUE "./SDK1/assets/blue.bmp"
+#define TEXTURE_PATH_COOL "./SDK1/assets/char_spritesheet.png"
 
 
 void update_text(SDK_TextDisplay *text, double fps){
@@ -43,9 +44,10 @@ void update_sprite_info(SDK_Sprite *sprite, SDK_Input *input, SDK_Time *time){
 void render(SDK_Display *display, SDK_TextDisplay *text, SDK_Sprite *sprite, SDK_Sprite *sprite_two){
 
     SDL_RenderClear(display->renderer);
-
+    
+    if(SDK_Sprite_CheckCollision(sprite, sprite_two))
+        SDK_RenderSprite(display, sprite_two);
     SDK_RenderSprite(display, sprite);
-    SDK_RenderSprite(display, sprite_two);
     SDK_Text_Render(text);
 
     SDL_RenderPresent(display->renderer);
@@ -60,13 +62,14 @@ int main(){
 
 
     SDK_Display *display = SDK_CreateDisplay("SDK window", 800, 800, SDL_WINDOW_MAXIMIZED);
-    SDK_Time *time = SDK_CreateTime(1000);
+    SDK_Time *time = SDK_CreateTime(144);
     SDK_Input *input = SDK_CreateInput();
     SDK_TextDisplay *text = SDK_CreateText(display, NULL, 20, 5, 5, (SDL_Color){255, 255, 255, 255});
     
-    SDK_Sprite *sprite = SDK_Create_StaticSprite(display, TEXTURE_PATH, (SDL_FPoint){0, 0}, (SDL_FRect){0, 0, 998, 917});
-    SDK_Sprite *sprite_two = SDK_Create_StaticSprite(display, TEXTURE_PATH, (SDL_FPoint){50, 50}, (SDL_FRect){0, 0, 998, 917});
-    SDK_Sprite_UpdateScale(sprite, 0.2f);
+    SDK_Sprite *sprite = SDK_Create_StaticSprite(display, TEXTURE_PATH_COOL, (SDL_FPoint){0, 0}, (SDL_FRect){18, 16, 13, 16});
+    SDL_SetTextureScaleMode(sprite->texture, SDL_SCALEMODE_NEAREST);
+    SDK_Sprite *sprite_two = SDK_Create_StaticSprite(display, TEXTURE_PATH_BLUE, (SDL_FPoint){50, 50}, (SDL_FRect){0, 0, 998, 917});
+    SDK_Sprite_UpdateScale(sprite, 8.0f);
     SDK_Sprite_UpdateScale(sprite_two, 0.2f);
 
     
@@ -83,6 +86,8 @@ int main(){
 
     bool running = true;
     SDL_Event e;
+
+
 
     while(running){
 
@@ -101,9 +106,6 @@ int main(){
         if(time->fps_updated){
             update_text(text, time->fps);
         }
-
-        if(SDK_Sprite_CheckCollision(sprite, sprite_two) && time->fps_updated)
-            printf("colliding!\n");
 
 
 
