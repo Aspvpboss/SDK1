@@ -4,6 +4,10 @@
 #include "SDK_display.h"
 #include "SDK_time.h"
 
+
+#define SDK_ANIMATE_SPRITE(sprite) sprite->data.animate_s->enable_animation = true;
+#define SDK_SET_LOOP_SPRITE(sprite, boolean) sprite->data.animate_s->enable_loop = boolean;
+
 enum SDK_SpriteType{
 
     SDK_STATIC_SPRITE,
@@ -27,6 +31,8 @@ struct SDK_AnimatedSprite_Data{
     double frame_duration;
     double time_elapsed;
     float width_offset;
+    bool enable_animation;
+    bool enable_loop;
 
 };
 

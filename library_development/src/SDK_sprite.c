@@ -64,14 +64,17 @@ SDK_Sprite* SDK_Create_AnimatedSprite(
         t_free(sprite);
         return NULL;
     }
-
-    sprite->data.animate_s->base_src_rect = src_rect;
-    sprite->data.animate_s->src_rect = src_rect;
-    sprite->data.animate_s->amount_frames = amount_frames;
-    sprite->data.animate_s->frame_duration = 1.0f / fps;
-    sprite->data.animate_s->current_frame = 0;
-    sprite->data.animate_s->time_elapsed = 0.0f;
-    sprite->data.animate_s->width_offset = width_offset;
+    
+    struct SDK_AnimatedSprite_Data *data = sprite->data.animate_s;
+    data->base_src_rect = src_rect;
+    data->src_rect = src_rect;
+    data->amount_frames = amount_frames;
+    data->frame_duration = 1.0f / fps;
+    data->current_frame = 0;
+    data->time_elapsed = 0.0f;
+    data->width_offset = width_offset;
+    data->enable_loop = false;
+    data->enable_animation = true;
 
 
     sprite->position = sprite_pos;
@@ -107,6 +110,14 @@ int SDK_Sprite_UpdateAnimation(SDK_Sprite *animated_sprite, SDK_Time *time){
 
     
     struct SDK_AnimatedSprite_Data *data = animated_sprite->data.animate_s;
+
+    if(data->enable_loop){
+        data->enable_animation = true;
+    }
+
+    if(!data->enable_animation)
+        return 0;
+
     SDL_FRect *base_src_rect = &data->base_src_rect;
 
     data->time_elapsed += time->dt;
@@ -119,6 +130,9 @@ int SDK_Sprite_UpdateAnimation(SDK_Sprite *animated_sprite, SDK_Time *time){
     data->current_frame = (data->current_frame + frames_advanced) % data->amount_frames;
 
     data->src_rect.x = base_src_rect->x + (data->current_frame * (base_src_rect->w + data->width_offset));
+
+    if(data->current_frame == 0 && !data->enable_loop)
+        data->enable_animation = false;    
 
     return 0;
 }

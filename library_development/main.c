@@ -45,8 +45,11 @@ void render(SDK_Display *display, SDK_TextDisplay *text, SDK_Sprite *sprite, SDK
 
     SDL_RenderClear(display->renderer);
     
-    if(SDK_Sprite_CheckCollision(sprite, sprite_two))
+    if(SDK_Sprite_CheckCollision(sprite, sprite_two)){
         SDK_RenderSprite(display, sprite_two);
+        sprite->data.animate_s->enable_animation = true;
+    }
+        
     SDK_RenderSprite(display, sprite);
     SDK_Text_Render(text);
 
@@ -67,12 +70,15 @@ int main(){
     SDK_TextDisplay *text = SDK_CreateText(display, NULL, 20, 5, 5, (SDL_Color){255, 255, 255, 255});
     
     SDK_Sprite *sprite = SDK_Create_AnimatedSprite(
-        display, TEXTURE_PATH_COOL, (SDL_FPoint){0, 0}, (SDL_FRect){18, 16, 13, 16}, 4, 5, 2.0f);
+        display, TEXTURE_PATH_COOL, (SDL_FPoint){0, 0}, (SDL_FRect){18, 16, 13, 16}, 4, 5, 3.0f);
     SDL_SetTextureScaleMode(sprite->texture, SDL_SCALEMODE_NEAREST);
-    SDK_Sprite *sprite_two = SDK_Create_StaticSprite(display, TEXTURE_PATH_BLUE, (SDL_FPoint){50, 50}, (SDL_FRect){0, 0, 998, 917});
-    SDK_Sprite_UpdateScale(sprite, 8.0f);
-    SDK_Sprite_UpdateScale(sprite_two, 0.2f);
 
+    SDK_Sprite *sprite_two = SDK_Create_StaticSprite(display, TEXTURE_PATH_BLUE, (SDL_FPoint){50, 50}, (SDL_FRect){0, 0, 400, 400});
+    SDK_Sprite_UpdateScale(sprite, 8.0f);
+    SDK_Sprite_UpdateScale(sprite_two, 1.0f);
+
+
+    SDK_SET_LOOP_SPRITE(sprite, false);
     
 
     if(!sprite){
@@ -103,6 +109,11 @@ int main(){
         if(SDK_Keyboard_JustPressed(input, SDL_SCANCODE_ESCAPE)){
             running = false;
         }
+
+        if(SDK_Keyboard_JustPressed(input, SDL_SCANCODE_UP))
+            SDK_ANIMATE_SPRITE(sprite);
+        if(SDK_Keyboard_JustPressed(input, SDL_SCANCODE_DOWN))
+            SDK_SET_LOOP_SPRITE(sprite, !sprite->data.animate_s->enable_loop);
 
         if(time->fps_updated){
             update_text(text, time->fps);
