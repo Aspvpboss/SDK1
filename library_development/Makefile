@@ -8,6 +8,7 @@ LINK = -lSDL3 -lSDL3_image -lSDL3_ttf -lMemTrack
 SRC_LIB = src/*.c
 
 
+
 FLAGS = -Wall -Werror -Wpedantic -pedantic
 OPT = -O2 -march=native 
 OUTPUT = out.exe
