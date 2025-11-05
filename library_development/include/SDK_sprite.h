@@ -22,17 +22,26 @@ struct SDK_StaticSprite_Data{
 
 };
 
-struct SDK_AnimatedSprite_Data{
+
+struct SDK_Animation{
 
     SDL_FRect src_rect;
     SDL_FRect base_src_rect;
-    uint16_t amount_frames;
-    uint16_t current_frame;
+    uint8_t amount_frames;
+    uint8_t current_frame;
     double frame_duration;
     double time_elapsed;
     float width_offset;
     bool enable_animation;
     bool enable_loop;
+
+};
+
+struct SDK_AnimatedSprite_Data{
+
+    struct SDK_Animation *animation;
+    uint8_t amount_animation;
+    uint8_t current_animation;
 
 };
 
@@ -48,14 +57,16 @@ typedef struct{
 
     } data;
 
+
     SDL_Texture *texture;
-    double base_width;
-    double base_height;
+
     SDL_FPoint position;
     SDL_FRect collision_rect;
     SDL_FRect render_rect;
-    SDL_FlipMode flip_mode;
 
+    SDL_FlipMode flip_mode;
+    double base_width;
+    double base_height;
     double scale;
     double angle;
     
@@ -66,7 +77,7 @@ typedef struct{
 SDK1_API SDK_Sprite* SDK_Create_StaticSprite(SDK_Display *display, const char *texture_path, SDL_FPoint sprite_pos, SDL_FRect src_rect);
 
 SDK1_API SDK_Sprite* SDK_Create_AnimatedSprite(
-SDK_Display *display, const char *texture_path, SDL_FPoint sprite_pos, SDL_FRect src_rect, uint16_t amount_frames, double fps, float width_offset);
+SDK_Display *display, const char *texture_path, SDL_FPoint sprite_pos, SDL_FRect src_rect, uint8_t amount_frames, double fps, float width_offset);
 
 SDK1_API void SDK_DestroySprite(SDK_Sprite *sprite);
 

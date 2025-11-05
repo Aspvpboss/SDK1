@@ -43,8 +43,7 @@ SDK_Sprite* SDK_Create_StaticSprite(SDK_Display *display, const char *texture_pa
     return sprite;
 }
 
-SDK_Sprite* SDK_Create_AnimatedSprite(
-    SDK_Display *display, const char *texture_path, SDL_FPoint sprite_pos, SDL_FRect src_rect, uint16_t amount_frames, double fps, float width_offset){
+SDK_Sprite* SDK_Create_AnimatedSprite(SDK_Display *display, const char *texture_path, SDL_FPoint sprite_pos, SDL_FRect src_rect){
 
     SDK_Sprite *sprite = t_malloc(sizeof(SDK_Sprite));
 
@@ -65,16 +64,10 @@ SDK_Sprite* SDK_Create_AnimatedSprite(
         return NULL;
     }
     
-    struct SDK_AnimatedSprite_Data *data = sprite->data.animate_s;
-    data->base_src_rect = src_rect;
-    data->src_rect = src_rect;
-    data->amount_frames = amount_frames;
-    data->frame_duration = 1.0f / fps;
-    data->current_frame = 0;
-    data->time_elapsed = 0.0f;
-    data->width_offset = width_offset;
-    data->enable_loop = false;
-    data->enable_animation = true;
+    sprite->data.animate_s->amount_animation = 0;
+    sprite->data.animate_s->current_animation = 0;
+    sprite->data.animate_s->animation = NULL;
+
 
 
     sprite->position = sprite_pos;
@@ -108,8 +101,11 @@ int SDK_Sprite_UpdateAnimation(SDK_Sprite *animated_sprite, SDK_Time *time){
     if(animated_sprite->sprite_type != SDK_ANIMATED_SPRITE)
         return 1;
 
+    if(animated_sprite->data.animate_s->current_animation >= animated_sprite->data.animate_s->amount_animation){
+        return 1;
+    }
     
-    struct SDK_AnimatedSprite_Data *data = animated_sprite->data.animate_s;
+    struct SDK_Animation *data = &animated_sprite->data.animate_s->animation[animated_sprite->data.animate_s->current_animation];
 
     if(data->enable_loop){
         data->enable_animation = true;
@@ -145,7 +141,13 @@ int SDK_RenderSprite(SDK_Display *display, SDK_Sprite *sprite){
 
     if(sprite->sprite_type == SDK_ANIMATED_SPRITE){
 
-        src_rect = &sprite->data.animate_s->src_rect;
+
+        if(sprite->data.animate_s->current_animation >= sprite->data.animate_s->amount_animation){
+            return 1;
+        }
+        
+        src_rect = &sprite->data.animate_s->animation[sprite->data.animate_s->current_animation].src_rect;
+
 
     } else{
 
