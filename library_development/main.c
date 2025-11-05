@@ -36,7 +36,7 @@ void update_sprite_info(SDK_Sprite *sprite, SDK_Input *input, SDK_Time *time){
         sprite->position.x += (128 * time->dt);
     }
 
-
+    SDK_Sprite_UpdateAnimation(sprite, time);
 
 }
 
@@ -66,7 +66,8 @@ int main(){
     SDK_Input *input = SDK_CreateInput();
     SDK_TextDisplay *text = SDK_CreateText(display, NULL, 20, 5, 5, (SDL_Color){255, 255, 255, 255});
     
-    SDK_Sprite *sprite = SDK_Create_StaticSprite(display, TEXTURE_PATH_COOL, (SDL_FPoint){0, 0}, (SDL_FRect){18, 16, 13, 16});
+    SDK_Sprite *sprite = SDK_Create_AnimatedSprite(
+        display, TEXTURE_PATH_COOL, (SDL_FPoint){0, 0}, (SDL_FRect){18, 16, 13, 16}, 4, 5, 2.0f);
     SDL_SetTextureScaleMode(sprite->texture, SDL_SCALEMODE_NEAREST);
     SDK_Sprite *sprite_two = SDK_Create_StaticSprite(display, TEXTURE_PATH_BLUE, (SDL_FPoint){50, 50}, (SDL_FRect){0, 0, 998, 917});
     SDK_Sprite_UpdateScale(sprite, 8.0f);

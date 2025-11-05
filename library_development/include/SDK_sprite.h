@@ -2,6 +2,7 @@
 
 #include "common_libs.h"
 #include "SDK_display.h"
+#include "SDK_time.h"
 
 enum SDK_SpriteType{
 
@@ -25,6 +26,7 @@ struct SDK_AnimatedSprite_Data{
     uint16_t current_frame;
     double frame_duration;
     double time_elapsed;
+    float width_offset;
 
 };
 
@@ -57,7 +59,12 @@ typedef struct{
 
 SDK1_API SDK_Sprite* SDK_Create_StaticSprite(SDK_Display *display, const char *texture_path, SDL_FPoint sprite_pos, SDL_FRect src_rect);
 
+SDK1_API SDK_Sprite* SDK_Create_AnimatedSprite(
+SDK_Display *display, const char *texture_path, SDL_FPoint sprite_pos, SDL_FRect src_rect, uint16_t amount_frames, double fps, float width_offset);
+
 SDK1_API void SDK_DestroySprite(SDK_Sprite *sprite);
+
+SDK1_API int SDK_Sprite_UpdateAnimation(SDK_Sprite *animated_sprite, SDK_Time *time);
 
 SDK1_API int SDK_RenderSprite(SDK_Display *display, SDK_Sprite *sprite);
 
@@ -66,4 +73,6 @@ SDK1_API int SDK_Sprite_UpdateScale(SDK_Sprite *sprite, double new_scale);
 SDK1_API int SDK_Sprite_CheckCollision(SDK_Sprite *sprite_dest, SDK_Sprite *sprite_src);
 
 SDK1_API void SDK_Sprite_UpdatePosition(SDK_Sprite *sprite, bool update_collsion, bool update_render);
+
+
 

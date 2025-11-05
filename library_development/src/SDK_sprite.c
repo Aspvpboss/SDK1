@@ -17,8 +17,8 @@ SDK_Sprite* SDK_Create_StaticSprite(SDK_Display *display, const char *texture_pa
     sprite->data.static_s = t_malloc(sizeof(struct SDK_StaticSprite_Data));
 
     if(!sprite->data.static_s){
-        t_free(sprite);
         SDL_DestroyTexture(sprite->texture);
+        t_free(sprite);
         return NULL;
     }
 
@@ -37,31 +37,92 @@ SDK_Sprite* SDK_Create_StaticSprite(SDK_Display *display, const char *texture_pa
     sprite->base_width = src_rect.w;
     sprite->base_height = src_rect.h;
 
-    sprite->collision_rect = src_rect;
-    sprite->collision_rect.x = sprite_pos.x;
-    sprite->collision_rect.y = sprite_pos.y;
+    sprite->collision_rect = (SDL_FRect){sprite_pos.x, sprite_pos.y, src_rect.w, src_rect.h};
 
     
     return sprite;
 }
 
-int SDK_Sprite_UpdateScale(SDK_Sprite *sprite, double new_scale){
+SDK_Sprite* SDK_Create_AnimatedSprite(
+    SDK_Display *display, const char *texture_path, SDL_FPoint sprite_pos, SDL_FRect src_rect, uint16_t amount_frames, double fps, float width_offset){
+
+    SDK_Sprite *sprite = t_malloc(sizeof(SDK_Sprite));
 
     if(!sprite)
+        return NULL;
+    
+    sprite->texture = IMG_LoadTexture(display->renderer, texture_path);
+    if(!sprite->texture){
+        t_free(sprite);
+        return NULL;
+    }
+
+    sprite->data.animate_s = t_malloc(sizeof(struct SDK_AnimatedSprite_Data));
+
+    if(!sprite->data.animate_s){
+        SDL_DestroyTexture(sprite->texture);
+        t_free(sprite);
+        return NULL;
+    }
+
+    sprite->data.animate_s->base_src_rect = src_rect;
+    sprite->data.animate_s->src_rect = src_rect;
+    sprite->data.animate_s->amount_frames = amount_frames;
+    sprite->data.animate_s->frame_duration = 1.0f / fps;
+    sprite->data.animate_s->current_frame = 0;
+    sprite->data.animate_s->time_elapsed = 0.0f;
+    sprite->data.animate_s->width_offset = width_offset;
+
+
+    sprite->position = sprite_pos;
+    sprite->sprite_type = SDK_ANIMATED_SPRITE;
+    sprite->angle = 0.0f;
+    sprite->scale = 1.0f;
+    sprite->flip_mode = SDL_FLIP_NONE;
+
+    sprite->render_rect.x = sprite_pos.x;
+    sprite->render_rect.y = sprite_pos.y;
+    sprite->render_rect.w = src_rect.w;
+    sprite->render_rect.h = src_rect.h;
+
+    sprite->base_width = src_rect.w;
+    sprite->base_height = src_rect.h;
+
+    sprite->collision_rect = (SDL_FRect){sprite_pos.x, sprite_pos.y, src_rect.w, src_rect.h};
+
+    
+    return sprite;
+}
+
+
+
+
+int SDK_Sprite_UpdateAnimation(SDK_Sprite *animated_sprite, SDK_Time *time){
+
+    if(!animated_sprite || !time)
         return 1;
 
-    SDL_FRect *render_rect = &sprite->render_rect;
-    SDL_FRect *collision_rect = &sprite->collision_rect;
-    sprite->scale = new_scale;
+    if(animated_sprite->sprite_type != SDK_ANIMATED_SPRITE)
+        return 1;
 
-    render_rect->w = sprite->base_width * new_scale;
-    render_rect->h = sprite->base_height * new_scale;
-    collision_rect->w = sprite->base_width * new_scale;
-    collision_rect->h = sprite->base_height * new_scale;
     
+    struct SDK_AnimatedSprite_Data *data = animated_sprite->data.animate_s;
+    SDL_FRect *base_src_rect = &data->base_src_rect;
+
+    data->time_elapsed += time->dt;
+
+    if(data->time_elapsed < data->frame_duration)
+        return 0;
+
+    int frames_advanced = (int)(data->time_elapsed / data->frame_duration);
+    data->time_elapsed -= frames_advanced * data->frame_duration;
+    data->current_frame = (data->current_frame + frames_advanced) % data->amount_frames;
+
+    data->src_rect.x = base_src_rect->x + (data->current_frame * (base_src_rect->w + data->width_offset));
 
     return 0;
 }
+
 
 
 int SDK_RenderSprite(SDK_Display *display, SDK_Sprite *sprite){
@@ -93,6 +154,26 @@ int SDK_RenderSprite(SDK_Display *display, SDK_Sprite *sprite){
 
     return 0;
 }
+
+int SDK_Sprite_UpdateScale(SDK_Sprite *sprite, double new_scale){
+
+    if(!sprite)
+        return 1;
+
+    SDL_FRect *render_rect = &sprite->render_rect;
+    SDL_FRect *collision_rect = &sprite->collision_rect;
+    sprite->scale = new_scale;
+
+    render_rect->w = sprite->base_width * new_scale;
+    render_rect->h = sprite->base_height * new_scale;
+    collision_rect->w = sprite->base_width * new_scale;
+    collision_rect->h = sprite->base_height * new_scale;
+    
+
+    return 0;
+}
+
+
 
 
 
@@ -136,7 +217,7 @@ void SDK_DestroySprite(SDK_Sprite *sprite){
 
     if(sprite->sprite_type == SDK_ANIMATED_SPRITE){
 
-
+        t_free(sprite->data.animate_s);
 
     } else{
 
