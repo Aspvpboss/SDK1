@@ -15,7 +15,7 @@ void update_text(SDK_TextDisplay *text, double fps){
 }
 
 
-void update_sprite_info(SDK_Sprite *sprite, SDK_Input *input, SDK_Time *time){
+void update_sprite_info(SDK_Sprite *sprite, SDK_Sprite *sprite_two, SDK_Input *input, SDK_Time *time){
 
     if(SDK_Keyboard_Pressed(input, SDL_SCANCODE_RIGHT)){
         sprite->angle += (128 * time->dt);
@@ -36,6 +36,9 @@ void update_sprite_info(SDK_Sprite *sprite, SDK_Input *input, SDK_Time *time){
         sprite->position.x += (128 * time->dt);
     }
 
+    if(SDK_Sprite_CheckCollision(sprite, sprite_two))
+        SDK_Sprite_PlayAnimation(sprite);
+
     SDK_Sprite_UpdateAnimation(sprite, time);
 
 }
@@ -47,7 +50,6 @@ void render(SDK_Display *display, SDK_TextDisplay *text, SDK_Sprite *sprite, SDK
     
     if(SDK_Sprite_CheckCollision(sprite, sprite_two)){
         SDK_RenderSprite(display, sprite_two);
-        sprite->data.animate_s->enable_animation = true;
     }
         
     SDK_RenderSprite(display, sprite);
@@ -69,16 +71,14 @@ int main(){
     SDK_Input *input = SDK_CreateInput();
     SDK_TextDisplay *text = SDK_CreateText(display, NULL, 20, 5, 5, (SDL_Color){255, 255, 255, 255});
     
-    SDK_Sprite *sprite = SDK_Create_AnimatedSprite(
-        display, TEXTURE_PATH_COOL, (SDL_FPoint){0, 0}, (SDL_FRect){18, 16, 13, 16}, 4, 5, 3.0f);
+    SDK_Sprite *sprite = SDK_Create_AnimatedSprite(display, TEXTURE_PATH_COOL, (SDL_FPoint){0, 0}, (SDL_FRect){18, 16, 13, 16});
+    SDK_Sprite_AddAnimation(sprite, (SDL_FRect){18, 16, 13, 16}, 5, 5.0f, 3.0f, false, false);
     SDL_SetTextureScaleMode(sprite->texture, SDL_SCALEMODE_NEAREST);
 
     SDK_Sprite *sprite_two = SDK_Create_StaticSprite(display, TEXTURE_PATH_BLUE, (SDL_FPoint){50, 50}, (SDL_FRect){0, 0, 400, 400});
     SDK_Sprite_UpdateScale(sprite, 8.0f);
     SDK_Sprite_UpdateScale(sprite_two, 1.0f);
 
-
-    SDK_SET_LOOP_SPRITE(sprite, false);
     
 
     if(!sprite){
@@ -111,9 +111,7 @@ int main(){
         }
 
         if(SDK_Keyboard_JustPressed(input, SDL_SCANCODE_UP))
-            SDK_ANIMATE_SPRITE(sprite);
-        if(SDK_Keyboard_JustPressed(input, SDL_SCANCODE_DOWN))
-            SDK_SET_LOOP_SPRITE(sprite, !sprite->data.animate_s->enable_loop);
+            SDK_Sprite_PlayAnimation(sprite);
 
         if(time->fps_updated){
             update_text(text, time->fps);
@@ -121,7 +119,7 @@ int main(){
 
 
 
-        update_sprite_info(sprite, input, time);
+        update_sprite_info(sprite, sprite_two, input, time);
         SDK_Sprite_UpdatePosition(sprite, true, true);
         
             
