@@ -67,16 +67,17 @@ int main(){
 
 
     SDK_Display *display = SDK_CreateDisplay("SDK window", 800, 800, SDL_WINDOW_MAXIMIZED);
-    SDK_Time *time = SDK_CreateTime(144);
+    SDK_Time *time = SDK_CreateTime(10000);
     SDK_Input *input = SDK_CreateInput();
     SDK_TextDisplay *text = SDK_CreateText(display, NULL, 20, 5, 5, (SDL_Color){255, 255, 255, 255});
     
     SDK_Sprite *sprite = SDK_Create_AnimatedSprite(display, TEXTURE_PATH_COOL, (SDL_FPoint){0, 0}, (SDL_FRect){18, 16, 13, 16});
     SDK_Sprite_AddAnimation(sprite, (SDL_FRect){18, 16, 13, 16}, 5, 5.0f, 3.0f, false, false);
+    SDK_Sprite_AddAnimation(sprite, (SDL_FRect){18, 32, 13, 16}, 5, 5.0f, 3.0f, false, false);
     SDL_SetTextureScaleMode(sprite->texture, SDL_SCALEMODE_NEAREST);
 
     SDK_Sprite *sprite_two = SDK_Create_StaticSprite(display, TEXTURE_PATH_BLUE, (SDL_FPoint){50, 50}, (SDL_FRect){0, 0, 400, 400});
-    SDK_Sprite_UpdateScale(sprite, 8.0f);
+    SDK_Sprite_UpdateScale(sprite, 32.0f);
     SDK_Sprite_UpdateScale(sprite_two, 1.0f);
 
     
@@ -112,6 +113,11 @@ int main(){
 
         if(SDK_Keyboard_JustPressed(input, SDL_SCANCODE_UP))
             SDK_Sprite_PlayAnimation(sprite);
+
+        if(SDK_Keyboard_JustPressed(input, SDL_SCANCODE_1))
+            SDK_Sprite_SelectAnimation(sprite, 0);
+        if(SDK_Keyboard_JustPressed(input, SDL_SCANCODE_2))
+            SDK_Sprite_SelectAnimation(sprite, 1);
 
         if(time->fps_updated){
             update_text(text, time->fps);
