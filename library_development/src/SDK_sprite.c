@@ -150,8 +150,12 @@ int SDK_Sprite_UpdateAnimation(SDK_Sprite *animated_sprite, SDK_Time *time){
         data->play_animation = true;
     }
 
-    if(!data->play_animation)
+    if(!data->play_animation){
+        data->current_frame = 0;
+        data->time_elapsed = 0.0f;
         return 0;
+    }
+        
 
     SDL_FRect *base_src_rect = &data->base_src_rect;
 
@@ -180,7 +184,6 @@ int SDK_RenderSprite(SDK_Display *display, SDK_Sprite *sprite){
     SDL_FRect *src_rect;
 
     if(sprite->sprite_type == SDK_ANIMATED_SPRITE){
-
 
         if(sprite->data.animate_s->current_animation >= sprite->data.animate_s->amount_animation){
             return 1;
@@ -269,14 +272,14 @@ int SDK_Sprite_SelectAnimation(SDK_Sprite *animated_sprite, uint8_t animation_se
 
 
 
-int SDK_Sprite_PlayAnimation(SDK_Sprite *animated_sprite){
+int SDK_Sprite_SetPlayAnimation(SDK_Sprite *animated_sprite, bool play_animation){
 
     if(!animated_sprite || animated_sprite->sprite_type != SDK_ANIMATED_SPRITE)
         return 1;
 
     struct SDK_AnimatedSprite_Data *data = animated_sprite->data.animate_s;
 
-    data->animation[data->current_animation].play_animation = true;
+    data->animation[data->current_animation].play_animation = play_animation;
 
     return 0;
 }
@@ -337,3 +340,4 @@ void SDK_DestroySprite(SDK_Sprite *sprite){
     t_free(sprite);
 
 }
+

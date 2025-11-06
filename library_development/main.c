@@ -1,7 +1,7 @@
-#include "SDK.h"
+#include "SDK1/SDK.h"
 
-#define TEXTURE_PATH_BLUE "./SDK1/assets/blue.bmp"
-#define TEXTURE_PATH_COOL "./SDK1/assets/char_spritesheet.png"
+#define TEXTURE_PATH_BLUE "./assets/blue.bmp"
+#define TEXTURE_PATH_COOL "./assets/char_spritesheet.png"
 
 
 void update_text(SDK_TextDisplay *text, double fps){
@@ -37,9 +37,10 @@ void update_sprite_info(SDK_Sprite *sprite, SDK_Sprite *sprite_two, SDK_Input *i
     }
 
     if(SDK_Sprite_CheckCollision(sprite, sprite_two))
-        SDK_Sprite_PlayAnimation(sprite);
+        SDK_Sprite_SetPlayAnimation(sprite, true);
 
     SDK_Sprite_UpdateAnimation(sprite, time);
+    SDK_Sprite_UpdatePosition(sprite, true, true);
 
 }
 
@@ -60,14 +61,15 @@ void render(SDK_Display *display, SDK_TextDisplay *text, SDK_Sprite *sprite, SDK
 }
 
 
+
+
 int main(){
 
     SDK_Init();
 
 
-
     SDK_Display *display = SDK_CreateDisplay("SDK window", 800, 800, SDL_WINDOW_MAXIMIZED);
-    SDK_Time *time = SDK_CreateTime(10000);
+    SDK_Time *time = SDK_CreateTime(144);
     SDK_Input *input = SDK_CreateInput();
     SDK_TextDisplay *text = SDK_CreateText(display, NULL, 20, 5, 5, (SDL_Color){255, 255, 255, 255});
     
@@ -77,10 +79,10 @@ int main(){
     SDL_SetTextureScaleMode(sprite->texture, SDL_SCALEMODE_NEAREST);
 
     SDK_Sprite *sprite_two = SDK_Create_StaticSprite(display, TEXTURE_PATH_BLUE, (SDL_FPoint){50, 50}, (SDL_FRect){0, 0, 400, 400});
-    SDK_Sprite_UpdateScale(sprite, 32.0f);
+    SDK_Sprite_UpdateScale(sprite, 8.0f);
     SDK_Sprite_UpdateScale(sprite_two, 1.0f);
 
-    
+
 
     if(!sprite){
         printf("Kys!\n");
@@ -111,8 +113,10 @@ int main(){
             running = false;
         }
 
+        SDK_Sprite_SetPlayAnimation(sprite, false);
+
         if(SDK_Keyboard_JustPressed(input, SDL_SCANCODE_UP))
-            SDK_Sprite_PlayAnimation(sprite);
+            SDK_Sprite_SetPlayAnimation(sprite, true);
 
         if(SDK_Keyboard_JustPressed(input, SDL_SCANCODE_1))
             SDK_Sprite_SelectAnimation(sprite, 0);
@@ -126,13 +130,12 @@ int main(){
 
 
         update_sprite_info(sprite, sprite_two, input, time);
-        SDK_Sprite_UpdatePosition(sprite, true, true);
         
-            
-        SDK_TimeFunctions(time);
-        SDK_Update_Previous_Inputs(input);
 
         render(display, text, sprite, sprite_two);
+
+        SDK_TimeFunctions(time);
+        SDK_Update_Previous_Inputs(input);
 
     }
 
