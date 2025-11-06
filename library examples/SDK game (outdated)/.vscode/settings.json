@@ -1,0 +1,8 @@
+{
+    "files.associations": {
+        "render.h": "c",
+        "sdk.h": "c",
+        "textdisplay.h": "c",
+        "player.h": "c"
+    }
+}
