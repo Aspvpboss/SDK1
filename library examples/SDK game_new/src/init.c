@@ -12,6 +12,11 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[]){
     Appstate *state = (Appstate*)(*appstate);
 
     state->display = SDK_CreateDisplay("SDK game", 1000, 800, SDL_WINDOW_MAXIMIZED);
+    if(state->display){
+        printf("burger\n");
+        SDK_DestroyDisplay(state->display);
+        state->display = NULL;
+    }
     if(!state->display){
         SDL_Log("Error: %s\n", SDL_GetError());
         return SDL_APP_FAILURE;
