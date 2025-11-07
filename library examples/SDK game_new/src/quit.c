@@ -1,8 +1,41 @@
 #include "quit.h"
 
+void free_sprites(Appstate *state){
+
+    for(int i = 0; i < state->a_sprite_manager.amount_sprites; i++){
+        SDK_DestroySprite(state->a_sprite_manager.sprites[i]);
+        state->a_sprite_manager.sprites[i] = NULL;
+    }
+    state->a_sprite_manager.sprites = NULL;
+
+    for(int i = 0; i < state->s_sprite_manager.amount_sprites; i++){
+        SDK_DestroySprite(state->s_sprite_manager.sprites[i]);
+        state->s_sprite_manager.sprites[i] = NULL;
+    }
+    state->s_sprite_manager.sprites = NULL;
+
+}
+
+
+void free_text_manager(Appstate *state){
+
+    for(int i = 0; i < state->text_manager.amount_text; i++){
+        SDK_DestroyText(state->text_manager.texts[i]);
+        state->text_manager.texts[i] = NULL;
+    }
+    state->text_manager.texts = NULL;
+
+}
+
 
 void SDL_AppQuit(void *appstate, SDL_AppResult result){
 
     Appstate *state = (Appstate*)(appstate);
+
+    SDK_DestroyDisplay(state->display);
+    SDK_DestroyInput(state->input);
+    SDK_DestroyTime(state->time);
+    free_sprites(state);
+    free_text_manager(state);
 
 }
