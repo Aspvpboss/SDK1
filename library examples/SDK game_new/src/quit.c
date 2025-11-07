@@ -6,12 +6,16 @@ void free_sprites(Appstate *state){
         SDK_DestroySprite(state->a_sprite_manager.sprites[i]);
         state->a_sprite_manager.sprites[i] = NULL;
     }
+    if(state->a_sprite_manager.sprites)
+        t_free(state->a_sprite_manager.sprites);
     state->a_sprite_manager.sprites = NULL;
 
     for(int i = 0; i < state->s_sprite_manager.amount_sprites; i++){
         SDK_DestroySprite(state->s_sprite_manager.sprites[i]);
         state->s_sprite_manager.sprites[i] = NULL;
     }
+    if(state->s_sprite_manager.sprites)
+        t_free(state->s_sprite_manager.sprites);
     state->s_sprite_manager.sprites = NULL;
 
 }
