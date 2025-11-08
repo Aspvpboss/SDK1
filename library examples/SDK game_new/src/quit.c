@@ -30,6 +30,8 @@ void free_text_manager(Appstate *state){
         SDK_DestroyText(state->text_manager.texts[i]);
         state->text_manager.texts[i] = NULL;
     }
+    if(state->text_manager.texts)
+        t_free(state->text_manager.texts);
     state->text_manager.texts = NULL;
 
 }
