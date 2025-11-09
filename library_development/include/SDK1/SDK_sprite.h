@@ -5,8 +5,6 @@
 #include "SDK_time.h"
 
 
-#define MAX_Z_DEPTH 16
-#define MAX_SPRITES 512
 
 
 enum SDK_SpriteType{
@@ -47,18 +45,6 @@ typedef struct{
 } SDK_Sprite;
 
 
-struct SDK_Render_Layer{
-
-    SDK_Sprite *sprites[MAX_SPRITES];
-    uint16_t amount_sprites;
-
-};
-
-typedef struct{
-
-    struct SDK_Render_Layer layers[MAX_Z_DEPTH];
-
-} SDK_Sprite_Manager;
 
 
 
