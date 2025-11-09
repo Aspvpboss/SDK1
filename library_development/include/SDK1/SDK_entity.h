@@ -12,7 +12,6 @@ typedef struct SDK_Entity{
     uint8_t height_sprites;
     uint8_t amount_sprites;
 
-    
     bool visible;
     uint8_t z_index;
     SDL_FPoint position;

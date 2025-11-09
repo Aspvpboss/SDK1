@@ -5,8 +5,9 @@
 #include "SDK_time.h"
 
 
-#define SDK_ANIMATE_SPRITE(sprite) sprite->data.animate_s->enable_animation = true;
-#define SDK_SET_LOOP_SPRITE(sprite, boolean) sprite->data.animate_s->enable_loop = boolean;
+#define MAX_Z_DEPTH 16
+#define MAX_SPRITES 512
+
 
 enum SDK_SpriteType{
 
@@ -16,34 +17,6 @@ enum SDK_SpriteType{
 };
 
 
-struct SDK_StaticSprite_Data{
-
-    SDL_FRect src_rect;
-
-};
-
-
-struct SDK_Animation{
-
-    SDL_FRect src_rect;
-    SDL_FRect base_src_rect;
-    uint8_t amount_frames;
-    uint8_t current_frame;
-    double frame_duration;
-    double time_elapsed;
-    float width_offset;
-    bool play_animation;
-    bool loop_animation;
-
-};
-
-struct SDK_AnimatedSprite_Data{
-
-    struct SDK_Animation *animation;
-    uint8_t amount_animation;
-    uint8_t current_animation;
-
-};
 
 
 typedef struct{
@@ -52,8 +25,8 @@ typedef struct{
 
     union{
 
-        struct SDK_StaticSprite_Data *static_s;
-        struct SDK_AnimatedSprite_Data *animate_s;
+        void *static_s;
+        void *animate_s;
 
     } data;
 
@@ -72,6 +45,24 @@ typedef struct{
     
 
 } SDK_Sprite;
+
+
+struct SDK_Sprite_Layer{
+
+    SDK_Sprite *sprite[MAX_SPRITES];
+    uint16_t amount_sprites;
+
+};
+
+
+
+
+typedef struct{
+
+    struct SDK_Sprite_Layer layers[MAX_Z_DEPTH];
+
+} SDK_Sprite_Manager;
+
 
 
 SDK1_API SDK_Sprite* SDK_Create_StaticSprite(SDK_Display *display, const char *texture_path, SDL_FPoint sprite_pos, SDL_FRect src_rect);
