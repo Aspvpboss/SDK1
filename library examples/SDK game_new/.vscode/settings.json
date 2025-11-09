@@ -1,0 +1,7 @@
+{
+    "makefile.configureOnOpen": false,
+    "files.associations": {
+        "init.h": "c",
+        "frame_events.h": "c"
+    }
+}

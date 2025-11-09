@@ -3,16 +3,17 @@
         {
             "name": "Win32",
             "includePath": [
-                "${default}",
-                "${workspaceFolder}/include",
-                "${workspaceFolder}/SDK1/include/SDK1"
+                "${workspaceFolder}/**",
+                "${workspaceFolder}/SDK1/include",
+                "${workspaceFolder}/include"
             ],
             "defines": [
                 "_DEBUG",
                 "UNICODE",
                 "_UNICODE"
             ],
-            "compilerPath": "C:/msys64/ucrt64/bin/gcc.exe",
+            "compilerPath": "C:\\msys64\\ucrt64\\bin\\gcc.exe",
+            "cStandard": "c17",
             "cppStandard": "gnu++17",
             "intelliSenseMode": "windows-gcc-x64"
         }

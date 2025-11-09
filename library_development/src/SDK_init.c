@@ -12,10 +12,11 @@ int SDK_Init(){
         return 1;
     }
 
-    Set_MemTrack_Context(&ctx);
 
     ctx.config.memory_failure_abort = true;
     ctx.config.print_error_info = true;
+
+    Set_MemTrack_Context(&ctx);
 
     return 0;
 }

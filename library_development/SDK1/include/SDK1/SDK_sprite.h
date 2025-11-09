@@ -5,8 +5,6 @@
 #include "SDK_time.h"
 
 
-#define SDK_ANIMATE_SPRITE(sprite) sprite->data.animate_s->enable_animation = true;
-#define SDK_SET_LOOP_SPRITE(sprite, boolean) sprite->data.animate_s->enable_loop = boolean;
 
 enum SDK_SpriteType{
 
@@ -91,7 +89,7 @@ SDK1_API int SDK_Sprite_UpdateAnimation(SDK_Sprite *animated_sprite, SDK_Time *t
 
 SDK1_API int SDK_Sprite_SelectAnimation(SDK_Sprite *animated_sprite, uint8_t animation_select);
 
-SDK1_API int SDK_Sprite_PlayAnimation(SDK_Sprite *animated_sprite);
+SDK1_API int SDK_Sprite_SetPlayAnimation(SDK_Sprite *animated_sprite, bool play_animation);
 
 SDK1_API int SDK_Sprite_SetLoop(SDK_Sprite *animated_sprite, bool loop_animation);
 
