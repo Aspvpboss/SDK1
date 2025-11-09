@@ -5,8 +5,6 @@
 #include "SDK_time.h"
 
 
-#define SDK_ANIMATE_SPRITE(sprite) sprite->data.animate_s->enable_animation = true;
-#define SDK_SET_LOOP_SPRITE(sprite, boolean) sprite->data.animate_s->enable_loop = boolean;
 
 enum SDK_SpriteType{
 
