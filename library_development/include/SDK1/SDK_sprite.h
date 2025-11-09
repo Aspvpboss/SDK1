@@ -47,19 +47,16 @@ typedef struct{
 } SDK_Sprite;
 
 
-struct SDK_Sprite_Layer{
+struct SDK_Render_Layer{
 
-    SDK_Sprite *sprite[MAX_SPRITES];
+    SDK_Sprite *sprites[MAX_SPRITES];
     uint16_t amount_sprites;
 
 };
 
-
-
-
 typedef struct{
 
-    struct SDK_Sprite_Layer layers[MAX_Z_DEPTH];
+    struct SDK_Render_Layer layers[MAX_Z_DEPTH];
 
 } SDK_Sprite_Manager;
 
