@@ -30,16 +30,17 @@ typedef struct{
 
 
     SDL_Texture *texture;
-
-    SDL_FPoint position;
-    SDL_FRect collision_rect;
     SDL_FRect render_rect;
+    SDL_Point entity_index;
+
+
 
     SDL_FlipMode flip_mode;
     double base_width;
     double base_height;
     double scale;
     double angle;
+    SDL_FPoint pivot_point;
     
 
 } SDK_Sprite;
@@ -72,8 +73,6 @@ SDK1_API int SDK_Sprite_SetLoop(SDK_Sprite *animated_sprite, bool loop_animation
 SDK1_API int SDK_Sprite_UpdateScale(SDK_Sprite *sprite, double new_scale);
 
 SDK1_API int SDK_Sprite_CheckCollision(SDK_Sprite *sprite_a, SDK_Sprite *sprite_b);
-
-SDK1_API void SDK_Sprite_UpdatePosition(SDK_Sprite *sprite, bool update_collsion, bool update_render);
 
 
 

@@ -24,23 +24,22 @@ void update_sprite_info(SDK_Sprite *sprite, SDK_Sprite *sprite_two, SDK_Input *i
         sprite->angle -= (128 * time->dt);
     }
     if(SDK_Keyboard_Pressed(input, SDL_SCANCODE_W)){
-        sprite->position.y -= (128 * time->dt);
+        sprite->render_rect.y -= (128 * time->dt);
     }
     if(SDK_Keyboard_Pressed(input, SDL_SCANCODE_S)){
-        sprite->position.y += (128 * time->dt);
+        sprite->render_rect.y += (128 * time->dt);
     }
     if(SDK_Keyboard_Pressed(input, SDL_SCANCODE_A)){
-        sprite->position.x -= (128 * time->dt);
+        sprite->render_rect.x -= (128 * time->dt);
     }
     if(SDK_Keyboard_Pressed(input, SDL_SCANCODE_D)){
-        sprite->position.x += (128 * time->dt);
+        sprite->render_rect.x += (128 * time->dt);
     }
 
     if(SDK_Sprite_CheckCollision(sprite, sprite_two))
         SDK_Sprite_SetPlayAnimation(sprite, true);
 
     SDK_Sprite_UpdateAnimation(sprite, time);
-    SDK_Sprite_UpdatePosition(sprite, true, true);
 
 }
 
@@ -72,10 +71,12 @@ int main(){
     SDK_Time *time = SDK_CreateTime(144);
     SDK_Input *input = SDK_CreateInput();
     SDK_TextDisplay *text = SDK_CreateText(display, NULL, 20, 5, 5, (SDL_Color){255, 255, 255, 255});
+
+
     
     SDK_Sprite *sprite = SDK_Create_AnimatedSprite(display, TEXTURE_PATH_COOL, (SDL_FPoint){0, 0}, (SDL_FRect){18, 16, 13, 16});
-    SDK_Sprite_AddAnimation(sprite, (SDL_FRect){18, 16, 13, 16}, 5, 10.0f, 3.0f, false, false);
-    SDK_Sprite_AddAnimation(sprite, (SDL_FRect){18, 32, 13, 16}, 5, 10.0f, 3.0f, false, false);
+    SDK_Sprite_AddAnimation(sprite, (SDL_FRect){18, 16, 13, 16}, 5, 6.7f, 3.0f, false, false);
+    SDK_Sprite_AddAnimation(sprite, (SDL_FRect){18, 32, 13, 16}, 5, 6.7f, 3.0f, false, false);
     SDL_SetTextureScaleMode(sprite->texture, SDL_SCALEMODE_NEAREST);
 
     SDK_Sprite *sprite_two = SDK_Create_StaticSprite(display, TEXTURE_PATH_BLUE, (SDL_FPoint){50, 50}, (SDL_FRect){0, 0, 400, 400});

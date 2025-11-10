@@ -63,7 +63,7 @@ SDK_Sprite* SDK_Create_StaticSprite(SDK_Display *display, const char *texture_pa
     data->src_rect = src_rect;
 
     
-    sprite->position = sprite_pos;
+    sprite->pivot_point = sprite_pos;
     sprite->sprite_type = SDK_STATIC_SPRITE;
     sprite->angle = 0.0f;
     sprite->scale = 1.0f;
@@ -76,8 +76,6 @@ SDK_Sprite* SDK_Create_StaticSprite(SDK_Display *display, const char *texture_pa
 
     sprite->base_width = src_rect.w;
     sprite->base_height = src_rect.h;
-
-    sprite->collision_rect = (SDL_FRect){sprite_pos.x, sprite_pos.y, src_rect.w, src_rect.h};
 
     
     return sprite;
@@ -114,7 +112,7 @@ SDK_Sprite* SDK_Create_AnimatedSprite(SDK_Display *display, const char *texture_
 
 
 
-    sprite->position = sprite_pos;
+    sprite->pivot_point = sprite_pos;
     sprite->sprite_type = SDK_ANIMATED_SPRITE;
     sprite->angle = 0.0f;
     sprite->scale = 1.0f;
@@ -127,8 +125,6 @@ SDK_Sprite* SDK_Create_AnimatedSprite(SDK_Display *display, const char *texture_
 
     sprite->base_width = src_rect.w;
     sprite->base_height = src_rect.h;
-
-    sprite->collision_rect = (SDL_FRect){sprite_pos.x, sprite_pos.y, src_rect.w, src_rect.h};
 
     
     return sprite;
@@ -269,14 +265,11 @@ int SDK_Sprite_UpdateScale(SDK_Sprite *sprite, double new_scale){
         return 1;
 
     SDL_FRect *render_rect = &sprite->render_rect;
-    SDL_FRect *collision_rect = &sprite->collision_rect;
     sprite->scale = new_scale;
 
     render_rect->w = sprite->base_width * new_scale;
     render_rect->h = sprite->base_height * new_scale;
-    collision_rect->w = sprite->base_width * new_scale;
-    collision_rect->h = sprite->base_height * new_scale;
-    
+
 
     return 0;
 }
@@ -289,8 +282,8 @@ int SDK_Sprite_CheckCollision(SDK_Sprite *sprite_a, SDK_Sprite *sprite_b){
     if(!sprite_a || !sprite_b)
         return 0;
 
-    SDL_FRect *a = &sprite_a->collision_rect;
-    SDL_FRect *b = &sprite_b->collision_rect;
+    SDL_FRect *a = &sprite_a->render_rect;
+    SDL_FRect *b = &sprite_b->render_rect;
 
     if(a->x + a->w < b->x) return 0;
     if(a->x > b->x + b->w) return 0;
@@ -346,23 +339,6 @@ int SDK_Sprite_SetLoop(SDK_Sprite *animated_sprite, bool loop_animation){
     data->animation[data->current_animation].loop_animation = loop_animation;
 
     return 0;
-}
-
-
-
-
-void SDK_Sprite_UpdatePosition(SDK_Sprite *sprite, bool update_collsion, bool update_render){
-
-    if(update_collsion){
-        sprite->collision_rect.x = sprite->position.x;
-        sprite->collision_rect.y = sprite->position.y;
-    }
-
-    if(update_render){
-        sprite->render_rect.x = sprite->position.x;
-        sprite->render_rect.y = sprite->position.y;        
-    }
-
 }
 
 
