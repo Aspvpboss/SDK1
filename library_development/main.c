@@ -61,6 +61,19 @@ void render(SDK_Display *display, SDK_TextDisplay *text, SDK_Sprite *sprite, SDK
 
 
 
+SDK_Entity* init_entity(SDK_Display *display){
+
+    SDK_Entity *entity = SDK_Create_Entity((SDL_FRect){0, 0, 13, 16}, (SDL_FRect){0, 0, 13, 16}, NULL, 1, NULL, NULL);
+
+    SDK_Sprite *sprite = SDK_Entity_AddSprite(
+        entity, display, TEXTURE_PATH_COOL, (SDL_FRect){18, 16, 13, 16}, (SDL_Point){0, 0}, SDK_ANIMATED_SPRITE);
+
+    SDK_Sprite_AddAnimation(sprite, (SDL_FRect){18, 16, 13, 16}, 5, 6.7f, 3.0f, false, false);
+    SDK_Sprite_AddAnimation(sprite, (SDL_FRect){18, 32, 13, 16}, 5, 6.7f, 3.0f, false, false);
+    SDL_SetTextureScaleMode(sprite->texture, SDL_SCALEMODE_NEAREST);
+
+}
+
 
 int main(){
 
@@ -72,12 +85,9 @@ int main(){
     SDK_Input *input = SDK_CreateInput();
     SDK_TextDisplay *text = SDK_CreateText(display, NULL, 20, 5, 5, (SDL_Color){255, 255, 255, 255});
 
-
+    SDK_Entity *entity_one = init_entity(display);
     
-    SDK_Sprite *sprite = SDK_Create_AnimatedSprite(display, TEXTURE_PATH_COOL, (SDL_FPoint){0, 0}, (SDL_FRect){18, 16, 13, 16});
-    SDK_Sprite_AddAnimation(sprite, (SDL_FRect){18, 16, 13, 16}, 5, 6.7f, 3.0f, false, false);
-    SDK_Sprite_AddAnimation(sprite, (SDL_FRect){18, 32, 13, 16}, 5, 6.7f, 3.0f, false, false);
-    SDL_SetTextureScaleMode(sprite->texture, SDL_SCALEMODE_NEAREST);
+
 
     SDK_Sprite *sprite_two = SDK_Create_StaticSprite(display, TEXTURE_PATH_BLUE, (SDL_FPoint){50, 50}, (SDL_FRect){0, 0, 400, 400});
     SDK_Sprite_UpdateScale(sprite, 8.0f);

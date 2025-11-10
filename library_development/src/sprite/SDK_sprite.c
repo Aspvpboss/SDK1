@@ -62,7 +62,7 @@ SDK_Sprite* SDK_Create_StaticSprite(SDK_Display *display, const char *texture_pa
     SDK_StaticSprite_Data *data = (SDK_StaticSprite_Data*)sprite->data.static_s;
     data->src_rect = src_rect;
 
-    
+    sprite->entity_index = (SDL_Point){0, 0};
     sprite->pivot_point = sprite_pos;
     sprite->sprite_type = SDK_STATIC_SPRITE;
     sprite->angle = 0.0f;
@@ -111,7 +111,7 @@ SDK_Sprite* SDK_Create_AnimatedSprite(SDK_Display *display, const char *texture_
     data->animation = NULL;
 
 
-
+    sprite->entity_index = (SDL_Point){0, 0};
     sprite->pivot_point = sprite_pos;
     sprite->sprite_type = SDK_ANIMATED_SPRITE;
     sprite->angle = 0.0f;

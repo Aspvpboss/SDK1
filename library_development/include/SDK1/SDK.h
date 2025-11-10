@@ -5,4 +5,7 @@
 #include "SDK_text.h"
 #include "SDK_time.h"
 #include "SDK_init.h"
+
 #include "SDK_sprite.h"
+#include "SDK_sprite_manager.h"
+#include "SDK_entity.h"
