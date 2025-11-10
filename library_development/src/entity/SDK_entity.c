@@ -12,6 +12,7 @@ SDK_Entity* SDK_Create_Entity(SDL_FRect collision_rect, SDL_FRect render_rect, v
     entity->sprites = NULL;
     entity->amount_sprites = 0;
 
+    entity->is_updated = false;
     entity->visible = true;
     entity->z_index = z_index;
 
@@ -77,6 +78,9 @@ int SDK_Entity_UpdateSpriteRects(SDK_Entity *entity){
     if(!entity)
         return 1;
 
+    if(!entity->is_updated)
+        return 0;
+
     SDL_FRect *render_rect = &entity->render_rect;
     double scale = entity->scale;
 
@@ -101,6 +105,8 @@ int SDK_Entity_UpdateSpriteRects(SDK_Entity *entity){
 
         
     }
+
+    entity->is_updated = false;
 
     return 0;
 }

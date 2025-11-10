@@ -17,6 +17,7 @@ typedef struct SDK_Entity{
 
 
     bool visible;
+    bool is_updated;
     uint64_t z_index;
     SDL_FPoint position;
 
