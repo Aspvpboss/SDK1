@@ -19,6 +19,11 @@ typedef struct SDK_Entity{
     bool visible;
     uint64_t z_index;
     SDL_FPoint position;
+
+    double scale;
+    double base_width;
+    double base_height;
+
     SDL_FRect collision_rect;    
     SDL_FRect render_rect;
 
@@ -38,6 +43,9 @@ SDK1_API SDK_Entity* SDK_Create_Entity(
 SDK1_API SDK_Sprite* SDK_Entity_AddSprite(
     SDK_Entity *entity, SDK_Display *display, 
     const char *texture_path, SDL_FRect src_rect, SDL_Point entity_index, enum SDK_SpriteType sprite_type);
+
+
+SDK1_API int SDK_Entity_UpdateSpriteRects(SDK_Entity *entity);
 
 
 SDK1_API int SDK_Entity_CheckCollision(SDK_Entity *entity_a, SDK_Entity *entity_b);

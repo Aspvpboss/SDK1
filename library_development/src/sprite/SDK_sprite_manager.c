@@ -83,6 +83,8 @@ int SDK_Render_SpriteManager(SDK_Display *display, SDK_Sprite_Manager *manager){
             SDK_RenderSprite(display, sprites[a]);
         }
 
+        layer->amount_sprites = 0;
+
     }
 
     return 0;

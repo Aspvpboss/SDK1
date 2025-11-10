@@ -173,7 +173,7 @@ int SDK_Sprite_UpdateAnimation(SDK_Sprite *animated_sprite, SDK_Time *time){
         return 1;
 
     if(animated_sprite->sprite_type != SDK_ANIMATED_SPRITE)
-        return 1;
+        return 0;
 
     SDK_AnimatedSprite_Data *m_data = (SDK_AnimatedSprite_Data*)animated_sprite->data.animate_s;
 

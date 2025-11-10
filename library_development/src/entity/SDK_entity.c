@@ -19,6 +19,8 @@ SDK_Entity* SDK_Create_Entity(SDL_FRect collision_rect, SDL_FRect render_rect, v
     entity->on_event = on_event;
 
     entity->render_rect = render_rect;
+    entity->base_height = render_rect.h;
+    entity->base_width = render_rect.w;
     entity->collision_rect = collision_rect;
     entity->position.x = collision_rect.x;
     entity->position.y = collision_rect.y;
@@ -28,6 +30,7 @@ SDK_Entity* SDK_Create_Entity(SDL_FRect collision_rect, SDL_FRect render_rect, v
 
     return entity;
 }
+
 
 
 
@@ -68,18 +71,35 @@ SDK_Sprite* SDK_Entity_AddSprite(SDK_Entity *entity, SDK_Display *display, const
 
 
 
+
 int SDK_Entity_UpdateSpriteRects(SDK_Entity *entity){
 
     if(!entity)
         return 1;
 
     SDL_FRect *render_rect = &entity->render_rect;
+    double scale = entity->scale;
 
+    
     for(int i = 0; i < entity->amount_sprites; i++){
+
         SDK_Sprite *sprite = entity->sprites[i];
 
-        sprite->render_rect.x = render_rect->x + (render_rect->x * sprite->entity_index.x);
-        sprite->render_rect.y = render_rect->y + (render_rect->y * sprite->entity_index.y);
+        sprite->render_rect.w = sprite->base_width * scale;
+        sprite->render_rect.h = sprite->base_height * scale;
+        sprite->scale = scale;
+
+        double base_x = render_rect->x;
+        double base_y = render_rect->y;
+
+        double offset_x = sprite->render_rect.w * sprite->entity_index.x;
+        double offset_y = sprite->render_rect.h * sprite->entity_index.y;
+
+        sprite->render_rect.x = base_x + offset_x;
+        sprite->render_rect.y = base_y + offset_y;
+        
+
+        
     }
 
     return 0;
