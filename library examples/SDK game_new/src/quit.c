@@ -8,6 +8,9 @@ void free_entity_manager(Appstate *state){
         SDK_Destroy_Entity(manager->entitys[i]);
     }
 
+    if(manager->entitys)
+        t_free(manager->entitys);
+
 }
 
 

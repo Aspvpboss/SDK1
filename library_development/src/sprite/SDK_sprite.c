@@ -248,9 +248,6 @@ int SDK_RenderSprite(SDK_Display *display, SDK_Sprite *sprite){
 
     } else{
 
-        printf("%.1f %.1f\n", sprite->pivot_point.x, sprite->pivot_point.y);
-        // SDL_FPoint test = {0, 0};
-
         if(!SDL_RenderTextureRotated(display->renderer, sprite->texture, src_rect, &sprite->render_rect, sprite->angle, &sprite->pivot_point, sprite->flip_mode))
             return 1;
 

@@ -2,6 +2,7 @@
     "makefile.configureOnOpen": false,
     "files.associations": {
         "init.h": "c",
-        "frame_events.h": "c"
+        "frame_events.h": "c",
+        "sdl_main.h": "c"
     }
 }

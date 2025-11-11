@@ -2,20 +2,35 @@
 #define SDL_MAIN_USE_CALLBACKS 1
 
 #include "init.h"
+#include "init_entitys.h"
 #include <SDL3/SDL_main.h>
 
 #define MAX_Z_LAYERS 16
 #define MAX_SPRITES_LAYER 64
 
-#define GROUND_TEX "./assets/Overworld_Tileset.png"
-#define PLAYER_TEX "./assets/char_spritesheet.png"
+#define MAX_ENTITYS 32
+
 
 int init_entitys(Entity_Manager *manager, SDK_Display *display){
 
     if(!manager || !display)
         return 1;
 
+    uint8_t amount_entitys = 0;
+    SDK_Entity **entitys = manager->entitys;
+    SDK_Entity *new_entity = NULL;
 
+    entitys = t_malloc(sizeof(SDK_Entity*) * MAX_ENTITYS);
+    if(!entitys) return 1;
+
+    new_entity = create_ground(display);
+    if(!new_entity) return 1;
+    entitys[amount_entitys] = new_entity;
+    amount_entitys++;
+
+
+    manager->entitys = entitys;
+    manager->amount_entitys = amount_entitys;
     
     return 0;
 }
