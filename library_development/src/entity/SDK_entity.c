@@ -114,6 +114,40 @@ int SDK_Entity_UpdateSpriteRects(SDK_Entity *entity){
 
 
 
+int SDK_Entity_UpdateAnimation(SDK_Entity *entity, SDK_Time *time){
+
+    if(!entity)
+        return 1;
+
+    SDK_Sprite **sprites = entity->sprites;
+
+    for(int i = 0; i < entity->amount_sprites; i++){
+        if(SDK_Sprite_UpdateAnimation(sprites[i], time)) return 1;
+    }
+
+    return 0; 
+}
+
+
+
+
+int SDK_Entity_SelectAnimation(SDK_Entity *entity, uint8_t animation_select){
+
+    if(!entity)
+        return 1;
+
+    SDK_Sprite **sprites = entity->sprites;
+
+    for(int i = 0; i < entity->amount_sprites; i++){
+        if(SDK_Sprite_SelectAnimation(sprites[i], animation_select)) return 1;
+    }
+
+    return 0; 
+}
+
+
+
+
 int SDK_Entity_CheckCollision(SDK_Entity *entity_a, SDK_Entity *entity_b){
 
     if(!entity_a || !entity_b)
