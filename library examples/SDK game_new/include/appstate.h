@@ -13,18 +13,11 @@ typedef struct{
 
 typedef struct{
 
-    SDK_Sprite **sprites;
-    uint8_t amount_sprites;
+    SDK_Entity **entitys;
+    uint8_t amount_entitys;
 
-} Static_Sprite_Manager;
+} Entity_Manager;
 
-
-typedef struct{
-
-    SDK_Sprite **sprites;
-    uint8_t amount_sprites;
-
-} Animated_Sprite_Manager;
 
 
 typedef struct{
@@ -32,8 +25,9 @@ typedef struct{
     SDK_Display *display;
     SDK_Time *time;
     SDK_Input *input;
+    SDK_Sprite_Manager *sprite_manager;
     TextDisplay_Manager text_manager;
-    Static_Sprite_Manager s_sprite_manager;
-    Animated_Sprite_Manager a_sprite_manager;
+    Entity_Manager entity_manager;
+
 
 } Appstate;

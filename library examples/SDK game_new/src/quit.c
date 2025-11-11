@@ -1,22 +1,12 @@
 #include "quit.h"
 
-void free_sprites(Appstate *state){
+void free_entity_manager(Appstate *state){
 
-    for(int i = 0; i < state->a_sprite_manager.amount_sprites; i++){
-        SDK_DestroySprite(state->a_sprite_manager.sprites[i]);
-        state->a_sprite_manager.sprites[i] = NULL;
-    }
-    if(state->a_sprite_manager.sprites)
-        t_free(state->a_sprite_manager.sprites);
-    state->a_sprite_manager.sprites = NULL;
+    Entity_Manager *manager = &state->entity_manager;
 
-    for(int i = 0; i < state->s_sprite_manager.amount_sprites; i++){
-        SDK_DestroySprite(state->s_sprite_manager.sprites[i]);
-        state->s_sprite_manager.sprites[i] = NULL;
+    for(int i = 0; i < manager->amount_entitys; i++){
+        SDK_Destroy_Entity(manager->entitys[i]);
     }
-    if(state->s_sprite_manager.sprites)
-        t_free(state->s_sprite_manager.sprites);
-    state->s_sprite_manager.sprites = NULL;
 
 }
 
@@ -37,6 +27,8 @@ void free_text_manager(Appstate *state){
 }
 
 
+
+
 void SDL_AppQuit(void *appstate, SDL_AppResult result){
 
     Appstate *state = (Appstate*)(appstate);
@@ -45,16 +37,15 @@ void SDL_AppQuit(void *appstate, SDL_AppResult result){
         return;
     
 
-    free_sprites(state);
+    free_entity_manager(state);
     free_text_manager(state);
     SDK_DestroyDisplay(state->display);
     SDK_DestroyInput(state->input);
     SDK_DestroyTime(state->time);
+    SDK_Destroy_SpriteManager(state->sprite_manager);
 
     t_free(state);
 
     SDK_Quit();
-
-
 
 }

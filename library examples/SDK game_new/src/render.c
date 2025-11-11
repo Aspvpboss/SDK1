@@ -1,15 +1,18 @@
 #include "render.h"
 
 
-int render_sprites(SDK_Display *display, Static_Sprite_Manager *s_manager, Animated_Sprite_Manager *a_manager){
+int render_entitys(SDK_Display *display, Entity_Manager *e_manager, SDK_Sprite_Manager *s_manager){
 
-    for(int i = 0; i < s_manager->amount_sprites; i++){
-        if(SDK_RenderSprite(display, s_manager->sprites[i])) return 1;
+    if(!e_manager || !s_manager)
+        return 1;
+
+    SDK_Entity **entitys = e_manager->entitys;
+
+    for(int i = 0; i < e_manager->amount_entitys; i++){
+        SDK_SpriteManager_AddEntitySprites(s_manager, entitys[i]);
     }
 
-    for(int i = 0; i < a_manager->amount_sprites; i++){
-        if(SDK_RenderSprite(display, a_manager->sprites[i])) return 1;
-    }
+    SDK_Render_SpriteManager(display, s_manager);
 
     return 0;
 }
@@ -31,7 +34,7 @@ int render(Appstate *state){
 
     SDL_RenderClear(display->renderer);
 
-    render_sprites(display, &state->s_sprite_manager, &state->a_sprite_manager);
+    render_entitys(display, &state->entity_manager, state->sprite_manager);
 
     render_text(&state->text_manager);
 
