@@ -39,3 +39,13 @@ SDK_Entity* create_ground(SDK_Display *display){
     return entity;
 }
 
+
+SDK_Entity* create_player(SDK_Display *display){
+
+    SDL_FRect rect = {0, 0, 13, 16};
+    SDL_FRect src_rect_1 = {18, 16, 13, 16};
+    SDL_FRect src_rect_2 = {18, 32, 12, 16};
+
+    SDK_Entity *entity = SDK_Create_Entity(rect, rect, NULL, 1, NULL, NULL);
+
+}
