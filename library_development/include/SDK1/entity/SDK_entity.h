@@ -21,6 +21,7 @@ typedef struct SDK_Entity{
     uint64_t z_index;
     SDL_FPoint position;
 
+    double angle;
     double scale;
     double base_width;
     double base_height;
@@ -46,8 +47,16 @@ SDK1_API SDK_Sprite* SDK_Entity_AddSprite(
     const char *texture_path, SDL_FRect src_rect, SDL_Point entity_index, enum SDK_SpriteType sprite_type);
 
 
-SDK1_API int SDK_Entity_UpdateSpriteRects(SDK_Entity *entity);
+SDK1_API int SDK_Entity_SelectAnimation(SDK_Entity *entity, uint8_t animation_select);
 
+SDK1_API int SDK_Entity_SetPlayAnimation(SDK_Entity *entity, bool play_animation);
+
+SDK1_API int SDK_Entity_SetLoopAnimation(SDK_Entity *entity, bool loop_animation);
+
+SDK1_API int SDK_Entity_UpdateAnimation(SDK_Entity *entity, SDK_Time *time);
+
+
+SDK1_API int SDK_Entity_UpdateSpriteRects(SDK_Entity *entity);
 
 SDK1_API int SDK_Entity_CheckCollision(SDK_Entity *entity_a, SDK_Entity *entity_b);
 

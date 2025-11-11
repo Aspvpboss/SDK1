@@ -67,8 +67,8 @@ SDK_Entity* init_entity_one(SDK_Display *display){
     if(!sprite)
         return NULL;
 
-    SDK_Sprite_AddAnimation(sprite, (SDL_FRect){18, 16, 13, 16}, 5, 6.7f, 3.0f, false, false);
-    SDK_Sprite_AddAnimation(sprite, (SDL_FRect){18, 32, 13, 16}, 5, 6.7f, 3.0f, false, false);
+    SDK_Sprite_AddAnimation(sprite, (SDL_FRect){18, 16, 13, 16}, 5, 6.7f, 3.0f, true, false);
+    SDK_Sprite_AddAnimation(sprite, (SDL_FRect){18, 32, 13, 16}, 5, 6.7f, 3.0f, true, false);
     SDL_SetTextureScaleMode(sprite->texture, SDL_SCALEMODE_NEAREST);
 
     sprite = SDK_Entity_AddSprite(
@@ -77,8 +77,8 @@ SDK_Entity* init_entity_one(SDK_Display *display){
     if(!sprite)
         return NULL;
 
-    SDK_Sprite_AddAnimation(sprite, (SDL_FRect){18, 16, 13, 16}, 5, 6.7f, 3.0f, false, false);
-    SDK_Sprite_AddAnimation(sprite, (SDL_FRect){18, 32, 13, 16}, 5, 6.7f, 3.0f, false, false);
+    SDK_Sprite_AddAnimation(sprite, (SDL_FRect){18, 16, 13, 16}, 5, 6.7f, 3.0f, true, false);
+    SDK_Sprite_AddAnimation(sprite, (SDL_FRect){18, 32, 13, 16}, 5, 6.7f, 3.0f, true, false);
     SDL_SetTextureScaleMode(sprite->texture, SDL_SCALEMODE_NEAREST);
 
     return entity;
@@ -91,7 +91,7 @@ int main(){
 
 
     SDK_Display *display = SDK_CreateDisplay("SDK window", 800, 800, SDL_WINDOW_MAXIMIZED);
-    SDK_Time *time = SDK_CreateTime(500);
+    SDK_Time *time = SDK_CreateTime(144);
     SDK_Input *input = SDK_CreateInput();
     SDK_TextDisplay *text = SDK_CreateText(display, NULL, 20, 5, 5, (SDL_Color){255, 255, 255, 255});
     SDK_Sprite_Manager *manager = SDK_Create_SpriteManager(16, 16);
@@ -101,6 +101,9 @@ int main(){
     entity_one->scale = 8.0f;
     entity_one->is_updated = true;
     SDK_Entity_UpdateSpriteRects(entity_one);
+
+
+    SDK_Entity_SetLoopAnimation(entity_one, false);
 
 
     SDK_Sprite *sprite_two = SDK_Create_StaticSprite(display, TEXTURE_PATH_BLUE, (SDL_FPoint){50, 50}, (SDL_FRect){0, 0, 400, 400});
@@ -165,15 +168,28 @@ int main(){
             entity_one->is_updated = true;
         }
 
+        // SDK_Entity_SetPlayAnimation(entity_one, false);
 
+        if(SDK_Keyboard_Pressed(input, SDL_SCANCODE_UP)){
+            SDK_Entity_SetPlayAnimation(entity_one, true);
+            entity_one->is_updated = true;
+        }
+
+
+        SDK_Entity_UpdateAnimation(entity_one, time);
         SDK_Entity_UpdateSpriteRects(entity_one);
-
         SDK_SpriteManager_AddEntitySprites(manager, entity_one);
+
+
 
         SDL_RenderClear(display->renderer);
 
+
+
         SDK_Render_SpriteManager(display, manager);
         SDK_Text_Render(text);
+
+
 
         SDL_RenderPresent(display->renderer);
  

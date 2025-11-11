@@ -93,6 +93,10 @@ int SDK_Entity_UpdateSpriteRects(SDK_Entity *entity){
         sprite->render_rect.h = sprite->base_height * scale;
         sprite->scale = scale;
 
+
+        entity->collision_rect.w = entity->base_width * scale;
+        entity->collision_rect.h = entity->base_height * scale;
+
         double base_x = render_rect->x;
         double base_y = render_rect->y;
 
@@ -101,6 +105,8 @@ int SDK_Entity_UpdateSpriteRects(SDK_Entity *entity){
 
         sprite->render_rect.x = base_x + offset_x;
         sprite->render_rect.y = base_y + offset_y;
+
+        sprite->angle = entity->angle;
         
 
         
@@ -143,6 +149,39 @@ int SDK_Entity_SelectAnimation(SDK_Entity *entity, uint8_t animation_select){
     }
 
     return 0; 
+}
+
+
+
+int SDK_Entity_SetPlayAnimation(SDK_Entity *entity, bool play_animation){
+
+    if(!entity)
+        return 1;    
+
+    SDK_Sprite **sprites = entity->sprites;
+
+    for(int i = 0; i < entity->amount_sprites; i++){
+        if(SDK_Sprite_SetPlayAnimation(sprites[i], play_animation)) return 1;
+    }
+
+
+    return 0;
+}
+
+
+int SDK_Entity_SetLoopAnimation(SDK_Entity *entity, bool loop_animation){
+
+    if(!entity)
+        return 1;    
+
+    SDK_Sprite **sprites = entity->sprites;
+
+    for(int i = 0; i < entity->amount_sprites; i++){
+        if(SDK_Sprite_SetLoopAnimation(sprites[i], loop_animation)) return 1;
+    }
+
+
+    return 0;
 }
 
 

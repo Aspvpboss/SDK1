@@ -188,6 +188,7 @@ int SDK_Sprite_UpdateAnimation(SDK_Sprite *animated_sprite, SDK_Time *time){
     }
 
     if(!data->play_animation){
+
         data->current_frame = 0;
         data->time_elapsed = 0.0f;
         data->src_rect.x = data->base_src_rect.x + (0 * (data->base_src_rect.w + data->width_offset));
@@ -209,7 +210,7 @@ int SDK_Sprite_UpdateAnimation(SDK_Sprite *animated_sprite, SDK_Time *time){
 
     data->src_rect.x = base_src_rect->x + (data->current_frame * (base_src_rect->w + data->width_offset));
 
-    if(data->current_frame == 0 && !data->loop_animation)
+    if(data->current_frame == 0)
         data->play_animation = false;    
 
     return 0;
@@ -247,7 +248,7 @@ int SDK_RenderSprite(SDK_Display *display, SDK_Sprite *sprite){
 
     } else{
 
-        if(!SDL_RenderTextureRotated(display->renderer, sprite->texture, src_rect, &sprite->render_rect, sprite->angle, NULL, sprite->flip_mode))
+        if(!SDL_RenderTextureRotated(display->renderer, sprite->texture, src_rect, &sprite->render_rect, sprite->angle, &sprite->pivot_point, sprite->flip_mode))
             return 1;
 
     }
@@ -329,7 +330,7 @@ int SDK_Sprite_SetPlayAnimation(SDK_Sprite *animated_sprite, bool play_animation
 
 
 
-int SDK_Sprite_SetLoop(SDK_Sprite *animated_sprite, bool loop_animation){
+int SDK_Sprite_SetLoopAnimation(SDK_Sprite *animated_sprite, bool loop_animation){
 
     if(!animated_sprite || animated_sprite->sprite_type != SDK_ANIMATED_SPRITE)
         return 1;

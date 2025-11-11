@@ -68,7 +68,7 @@ SDK1_API int SDK_Sprite_SelectAnimation(SDK_Sprite *animated_sprite, uint8_t ani
 
 SDK1_API int SDK_Sprite_SetPlayAnimation(SDK_Sprite *animated_sprite, bool play_animation);
 
-SDK1_API int SDK_Sprite_SetLoop(SDK_Sprite *animated_sprite, bool loop_animation);
+SDK1_API int SDK_Sprite_SetLoopAnimation(SDK_Sprite *animated_sprite, bool loop_animation);
 
 SDK1_API int SDK_Sprite_UpdateScale(SDK_Sprite *sprite, double new_scale);
 
