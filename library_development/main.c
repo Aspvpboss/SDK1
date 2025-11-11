@@ -58,7 +58,7 @@ void render(SDK_Display *display, SDK_TextDisplay *text, SDK_Sprite *sprite, SDK
 
 SDK_Entity* init_entity_one(SDK_Display *display){
 
-    SDK_Entity *entity = SDK_Create_Entity((SDL_FRect){50, 50, 13, 16}, (SDL_FRect){50, 50, 13, 16}, NULL, 1, NULL, NULL);
+    SDK_Entity *entity = SDK_Create_Entity((SDL_FRect){0, 0, 13, 16}, (SDL_FRect){0, 0, 13, 16}, NULL, 1, NULL, NULL);
 
 
     SDK_Sprite *sprite = SDK_Entity_AddSprite(
@@ -99,15 +99,11 @@ int main(){
 
     SDK_Entity *entity_one = init_entity_one(display);
     entity_one->scale = 8.0f;
-    entity_one->is_updated = true;
     SDK_Entity_UpdateSpriteRects(entity_one);
 
 
     SDK_Entity_SetLoopAnimation(entity_one, false);
 
-
-    SDK_Sprite *sprite_two = SDK_Create_StaticSprite(display, TEXTURE_PATH_BLUE, (SDL_FPoint){50, 50}, (SDL_FRect){0, 0, 400, 400});
-    SDK_Sprite_UpdateScale(sprite_two, 1.0f);
 
 
 
@@ -167,6 +163,16 @@ int main(){
             entity_one->collision_rect.y += movement;
             entity_one->is_updated = true;
         }
+        if(SDK_Keyboard_Pressed(input, SDL_SCANCODE_RIGHT)){
+            double movement = 128 * time->dt;
+            entity_one->angle += movement;
+            entity_one->is_updated = true;
+        }
+        if(SDK_Keyboard_Pressed(input, SDL_SCANCODE_LEFT)){
+            double movement = 128 * time->dt;
+            entity_one->angle -= movement;
+            entity_one->is_updated = true;
+        }
 
         // SDK_Entity_SetPlayAnimation(entity_one, false);
 
@@ -211,8 +217,6 @@ int main(){
     manager = NULL;
     SDK_Destroy_Entity(entity_one);
     entity_one = NULL;
-    SDK_DestroySprite(sprite_two);
-    sprite_two = NULL;
 
     
     SDK_Quit();

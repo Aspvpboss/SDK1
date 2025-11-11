@@ -12,7 +12,7 @@ SDK_Entity* SDK_Create_Entity(SDL_FRect collision_rect, SDL_FRect render_rect, v
     entity->sprites = NULL;
     entity->amount_sprites = 0;
 
-    entity->is_updated = false;
+    entity->is_updated = true;
     entity->visible = true;
     entity->z_index = z_index;
 
@@ -23,8 +23,6 @@ SDK_Entity* SDK_Create_Entity(SDL_FRect collision_rect, SDL_FRect render_rect, v
     entity->base_height = render_rect.h;
     entity->base_width = render_rect.w;
     entity->collision_rect = collision_rect;
-    entity->position.x = collision_rect.x;
-    entity->position.y = collision_rect.y;
 
     entity->data = data;
 
@@ -41,14 +39,14 @@ SDK_Sprite* SDK_Entity_AddSprite(SDK_Entity *entity, SDK_Display *display, const
 
     if(sprite_type == SDK_ANIMATED_SPRITE){
 
-        sprite = SDK_Create_AnimatedSprite(display, texture_path, entity->position, src_rect);
+        sprite = SDK_Create_AnimatedSprite(display, texture_path, (SDL_FPoint){0, 0}, src_rect);
 
     } else{
 
-        sprite = SDK_Create_StaticSprite(display, texture_path, entity->position, src_rect);
+        sprite = SDK_Create_StaticSprite(display, texture_path, (SDL_FPoint){0, 0}, src_rect);
 
     }
-
+    // (SDL_FPoint){entity->collision_rect.x, entity->collision_rect.y}
 
     if(!sprite){
         return NULL;
@@ -89,6 +87,8 @@ int SDK_Entity_UpdateSpriteRects(SDK_Entity *entity){
 
         SDK_Sprite *sprite = entity->sprites[i];
 
+        sprite->pivot_point = (SDL_FPoint){entity->collision_rect.x, entity->collision_rect.y};
+
         sprite->render_rect.w = sprite->base_width * scale;
         sprite->render_rect.h = sprite->base_height * scale;
         sprite->scale = scale;
@@ -108,7 +108,6 @@ int SDK_Entity_UpdateSpriteRects(SDK_Entity *entity){
 
         sprite->angle = entity->angle;
         
-
         
     }
 
