@@ -23,15 +23,23 @@ int init_entitys(Entity_Manager *manager, SDK_Display *display){
     entitys = t_malloc(sizeof(SDK_Entity*) * MAX_ENTITYS);
     if(!entitys) return 1;
 
+
     new_entity = create_ground(display);
     if(!new_entity) return 1;
     entitys[amount_entitys] = new_entity;
     amount_entitys++;
 
+    new_entity = create_player(display);
+    if(!new_entity) return 1;
+    entitys[amount_entitys] = new_entity;
+    amount_entitys++;
+
+
 
     manager->entitys = entitys;
     manager->amount_entitys = amount_entitys;
-    
+
+
     return 0;
 }
 

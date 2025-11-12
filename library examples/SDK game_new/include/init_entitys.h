@@ -3,3 +3,33 @@
 
 
 SDK_Entity* create_ground(SDK_Display *display);
+SDK_Entity* create_player(SDK_Display *display);
+
+
+typedef struct{
+
+    double x_velocity;
+    double y_velocity;
+    double gravity;
+    double speed;
+
+
+} Player_Data;
+
+
+enum Entity_Index{
+
+    ENTITY_GROUND,
+    ENTITY_PLAYER  
+
+};
+
+
+enum Player_Animations{
+
+    PLAYER_DOWN_ANI,
+    PLAYER_LEFT_ANI,
+    PLAYER_RIGHT_ANI,
+    PLAYER_UP_ANI
+
+};

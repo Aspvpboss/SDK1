@@ -27,7 +27,48 @@ void update_fps_text(TextDisplay_Manager *manager, SDK_Time *time){
 }
 
 
+void update_physics(Entity_Manager *manager, SDK_Time *time){
+
+    SDK_Entity *player = manager->entitys[ENTITY_PLAYER];
+    SDK_Entity *ground = manager->entitys[ENTITY_GROUND];
+
+    Player_Data *data = (Player_Data*)player->data;
+
+    data->y_velocity += data->gravity * time->dt;
+
+    player->collision_rect.x += (data->x_velocity * data->speed) * time->dt;
+    player->collision_rect.y += (data->y_velocity * data->speed) * time->dt;
+
+    if(SDK_Entity_CheckCollision(player, ground)){
+
+        player->collision_rect.y = ground->collision_rect.y - player->collision_rect.h;
+
+    }
+
+    player->is_updated = true;
+
+}
+
+
+void update_entity_rects(Entity_Manager *manager){
+
+    if(!manager)
+        return;
+
+    SDK_Entity **entitys = manager->entitys;
+
+    for(int i = 0; i < manager->amount_entitys; i++){
+        SDK_Entity_UpdateSpriteRects(entitys[i]);
+    }
+
+}
+
+
 int update(Appstate *state){
+
+    update_physics(&state->entity_manager, state->time);    
+
+    update_entity_rects(&state->entity_manager);
 
     update_animated_entitys(&state->entity_manager, state->time);
     update_fps_text(&state->text_manager, state->time);
