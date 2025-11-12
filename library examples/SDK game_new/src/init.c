@@ -73,7 +73,7 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[]){
         return SDL_APP_FAILURE;
     }
 
-    state->time = SDK_CreateTime(144);
+    state->time = SDK_CreateTime(1440);
     if(!state->time){
         SDL_Log("Error: %s\n", SDL_GetError());
         return SDL_APP_FAILURE;

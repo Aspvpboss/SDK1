@@ -9,7 +9,7 @@ SDK_Entity* create_ground(SDK_Display *display){
 
     int sprite_width = (int)(display->width / (16 * SCALE)) + 1;
 
-    SDL_FRect rect = {0, display->height - (16 * SCALE), 16, 16};
+    SDL_FRect rect = {0, display->height - (16 * SCALE), (16 *SCALE) * sprite_width, display->height - (16 * SCALE)};
     SDL_FRect src_rect = {16, 32, 16, 16};
 
     uint64_t z_depth = 1;
@@ -43,11 +43,11 @@ SDK_Entity* create_ground(SDK_Display *display){
 
 SDK_Entity* create_player(SDK_Display *display){
 
-    SDL_FRect rect = {0, 0, 13, 16};
-    SDL_FRect src_rect_down = {18, 16, 14, 16};
-    SDL_FRect src_rect_left = {18, 32, 12, 16};
-    SDL_FRect src_rect_right = {18, 48, 12, 16};
-    SDL_FRect src_rect_up = {17, 64, 14, 16};
+    SDL_FRect rect = {0, 0, 13, 15};
+    SDL_FRect src_rect_down = {18, 16, 14, 15};
+    SDL_FRect src_rect_left = {18, 32, 12, 15};
+    SDL_FRect src_rect_right = {18, 48, 12, 15};
+    SDL_FRect src_rect_up = {17, 64, 14, 15};
 
 
     uint64_t z_depth = 2;
@@ -63,8 +63,8 @@ SDK_Entity* create_player(SDK_Display *display){
 
 
     Player_Data *data = (Player_Data*)entity->data;
-    data->gravity = 100.0f;
-    data->speed = 10.0f;
+    data->gravity = 1000.0f;
+    data->speed = 100.0f;
     data->x_velocity = 0;
     data->y_velocity = 0;
 
@@ -86,7 +86,7 @@ SDK_Entity* create_player(SDK_Display *display){
     double offset = 3.0f;
     bool loop_animation = true;
 
-    SDK_Sprite_AddAnimation(sprite, src_rect_down, amount_frames, fps, offset, loop_animation, false);
+    SDK_Sprite_AddAnimation(sprite, src_rect_down, 0, 0, 0, false, false);
     SDK_Sprite_AddAnimation(sprite, src_rect_left, amount_frames, fps, offset, loop_animation, false);
     SDK_Sprite_AddAnimation(sprite, src_rect_right, amount_frames, fps, offset, loop_animation, false);
     SDK_Sprite_AddAnimation(sprite, src_rect_up, amount_frames, fps, offset, loop_animation, false);

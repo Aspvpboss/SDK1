@@ -32,7 +32,7 @@ void update_player(SDK_Entity *player, SDK_Time *time){
 
     Player_Data *data = (Player_Data*)player->data;
 
-    data->y_velocity += data->gravity * time->dt;
+    data->y_velocity += (data->gravity * time->dt);
 
     player->collision_rect.x += (data->x_velocity * data->speed) * time->dt;
     player->collision_rect.y += (data->y_velocity * data->speed) * time->dt;
@@ -73,14 +73,29 @@ void update_entity_rects(Entity_Manager *manager){
 
 
 
-void update_entitys(Entity_Manager *manager){
+void update_entitys(Entity_Manager *manager, SDK_Time *time){
 
+    if(!manager)
+        return; 
 
+    SDK_Entity **entitys = manager->entitys;
+
+    for(int i = 0; i < manager->amount_entitys; i++){
+
+        SDK_Entity *current_entity = entitys[i];
+    
+        if(!current_entity->on_update) continue;
+
+        current_entity->on_update(current_entity, time);
+
+    }
     
 }
 
 
 int update(Appstate *state){
+
+    update_entitys(&state->entity_manager, state->time);    
 
     update_physics(&state->entity_manager, state->time);    
 
