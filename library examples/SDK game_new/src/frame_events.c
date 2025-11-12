@@ -8,7 +8,6 @@ void player_events(SDK_Entity *player, SDK_Input *input){
     SDK_Entity_SelectAnimation(player, PLAYER_DOWN_ANI);
 
     
-    data->x_velocity = 0;
 
     if(SDK_Keyboard_Pressed(input, SDL_SCANCODE_LEFT)){
         
@@ -24,11 +23,10 @@ void player_events(SDK_Entity *player, SDK_Input *input){
     }
 
 
-    data->y_velocity = 0;
 
-    if(SDK_Keyboard_Pressed(input, SDL_SCANCODE_UP)){
+    if(SDK_Keyboard_JustPressed(input, SDL_SCANCODE_UP)){
         
-        data->y_velocity = -1;
+        data->y_velocity = -100;
 
     }
 

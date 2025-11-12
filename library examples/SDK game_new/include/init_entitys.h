@@ -11,10 +11,12 @@ SDK_Entity* create_player(SDK_Display *display);
 typedef struct{
 
     double x_velocity;
+    double x_friction;
     double y_velocity;
+    double y_friction;
     double gravity;
-    double speed;
-
+    double x_speed;
+    double y_speed;
 
 } Player_Data;
 
