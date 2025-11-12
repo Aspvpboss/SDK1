@@ -51,8 +51,8 @@ SDK_Entity* create_player(SDK_Display *display){
 
 
     uint64_t z_depth = 2;
-    SDK_Entity *entity = SDK_Create_Entity(rect, rect, NULL, z_depth, NULL, NULL);
-
+    SDK_Entity *entity = SDK_Create_Entity(rect, rect, NULL, z_depth, update_player, player_events);
+    
     if(!entity) return NULL;
 
     entity->data = t_malloc(sizeof(Player_Data));

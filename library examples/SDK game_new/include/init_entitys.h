@@ -1,5 +1,7 @@
 #pragma once
 #include "appstate.h"
+#include "update.h"
+#include "frame_events.h"
 
 
 SDK_Entity* create_ground(SDK_Display *display);
