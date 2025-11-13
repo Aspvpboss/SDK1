@@ -43,7 +43,7 @@ SDK_Entity* create_ground(SDK_Display *display){
 
 SDK_Entity* create_player(SDK_Display *display){
 
-    SDL_FRect rect = {0, 0, 13, 15};
+    SDL_FRect rect = {0, 200, 13, 15};
     SDL_FRect src_rect_down = {18, 16, 14, 15};
     SDL_FRect src_rect_left = {18, 32, 13, 15};
     SDL_FRect src_rect_right = {18, 48, 13, 15};
@@ -63,13 +63,15 @@ SDK_Entity* create_player(SDK_Display *display){
 
 
     Player_Data *data = (Player_Data*)entity->data;
-    data->x_friction = 0.9f;
+    data->x_friction = 0.2f;
     data->y_friction = 0.2f;
-    data->gravity = 0.1f;
-    data->x_speed = 100.0f;
-    data->y_speed = 670.0f;
+    data->gravity = 4.0f;
+    data->x_speed = 15.0f;
+    data->y_speed = 10.0f;
     data->x_velocity = 0;
     data->y_velocity = 0;
+    data->x_acceleration = 1.0f;
+    data->y_acceleration = 1.0f;
 
 
     SDK_Sprite *sprite = SDK_Entity_AddSprite(entity, display, PLAYER_TEX, src_rect_down, (SDL_Point){0, 0}, SDK_ANIMATED_SPRITE);

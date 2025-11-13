@@ -1,7 +1,7 @@
 #pragma once
 
 #include "SDK1/SDK.h"
-
+#include <math.h>
 
 typedef struct{
 
