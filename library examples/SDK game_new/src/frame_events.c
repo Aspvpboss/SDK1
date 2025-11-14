@@ -24,9 +24,10 @@ void player_events(SDK_Entity *player, SDK_Input *input){
 
 
 
-    if(SDK_Keyboard_JustPressed(input, SDL_SCANCODE_UP)){
+    if(SDK_Keyboard_JustPressed(input, SDL_SCANCODE_UP) && data->is_ground){
         
-        data->y_velocity = -100.0f;
+        data->y_velocity = -220.0f;
+        data->is_ground = false;
 
     }
 

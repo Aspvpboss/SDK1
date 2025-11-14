@@ -11,6 +11,8 @@
 #define MAX_ENTITYS 32
 
 
+
+
 int init_entitys(Entity_Manager *manager, SDK_Display *display){
 
     if(!manager || !display)
@@ -22,6 +24,7 @@ int init_entitys(Entity_Manager *manager, SDK_Display *display){
 
     entitys = t_malloc(sizeof(SDK_Entity*) * MAX_ENTITYS);
     if(!entitys) return 1;
+    for(int i = 0; i < MAX_ENTITYS; i++) entitys[i] = NULL;
 
 
     new_entity = create_ground(display);
@@ -43,6 +46,9 @@ int init_entitys(Entity_Manager *manager, SDK_Display *display){
     return 0;
 }
 
+
+
+
 int init_textdisplays(TextDisplay_Manager *manager, SDK_Display *display){
 
     if(!manager || !display)
@@ -57,6 +63,7 @@ int init_textdisplays(TextDisplay_Manager *manager, SDK_Display *display){
 
     return 0;
 }
+
 
 
 

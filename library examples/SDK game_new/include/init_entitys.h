@@ -19,6 +19,7 @@ typedef struct{
     double y_speed;
     double x_acceleration; 
     double y_acceleration; 
+    bool is_ground;
 
 } Player_Data;
 

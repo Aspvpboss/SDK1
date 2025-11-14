@@ -31,7 +31,7 @@ void update_fps_text(TextDisplay_Manager *manager, SDK_Time *time){
 void update_player(SDK_Entity *player, SDK_Time *time){
 
     #define MAX_X_VELOCITY 100
-    #define MAX_Y_VELOCITY 100
+    #define MAX_Y_VELOCITY 1000
 
 
     Player_Data *data = (Player_Data*)player->data;
@@ -49,11 +49,14 @@ void update_player(SDK_Entity *player, SDK_Time *time){
         data->y_velocity = MAX_Y_VELOCITY;
 
 
+
     player->collision_rect.x += ((data->x_velocity * data->x_speed) * dt);
     player->collision_rect.y += ((data->y_velocity * data->y_speed) * dt);
-    
 
     data->x_velocity *= data->x_friction;
+    
+
+
     if(fabs(data->x_velocity) < 0.002){
         data->x_velocity = 0.0f;
     }
@@ -61,17 +64,46 @@ void update_player(SDK_Entity *player, SDK_Time *time){
 }
 
 
-void update_physics(Entity_Manager *manager, SDK_Time *time){
+
+void update_window_bounds(SDK_Entity *player, SDK_Display *display){
+
+    SDL_FRect *rect = &player->collision_rect;
+
+    if(rect->y > display->height - rect->h)
+        rect->y = display->height - rect->h;
+
+    if(rect->y < 0)
+        rect->y = 0;
+
+    if(rect->x > display->width - rect->w)
+        rect->x = display->width - rect->w;
+
+    if(rect->x < 0)
+        rect->x = 0;
+
+}
+
+
+
+
+void update_collisions(Entity_Manager *manager, SDK_Time *time, SDK_Display *display){
 
     SDK_Entity *player = manager->entitys[ENTITY_PLAYER];
     SDK_Entity *ground = manager->entitys[ENTITY_GROUND];
 
 
+    update_window_bounds(player, display);
+
+
     if(SDK_Entity_CheckCollision(player, ground)){
 
+        Player_Data *data = (Player_Data*)player->data;
         player->collision_rect.y = ground->collision_rect.y - player->collision_rect.h;
+        data->is_ground = true;
 
     }
+
+
 
     player->render_rect = player->collision_rect;
     player->is_updated = true;
@@ -79,7 +111,7 @@ void update_physics(Entity_Manager *manager, SDK_Time *time){
 }
 
 
-void update_entity_rects(Entity_Manager *manager){
+void entity_update_rects(Entity_Manager *manager){
 
     if(!manager)
         return;
@@ -94,7 +126,9 @@ void update_entity_rects(Entity_Manager *manager){
 
 
 
-void update_entitys(Entity_Manager *manager, SDK_Time *time){
+
+
+void entity_update_funcs(Entity_Manager *manager, SDK_Time *time){
 
     if(!manager)
         return; 
@@ -114,16 +148,24 @@ void update_entitys(Entity_Manager *manager, SDK_Time *time){
 }
 
 
+
+
 int update(Appstate *state){
 
-    update_entitys(&state->entity_manager, state->time);    
+    SDK_Display *display = state->display;
+    SDK_Time *time = state->time;
+    Entity_Manager *entity_manager = &state->entity_manager;
+    TextDisplay_Manager *text_manager = &state->text_manager;
 
-    update_physics(&state->entity_manager, state->time);    
+    entity_update_funcs(entity_manager, time);    
 
-    update_entity_rects(&state->entity_manager);
+    update_collisions(entity_manager, time, display);    
 
-    update_animated_entitys(&state->entity_manager, state->time);
-    update_fps_text(&state->text_manager, state->time);
+    entity_update_rects(entity_manager);
+
+    update_animated_entitys(entity_manager, time);
+
+    update_fps_text(text_manager, time);
 
     return 0;
 }
