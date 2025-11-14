@@ -8,6 +8,10 @@ SDK_Entity* create_ground(SDK_Display *display);
 SDK_Entity* create_player(SDK_Display *display);
 
 
+#define MAX_ENTITYS 32
+#define MAX_COLLIDERS 16
+
+
 typedef struct{
 
     double x_velocity;
@@ -24,10 +28,12 @@ typedef struct{
 } Player_Data;
 
 
+
+
 enum Entity_Index{
 
     ENTITY_GROUND,
-    ENTITY_PLAYER  
+    ENTITY_PLAYER = MAX_COLLIDERS
 
 };
 

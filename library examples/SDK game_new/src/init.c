@@ -8,7 +8,7 @@
 #define MAX_Z_LAYERS 16
 #define MAX_SPRITES_LAYER 64
 
-#define MAX_ENTITYS 32
+
 
 
 
