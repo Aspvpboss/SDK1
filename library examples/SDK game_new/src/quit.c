@@ -4,15 +4,16 @@ void free_entity_manager(Appstate *state){
 
     Entity_Manager *manager = &state->entity_manager;
 
+
     for(int i = 0; i < manager->amount_entitys; i++){
-        SDK_Destroy_Entity(manager->entitys[i]);
+        if(manager->entitys[i])
+            SDK_Destroy_Entity(manager->entitys[i]);
     }
 
     if(manager->entitys)
         t_free(manager->entitys);
 
 }
-
 
 void free_text_manager(Appstate *state){
 

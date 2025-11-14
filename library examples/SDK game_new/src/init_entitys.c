@@ -5,6 +5,26 @@
 #define PLAYER_TEX "./assets/char_spritesheet.png"
 
 
+SDK_Entity* create_block(SDK_Display *display, float x, float y){
+
+    SDL_FRect rect = {x, y, (16 *SCALE), (16 * SCALE)};
+    SDL_FRect src_rect = {16, 32, 16, 16};
+
+    uint64_t z_depth = 1;
+    SDK_Entity *entity = SDK_Create_Entity(rect, rect, NULL, z_depth, NULL, NULL);
+    if(!entity) return NULL;
+
+    SDK_Sprite *new_sprite = SDK_Entity_AddSprite(entity, display, GROUND_TEX, src_rect, (SDL_Point){0, 0}, SDK_STATIC_SPRITE);
+    if(!new_sprite){
+        SDK_Destroy_Entity(entity);
+        return NULL;
+    }
+    SDL_SetTextureScaleMode(new_sprite->texture, SDL_SCALEMODE_NEAREST);
+
+    return entity;
+}
+
+
 SDK_Entity* create_ground(SDK_Display *display){
 
     int sprite_width = (int)(display->width / (16 * SCALE)) + 1;

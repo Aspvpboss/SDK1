@@ -7,8 +7,11 @@ void update_animated_entitys(Entity_Manager *manager, SDK_Time *time){
     if(!sprites)
         return;
 
-    for(int i = 0; i < manager->amount_entitys; i++)
+    for(int i = 0; i < MAX_ENTITYS; i++){
+        if(!sprites[i]) continue;
         SDK_Entity_UpdateAnimation(sprites[i], time);
+    }
+        
 
 }
 
@@ -90,7 +93,6 @@ void update_collisions(Entity_Manager *manager, SDK_Time *time, SDK_Display *dis
 
     SDK_Entity *player = manager->entitys[ENTITY_PLAYER];
     
-    if(!player) return;
 
     update_window_bounds(player, display);
 
@@ -124,7 +126,8 @@ void entity_update_rects(Entity_Manager *manager){
 
     SDK_Entity **entitys = manager->entitys;
 
-    for(int i = 0; i < manager->amount_entitys; i++){
+    for(int i = 0; i < MAX_ENTITYS; i++){
+        if(!entitys[i]) continue;
         SDK_Entity_UpdateSpriteRects(entitys[i]);
     }
 
@@ -141,11 +144,11 @@ void entity_update_funcs(Entity_Manager *manager, SDK_Time *time){
 
     SDK_Entity **entitys = manager->entitys;
 
-    for(int i = 0; i < manager->amount_entitys; i++){
+    for(int i = 0; i < MAX_ENTITYS; i++){
 
         SDK_Entity *current_entity = entitys[i];
-    
-        if(!current_entity->on_update) continue;
+
+        if(!current_entity || !current_entity->on_update) continue;
 
         current_entity->on_update(current_entity, time);
 

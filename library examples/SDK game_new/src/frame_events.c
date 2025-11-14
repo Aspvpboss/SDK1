@@ -47,7 +47,7 @@ void frame_event_entitys(Entity_Manager *manager, SDK_Input *input){
 
         SDK_Entity *current_entity = entitys[i];
     
-        if(!current_entity->on_event) continue;
+        if(!current_entity || !current_entity->on_event) continue;
 
         current_entity->on_event(current_entity, input);
 

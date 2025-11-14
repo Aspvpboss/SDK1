@@ -1,4 +1,5 @@
 #include "render.h"
+#include "init_entitys.h"
 
 
 int render_entitys(SDK_Display *display, Entity_Manager *e_manager, SDK_Sprite_Manager *s_manager){
@@ -8,7 +9,8 @@ int render_entitys(SDK_Display *display, Entity_Manager *e_manager, SDK_Sprite_M
 
     SDK_Entity **entitys = e_manager->entitys;
 
-    for(int i = 0; i < e_manager->amount_entitys; i++){
+    for(int i = 0; i < MAX_ENTITYS; i++){
+        if(!entitys[i]) continue;
         SDK_SpriteManager_AddEntitySprites(s_manager, entitys[i]);
     }
 

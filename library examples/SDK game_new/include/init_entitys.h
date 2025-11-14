@@ -6,7 +6,7 @@
 
 SDK_Entity* create_ground(SDK_Display *display);
 SDK_Entity* create_player(SDK_Display *display);
-
+SDK_Entity* create_block(SDK_Display *display, float x, float y);
 
 #define MAX_ENTITYS 32
 #define MAX_COLLIDERS 16

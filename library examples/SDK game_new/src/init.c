@@ -34,8 +34,14 @@ int init_entitys(Entity_Manager *manager, SDK_Display *display){
 
     new_entity = create_player(display);
     if(!new_entity) return 1;
+    entitys[ENTITY_PLAYER] = new_entity;
+
+    new_entity = create_block(display, 100, 400);
+    if(!new_entity) return 1;
     entitys[amount_entitys] = new_entity;
     amount_entitys++;
+
+    amount_entitys = MAX_ENTITYS;
 
 
 
