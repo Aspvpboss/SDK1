@@ -42,8 +42,8 @@ void update_player(SDK_Entity *player, SDK_Time *time){
     
     data->y_acceleration = data->gravity;
 
-    data->x_velocity += data->x_acceleration;
-    data->y_velocity += data->y_acceleration;
+    data->x_velocity += data->x_acceleration * dt;
+    data->y_velocity += data->y_acceleration * dt;
 
     if(fabs(data->x_velocity) > MAX_X_VELOCITY)
         data->x_velocity = MAX_X_VELOCITY * (data->x_velocity > 0 ? 1 : -1);

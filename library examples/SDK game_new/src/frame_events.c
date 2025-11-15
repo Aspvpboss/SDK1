@@ -26,7 +26,7 @@ void player_events(SDK_Entity *player, SDK_Input *input){
 
     if(SDK_Keyboard_JustPressed(input, SDL_SCANCODE_UP) && data->is_ground){
         
-        data->y_velocity = -220.0f;
+        data->y_velocity = -7.7f;
         data->is_ground = false;
 
     }
@@ -60,6 +60,8 @@ void frame_event_entitys(Entity_Manager *manager, SDK_Input *input){
 int frame_events(Appstate *state){
 
     frame_event_entitys(&state->entity_manager, state->input);
+
+    if(SDK_Keyboard_Pressed(state->input, SDL_SCANCODE_ESCAPE)) return 1;
 
     return 0;
 }

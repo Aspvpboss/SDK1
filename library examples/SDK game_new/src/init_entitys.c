@@ -57,9 +57,9 @@ SDK_Entity* create_player(SDK_Display *display){
     Player_Data *data = (Player_Data*)entity->data;
     data->x_friction = 0.5f;
     data->y_friction = 0.2f;
-    data->gravity = 3.0f;
-    data->x_speed = 19.0f;
-    data->y_speed = 6.7f;
+    data->gravity = 9.8f;
+    data->x_speed = 200.0f;
+    data->y_speed = 100.0f;
     data->x_velocity = 0;
     data->y_velocity = 0;
     data->x_acceleration = 1.0f;

@@ -8,7 +8,8 @@ SDL_AppResult SDL_AppIterate(void *appstate){
 
     Appstate *state = (Appstate*)(appstate);
 
-    frame_events(state);    
+    if(frame_events(state))
+        return SDL_APP_SUCCESS;   
 
     update(state);
 
