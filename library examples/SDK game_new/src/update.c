@@ -68,22 +68,32 @@ void update_player(SDK_Entity *player, SDK_Time *time){
 
 
 
-void update_window_bounds(SDK_Entity *player, SDK_Display *display){
+int update_window_bounds(SDK_Entity *player, SDK_Display *display){
 
     SDL_FRect *rect = &player->collision_rect;
 
-    if(rect->y > display->height - rect->h)
+    if(rect->y > display->height - rect->h){
         rect->y = display->height - rect->h;
+        return 1;
+    }
+        
 
-    if(rect->y < 0)
+    if(rect->y < 0){
         rect->y = 0;
+    }
+        
 
-    if(rect->x > display->width - rect->w)
+    if(rect->x > display->width - rect->w){
         rect->x = display->width - rect->w;
+    }
+        
 
-    if(rect->x < 0)
+    if(rect->x < 0){
         rect->x = 0;
+    }   
+        
 
+    return 0;
 }
 
 
@@ -92,10 +102,19 @@ void update_window_bounds(SDK_Entity *player, SDK_Display *display){
 void update_collisions(Entity_Manager *manager, SDK_Time *time, SDK_Display *display){
 
     SDK_Entity *player = manager->entitys[ENTITY_PLAYER];
+    Player_Data *data = (Player_Data*)player->data;    
+
     
 
-    update_window_bounds(player, display);
+    if(update_window_bounds(player, display)){
 
+        data->y_velocity = 0.0f;
+        data->is_ground = true;
+
+    }
+
+
+    //updates all colliders with player
     for(int i = 0; i < MAX_COLLIDERS; i++){
 
         SDK_Entity *collider = manager->entitys[i];
@@ -104,8 +123,8 @@ void update_collisions(Entity_Manager *manager, SDK_Time *time, SDK_Display *dis
 
         if(SDK_Entity_CheckCollision(player, collider)){
 
-            Player_Data *data = (Player_Data*)player->data;
             player->collision_rect.y = collider->collision_rect.y - player->collision_rect.h;
+            data->y_velocity = 0.0f;
             data->is_ground = true;
 
         }

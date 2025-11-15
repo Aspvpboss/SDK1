@@ -26,25 +26,26 @@ int init_entitys(Entity_Manager *manager, SDK_Display *display){
     if(!entitys) return 1;
     for(int i = 0; i < MAX_ENTITYS; i++) entitys[i] = NULL;
 
-
-    new_entity = create_ground(display);
+    new_entity = create_block(display, 200, 400, 2);
     if(!new_entity) return 1;
     entitys[amount_entitys] = new_entity;
     amount_entitys++;
+
+
+    new_entity = create_block(display, 0, display->height - (16 * ENTITY_SCALE), (int)(display->width / (16 * ENTITY_SCALE)) + 1);
+    if(!new_entity) return 1;
+    entitys[amount_entitys] = new_entity;
+    amount_entitys++;
+
+    
 
     new_entity = create_player(display);
     if(!new_entity) return 1;
     entitys[ENTITY_PLAYER] = new_entity;
 
-    new_entity = create_block(display, 100, 400);
-    if(!new_entity) return 1;
-    entitys[amount_entitys] = new_entity;
-    amount_entitys++;
+
 
     amount_entitys = MAX_ENTITYS;
-
-
-
     manager->entitys = entitys;
     manager->amount_entitys = amount_entitys;
 

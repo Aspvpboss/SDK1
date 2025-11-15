@@ -14,7 +14,10 @@ int render_entitys(SDK_Display *display, Entity_Manager *e_manager, SDK_Sprite_M
         SDK_SpriteManager_AddEntitySprites(s_manager, entitys[i]);
     }
 
+
     SDK_Render_SpriteManager(display, s_manager);
+
+    
 
     return 0;
 }
@@ -37,6 +40,7 @@ int render(Appstate *state){
     SDL_RenderClear(display->renderer);
 
     render_entitys(display, &state->entity_manager, state->sprite_manager);
+
 
     render_text(&state->text_manager);
 

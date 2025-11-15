@@ -4,12 +4,15 @@
 #include "frame_events.h"
 
 
-SDK_Entity* create_ground(SDK_Display *display);
 SDK_Entity* create_player(SDK_Display *display);
-SDK_Entity* create_block(SDK_Display *display, float x, float y);
+SDK_Entity* create_block(SDK_Display *display, float x, float y, uint8_t block_width);
 
 #define MAX_ENTITYS 32
 #define MAX_COLLIDERS 16
+
+#define ENTITY_SCALE 8.0f
+#define GROUND_TEX "./assets/Overworld_Tileset.png"
+#define PLAYER_TEX "./assets/char_spritesheet.png"
 
 
 typedef struct{
