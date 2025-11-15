@@ -37,7 +37,7 @@ int init_entitys(Entity_Manager *manager, SDK_Display *display){
     entitys[amount_entitys] = new_entity;
     amount_entitys++;
 
-    
+
 
     new_entity = create_player(display);
     if(!new_entity) return 1;
