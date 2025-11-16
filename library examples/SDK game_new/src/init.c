@@ -26,11 +26,16 @@ int init_entitys(Entity_Manager *manager, SDK_Display *display){
     if(!entitys) return 1;
     for(int i = 0; i < MAX_ENTITYS; i++) entitys[i] = NULL;
 
-    new_entity = create_block(display, 200, 480, 2);
+
+    new_entity = create_block(display, 400, 380, 4);
     if(!new_entity) return 1;
     entitys[amount_entitys] = new_entity;
     amount_entitys++;
 
+    new_entity = create_block(display, 200, 480, 2);
+    if(!new_entity) return 1;
+    entitys[amount_entitys] = new_entity;
+    amount_entitys++;
 
     new_entity = create_block(display, 0, display->height - (16 * ENTITY_SCALE), (int)(display->width / (16 * ENTITY_SCALE)) + 1);
     if(!new_entity) return 1;

@@ -121,12 +121,36 @@ void update_collisions(Entity_Manager *manager, SDK_Time *time, SDK_Display *dis
 
         if(!collider) continue;
 
-        if(SDK_Entity_CheckCollision(player, collider)){
+        SDL_FRect *collider_rect = &collider->collision_rect;
+        SDL_FRect *player_rect = &player->collision_rect;
 
-            player->collision_rect.y = collider->collision_rect.y - player->collision_rect.h;
-            data->y_velocity = 0.0f;
-            data->is_ground = true;
+        enum SDK_CollisionType side = SDK_Entity_CheckCollision(player, collider);
 
+        switch(side){
+
+            case(SDK_COLLISION_LEFT): 
+                player_rect->x = collider_rect->x - player_rect->w;
+                data->x_velocity = 0.0f;
+                break;
+
+            case(SDK_COLLISION_RIGHT): 
+                player_rect->x = collider_rect->x + collider_rect->w;
+                data->x_velocity = 0.0f;
+                break;
+
+            case(SDK_COLLISION_UP):
+                player_rect->y = collider_rect->y - player_rect->h;
+                data->y_velocity = 0.0f;
+                data->is_ground = true;
+                break;
+
+            case(SDK_COLLISION_DOWN): 
+                player_rect->y = collider_rect->y + collider_rect->h;
+                data->y_velocity = 0.0f;
+                break;
+
+            default:
+                break;
         }
 
     }
