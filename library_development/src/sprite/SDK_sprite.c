@@ -278,20 +278,43 @@ int SDK_Sprite_UpdateScale(SDK_Sprite *sprite, double new_scale){
 
 
 
-int SDK_Sprite_CheckCollision(SDK_Sprite *sprite_a, SDK_Sprite *sprite_b){
+enum SDK_CollisionType SDK_Sprite_CheckCollision(SDK_Sprite *sprite_a, SDK_Sprite *sprite_b){
 
     if(!sprite_a || !sprite_b)
-        return 0;
+        return SDK_COLLISION_NONE;
 
-    SDL_FRect *a = &sprite_a->render_rect;
-    SDL_FRect *b = &sprite_b->render_rect;
+    SDL_FRect a = sprite_a->render_rect;
+    SDL_FRect b = sprite_b->render_rect;
 
-    if(a->x + a->w < b->x) return 0;
-    if(a->x > b->x + b->w) return 0;
-    if(a->y + a->h < b->y) return 0;
-    if(a->y > b->y + b->h) return 0;
+    if(a.x + a.w < b.x) return SDK_COLLISION_NONE;
+    if(a.x > b.x + b.w) return SDK_COLLISION_NONE;
+    if(a.y + a.h < b.y) return SDK_COLLISION_NONE;
+    if(a.y > b.y + b.h) return SDK_COLLISION_NONE;
 
-    return 1;
+
+    float left_overlap = (a.x + a.w) - b.x;
+    float right_overlap = (b.x + b.w) - a.x;
+    float up_overlap = (a.y + a.h) - b.y;
+    float down_overlap = (b.y + b.h) - a.y;
+
+    float min_overlap = left_overlap;
+    enum SDK_CollisionType side = SDK_COLLISION_LEFT;
+
+    if(right_overlap < min_overlap){
+        min_overlap = right_overlap;
+        side = SDK_COLLISION_RIGHT;
+    }
+    if(up_overlap < min_overlap){
+        min_overlap = up_overlap;
+        side = SDK_COLLISION_UP;
+    }
+    if(down_overlap < min_overlap){
+        min_overlap = down_overlap;
+        side = SDK_COLLISION_DOWN;
+    }
+
+
+    return side;
 }
 
 

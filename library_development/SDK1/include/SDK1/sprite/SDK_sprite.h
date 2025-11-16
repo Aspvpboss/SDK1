@@ -1,8 +1,8 @@
 #pragma once
 
-#include "common_libs.h"
-#include "SDK_display.h"
-#include "SDK_time.h"
+#include "../common_libs.h"
+#include "../SDK_display.h"
+#include "../SDK_time.h"
 
 
 
@@ -11,6 +11,18 @@ enum SDK_SpriteType{
 
     SDK_STATIC_SPRITE,
     SDK_ANIMATED_SPRITE
+
+};
+
+
+
+enum SDK_CollisionType{
+
+    SDK_COLLISION_NONE,
+    SDK_COLLISION_LEFT,
+    SDK_COLLISION_RIGHT,
+    SDK_COLLISION_UP,
+    SDK_COLLISION_DOWN,
 
 };
 
@@ -32,8 +44,6 @@ typedef struct{
     SDL_Texture *texture;
     SDL_FRect render_rect;
     SDL_Point entity_index;
-
-
 
     SDL_FlipMode flip_mode;
     double base_width;
@@ -72,7 +82,7 @@ SDK1_API int SDK_Sprite_SetLoopAnimation(SDK_Sprite *animated_sprite, bool loop_
 
 SDK1_API int SDK_Sprite_UpdateScale(SDK_Sprite *sprite, double new_scale);
 
-SDK1_API int SDK_Sprite_CheckCollision(SDK_Sprite *sprite_a, SDK_Sprite *sprite_b);
+SDK1_API enum SDK_CollisionType SDK_Sprite_CheckCollision(SDK_Sprite *sprite_a, SDK_Sprite *sprite_b);
 
 
 

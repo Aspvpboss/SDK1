@@ -186,20 +186,44 @@ int SDK_Entity_SetLoopAnimation(SDK_Entity *entity, bool loop_animation){
 
 
 
-int SDK_Entity_CheckCollision(SDK_Entity *entity_a, SDK_Entity *entity_b){
+enum SDK_CollisionType SDK_Entity_CheckCollision(SDK_Entity *entity_a, SDK_Entity *entity_b){
+
 
     if(!entity_a || !entity_b)
-        return 0;
+        return SDK_COLLISION_NONE;
 
-    SDL_FRect *a = &entity_a->collision_rect;
-    SDL_FRect *b = &entity_b->collision_rect;
+    SDL_FRect a = entity_a->collision_rect;
+    SDL_FRect b = entity_b->collision_rect;
 
-    if(a->x + a->w < b->x) return 0;
-    if(a->x > b->x + b->w) return 0;
-    if(a->y + a->h < b->y) return 0;
-    if(a->y > b->y + b->h) return 0;
+    if(a.x + a.w < b.x) return SDK_COLLISION_NONE;
+    if(a.x > b.x + b.w) return SDK_COLLISION_NONE;
+    if(a.y + a.h < b.y) return SDK_COLLISION_NONE;
+    if(a.y > b.y + b.h) return SDK_COLLISION_NONE;
 
-    return 1;
+
+    float left_overlap = (a.x + a.w) - b.x;
+    float right_overlap = (b.x + b.w) - a.x;
+    float up_overlap = (a.y + a.h) - b.y;
+    float down_overlap = (b.y + b.h) - a.y;
+
+    float min_overlap = left_overlap;
+    enum SDK_CollisionType side = SDK_COLLISION_LEFT;
+
+    if(right_overlap < min_overlap){
+        min_overlap = right_overlap;
+        side = SDK_COLLISION_RIGHT;
+    }
+    if(up_overlap < min_overlap){
+        min_overlap = up_overlap;
+        side = SDK_COLLISION_UP;
+    }
+    if(down_overlap < min_overlap){
+        min_overlap = down_overlap;
+        side = SDK_COLLISION_DOWN;
+    }
+
+
+    return side;
 }
 
 

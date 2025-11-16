@@ -1,8 +1,8 @@
 #pragma once
 
-#include "common_libs.h"
-#include "SDK_sprite.h"
-#include "SDK_input.h"
+#include "../common_libs.h"
+#include "../sprite/SDK_sprite.h"
+#include "../SDK_input.h"
 
 
 struct SDK_Entity;
@@ -57,7 +57,7 @@ SDK1_API int SDK_Entity_UpdateAnimation(SDK_Entity *entity, SDK_Time *time);
 
 SDK1_API int SDK_Entity_UpdateSpriteRects(SDK_Entity *entity);
 
-SDK1_API int SDK_Entity_CheckCollision(SDK_Entity *entity_a, SDK_Entity *entity_b);
+SDK1_API enum SDK_CollisionType SDK_Entity_CheckCollision(SDK_Entity *entity_a, SDK_Entity *entity_b);
 
 
 SDK1_API void SDK_Destroy_Entity(SDK_Entity *entity);

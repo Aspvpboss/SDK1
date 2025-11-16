@@ -104,7 +104,7 @@ void update_collisions(Entity_Manager *manager, SDK_Time *time, SDK_Display *dis
     SDK_Entity *player = manager->entitys[ENTITY_PLAYER];
     Player_Data *data = (Player_Data*)player->data;    
 
-    
+    data->is_ground = false;    
 
     if(update_window_bounds(player, display)){
 

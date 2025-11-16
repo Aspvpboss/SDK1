@@ -1,8 +1,8 @@
 #pragma once
 
 #include "SDK_sprite.h"
-#include "SDK_entity.h"
-#include "common_libs.h"
+#include "../entity/SDK_entity.h"
+#include "../common_libs.h"
 
 struct SDK_Render_Layer{
 

@@ -10,7 +10,7 @@ SDK_Entity* create_block(SDK_Display *display, float x, float y, uint8_t block_w
 #define MAX_ENTITYS 32
 #define MAX_COLLIDERS 16
 
-#define ENTITY_SCALE 6.0f
+#define ENTITY_SCALE 2.0f
 #define GROUND_TEX "./assets/Overworld_Tileset.png"
 #define PLAYER_TEX "./assets/char_spritesheet.png"
 
