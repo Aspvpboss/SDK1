@@ -40,10 +40,11 @@ void update_player(SDK_Entity *player, SDK_Time *time){
     Player_Data *data = (Player_Data*)player->data;
     double dt = time->dt;
     
-    data->y_acceleration = data->gravity;
 
-    data->x_velocity += data->x_acceleration * dt;
-    data->y_velocity += data->y_acceleration * dt;
+    data->x_velocity += data->x_acceleration;
+
+    if(!data->is_ground)
+        data->y_velocity += data->gravity * dt;
 
     if(fabs(data->x_velocity) > MAX_X_VELOCITY)
         data->x_velocity = MAX_X_VELOCITY * (data->x_velocity > 0 ? 1 : -1);
@@ -53,8 +54,8 @@ void update_player(SDK_Entity *player, SDK_Time *time){
 
 
 
-    player->collision_rect.x += ((data->x_velocity * data->x_speed) * dt);
-    player->collision_rect.y += ((data->y_velocity * data->y_speed) * dt);
+    player->collision_rect.x += (data->x_velocity * (data->x_speed * dt));
+    player->collision_rect.y += (data->y_velocity * (data->y_speed * dt));
 
     data->x_velocity *= data->x_friction;
     

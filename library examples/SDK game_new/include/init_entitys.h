@@ -25,7 +25,6 @@ typedef struct{
     double x_speed;
     double y_speed;
     double x_acceleration; 
-    double y_acceleration;
     double jump_stength; 
     bool is_ground;
 
