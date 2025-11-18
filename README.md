@@ -1,1 +1,1 @@
-This is a simple framework for SDL. It abstracts and organizes various functions with SDL such as user input, dealing with time and fps, and displaying text.
+This is a simple framework for SDL. It abstracts and organizes various functions with SDL such as user input, dealing with time and fps, displaying text, sprites, and entitys.
