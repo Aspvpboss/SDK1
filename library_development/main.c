@@ -4,6 +4,7 @@
 #define TEXTURE_PATH_COOL "./assets/char_spritesheet.png"
 
 
+
 void update_text(SDK_TextDisplay *text, double fps){
 
     static char fps_text[40];
@@ -97,7 +98,7 @@ int main(){
 
     t_free(vorp);
 
-    if(!vorp){
+    if(vorp){
         printf("burger\n");
     } else{
         printf("hotdog\n");

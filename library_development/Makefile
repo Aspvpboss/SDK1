@@ -16,6 +16,7 @@ OUTPUT = out.exe
 DLL_FLAGS = -fPIC -shared  -Wl,--out-implib,libSDK1.a
 DLL_OUTPUT = libSDK1.dll
 DEBUG_DLL_OUTPUT = libSDK1_debug.dll
+DEBUG_DLL_FLAGS = -fPIC -shared  -Wl,--out-implib,libSDK1_debug.a
 
 
 default: debug_build run
@@ -24,7 +25,7 @@ opt: opt_build run
 
 
 build_lib: opt_build_lib
-	@${GCC} ${OPT} ${SRC_LIB} -o ${DEBUG_DLL_OUTPUT} -DTRACK_ALLOCATIONS -DDLL_EXPORTS ${DLL_FLAGS} ${INCLUDE} ${FLAGS} ${LIB} ${LINK}
+	@${GCC} ${SRC_LIB} -o ${DEBUG_DLL_OUTPUT} -DTRACK_ALLOCATIONS -DDLL_EXPORTS ${DEBUG_DLL_FLAGS} ${INCLUDE} ${FLAGS} ${LIB} ${LINK}
 
 opt_build_lib:
 	@${GCC} ${OPT} ${SRC_LIB} -o ${DLL_OUTPUT} -DDLL_EXPORTS ${DLL_FLAGS} ${INCLUDE} ${FLAGS} ${LIB} ${LINK}
