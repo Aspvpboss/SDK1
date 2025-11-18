@@ -2,7 +2,7 @@
 
 static MemTrack_Context ctx;
 
-int SDK_Init(){
+int SDK_Init(bool memory_failure_abort, bool print_memtrack_info, bool auto_null_pointers){
 
     if(!SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO)){
         return 1;
@@ -12,10 +12,12 @@ int SDK_Init(){
         return 1;
     }
 
+
     Set_MemTrack_Context(&ctx);
 
-    ctx.config.memory_failure_abort = true;
-    ctx.config.print_error_info = true;
+    ctx.config.memory_failure_abort = memory_failure_abort;
+    ctx.config.print_error_info = print_memtrack_info;
+    ctx.config.auto_null_pointers = true;
 
     return 0;
 }

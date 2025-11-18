@@ -63,6 +63,8 @@ SDK_TextDisplay* SDK_CreateText(SDK_Display *display, const char *font_path, flo
 
 void SDK_DestroyText(SDK_TextDisplay *text){
 
+    if(!text) return;
+
     TTF_DestroyText(text->text);
     TTF_CloseFont(text->font);
     text->engine = NULL;

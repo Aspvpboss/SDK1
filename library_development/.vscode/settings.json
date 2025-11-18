@@ -1,5 +1,6 @@
 {
     "files.associations": {
-        "sdk_sprite.h": "c"
+        "sdk_sprite.h": "c",
+        "sdk_sprite_manager.h": "c"
     }
 }

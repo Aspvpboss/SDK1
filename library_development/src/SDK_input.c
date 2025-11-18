@@ -22,6 +22,8 @@ SDK_Input* SDK_CreateInput(){
 
 void SDK_DestroyInput(SDK_Input *input){
 
+    if(!input) return;
+
     t_free(input->previous_keyboard);
     input->previous_keyboard = NULL;
     t_free(input);

@@ -23,6 +23,8 @@ SDK_Time* SDK_CreateTime(int fps_limit){
 
 void SDK_DestroyTime(SDK_Time *time){
 
+    if(!time) return;
+
     t_free(time);
 
 }
@@ -95,7 +97,7 @@ void SDK_LimitFPS(SDK_Time *time){
 
 
     double remaining = target_frame_time - elapsed;
-    if (remaining < 0){
+    if(remaining < 0){
         last_counter = SDL_GetPerformanceCounter();
         return;
     }
