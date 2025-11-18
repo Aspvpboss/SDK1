@@ -18,7 +18,7 @@
 #include <SDL3/SDL.h>
 #include <SDL3_image/SDL_image.h>
 #include <SDL3_ttf/SDL_ttf.h>
-#include <MemTrack.h>
+#include "../MemTrack/MemTrack.h"
 
 
 #include <stdio.h>

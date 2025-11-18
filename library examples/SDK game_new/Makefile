@@ -3,15 +3,21 @@ CC = gcc
 OUT = game.exe
 SRC = src/*.c 
 INCLUDE = -IC:\\msys64\\mingw64\\include -ISDK1/include -Iinclude
-LINK = -lSDK1 -lSDL3 -lSDL3_image -lSDL3_ttf -lMemTrack
+LINK =  -lSDL3 -lSDL3_image -lSDL3_ttf -lMemTrack
 LIBRARY = -LC:\\msys64\\mingw64\\lib -LSDK1/lib
 ERROR = -Wall -Wpedantic -Werror 
 
-default: build run
+default: debug_build run
 
-build:
+opt: opt_build run
 
-	@${CC} -o ${OUT} ${SRC} ${INCLUDE} ${LINK} ${LIBRARY} ${ERROR} -DTRACK_ALLOCATIONS
+debug_build:
+
+	@${CC} -o ${OUT} ${SRC} ${INCLUDE} -lSDK1_debug ${LINK} ${LIBRARY} ${ERROR} -DTRACK_ALLOCATIONS
+
+opt_build:
+
+	@${CC} -o ${OUT} ${SRC} ${INCLUDE} -lSDK1 ${LINK} ${LIBRARY} ${ERROR} -O3 -march=native
 
 run:
 

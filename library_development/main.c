@@ -96,7 +96,7 @@ int main(){
 
     vorp[1] = 'a';
 
-    t_free(vorp);
+    // t_free(vorp);
 
     if(vorp){
         printf("burger\n");

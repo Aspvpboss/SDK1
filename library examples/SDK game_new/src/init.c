@@ -81,7 +81,7 @@ int init_textdisplays(TextDisplay_Manager *manager, SDK_Display *display){
 
 SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[]){
 
-    SDK_Init();
+    SDK_Init(true, true, false);
 
     (*appstate) = t_malloc(sizeof(Appstate));
     Appstate *state = (Appstate*)(*appstate);
