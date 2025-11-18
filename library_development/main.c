@@ -87,7 +87,21 @@ SDK_Entity* init_entity_one(SDK_Display *display){
 
 int main(){
 
-    SDK_Init();
+    if(SDK_Init(true, true, true)){
+        return 1;
+    }
+
+    char *vorp = t_malloc(4);
+
+    vorp[1] = 'a';
+
+    t_free(vorp);
+
+    if(!vorp){
+        printf("burger\n");
+    } else{
+        printf("hotdog\n");
+    }
 
 
     SDK_Display *display = SDK_CreateDisplay("SDK window", 800, 800, SDL_WINDOW_MAXIMIZED);

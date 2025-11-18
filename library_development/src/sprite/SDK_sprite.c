@@ -370,8 +370,7 @@ int SDK_Sprite_SetLoopAnimation(SDK_Sprite *animated_sprite, bool loop_animation
 
 void SDK_DestroySprite(SDK_Sprite *sprite){
 
-    if(!sprite)
-        return;
+    if(!sprite) return;
 
     if(sprite->sprite_type == SDK_ANIMATED_SPRITE){
 

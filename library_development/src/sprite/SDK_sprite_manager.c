@@ -95,6 +95,8 @@ int SDK_Render_SpriteManager(SDK_Display *display, SDK_Sprite_Manager *manager){
 
 void SDK_Destroy_SpriteManager(SDK_Sprite_Manager *manager){
 
+    if(!manager) return;
+
     for(int i = 0; i < manager->max_z_depth; i++){
 
         t_free(manager->layers[i].sprites);

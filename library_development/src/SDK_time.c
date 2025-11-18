@@ -23,6 +23,8 @@ SDK_Time* SDK_CreateTime(int fps_limit){
 
 void SDK_DestroyTime(SDK_Time *time){
 
+    if(!time) return;
+
     t_free(time);
 
 }

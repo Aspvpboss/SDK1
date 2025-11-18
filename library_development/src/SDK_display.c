@@ -37,8 +37,7 @@ SDK_Display* SDK_CreateDisplay(const char* window_title, int window_width, int w
 
 void SDK_DestroyDisplay(SDK_Display *display){
 
-    if(!display)
-        return;
+    if(!display) return;
 
     SDL_DestroyWindow(display->window);
     display->window = NULL;

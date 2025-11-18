@@ -15,17 +15,25 @@ OUTPUT = out.exe
 
 DLL_FLAGS = -fPIC -shared  -Wl,--out-implib,libSDK1.a
 DLL_OUTPUT = libSDK1.dll
-
-MEMTRACK_SETTING = -DTRACK_ALLOCATIONS
-
-default: build run
+DEBUG_DLL_OUTPUT = libSDK1_debug.dll
 
 
-build_lib:
-	@${GCC} ${OPT} ${SRC_LIB} -o ${DLL_OUTPUT} ${MEMTRACK_SETTING} -DDLL_EXPORTS ${DLL_FLAGS} ${INCLUDE} ${FLAGS} ${LIB} ${LINK}
+default: debug_build run
 
-build: build_lib
-	@${GCC} main.c -o ${OUTPUT} -Iinclude ${INCLUDE} ${MEMTRACK_SETTING} -L. -lSDK1 ${LINK} ${LIB} ${FLAGS}  
+opt: opt_build run
+
+
+build_lib: opt_build_lib
+	@${GCC} ${OPT} ${SRC_LIB} -o ${DEBUG_DLL_OUTPUT} -DTRACK_ALLOCATIONS -DDLL_EXPORTS ${DLL_FLAGS} ${INCLUDE} ${FLAGS} ${LIB} ${LINK}
+
+opt_build_lib:
+	@${GCC} ${OPT} ${SRC_LIB} -o ${DLL_OUTPUT} -DDLL_EXPORTS ${DLL_FLAGS} ${INCLUDE} ${FLAGS} ${LIB} ${LINK}
+
+debug_build: build_lib
+	@${GCC} main.c -o ${OUTPUT} -Iinclude ${INCLUDE} -DTRACK_ALLOCATIONS -L. -lSDK1_debug ${LINK} ${LIB} ${FLAGS}  
+
+opt_build: build_lib
+	@${GCC} main.c -o ${OUTPUT} -Iinclude ${INCLUDE}  -L. -lSDK1 ${LINK} ${LIB} ${FLAGS}  
 
 run:
 	@${OUTPUT}

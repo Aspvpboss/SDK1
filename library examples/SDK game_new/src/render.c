@@ -17,8 +17,6 @@ int render_entitys(SDK_Display *display, Entity_Manager *e_manager, SDK_Sprite_M
 
     SDK_Render_SpriteManager(display, s_manager);
 
-    
-
     return 0;
 }
 

@@ -231,6 +231,8 @@ enum SDK_CollisionType SDK_Entity_CheckCollision(SDK_Entity *entity_a, SDK_Entit
 
 void SDK_Destroy_Entity(SDK_Entity *entity){
 
+    if(!entity) return;
+
     for(int i = 0; i < entity->amount_sprites; i++){
         SDK_DestroySprite(entity->sprites[i]);
         entity->sprites[i] = NULL;
