@@ -32,7 +32,7 @@ typedef struct{
 SDK1_API SDK_Input* SDK_CreateInput();
 
 /*
-    This functions frees a SDK_Input
+    Frees a SDK_Input
 
     Will return early if SDK_Input is NULL
 */

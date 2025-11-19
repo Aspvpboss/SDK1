@@ -30,7 +30,7 @@ SDK1_API SDK_Text* SDK_CreateText(SDK_Display *display, const char *font_path, f
 
 
 /*
-    This functions frees a SDK_Text
+    Frees a SDK_Text
 
     Will return early if SDK_Text is NULL
 */
@@ -104,4 +104,4 @@ SDK1_API int SDK_Text_UpdateColor(SDK_Text *text, SDL_Color color);
     returns 0 for success, 1 for failure
     Use SDL_GetError() for more error details
 */
-SDK1_API int SDK_Text_Render(SDK_Text *text);
+SDK1_API int SDK_Render_Text(SDK_Text *text);

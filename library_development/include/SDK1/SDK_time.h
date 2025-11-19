@@ -32,7 +32,7 @@ typedef struct{
 SDK1_API SDK_Time* SDK_CreateTime(int fps_limit);
 
 /*
-    This functions frees a SDK_Time
+    Frees a SDK_Time
 
     Will return early if SDK_Time is NULL
 */

@@ -29,7 +29,7 @@ typedef struct{
 SDK1_API SDK_Display* SDK_CreateDisplay(const char* window_title, int window_width, int window_height, SDL_WindowFlags window_flag);
 
 /*
-    This function frees a SDK_Display 
+    Frees a SDK_Display 
 
     Will return early if SDK_Display is NULL
 */
@@ -41,7 +41,7 @@ SDK1_API void SDK_DestroyDisplay(SDK_Display *display);
     returns 0 for success, returns 1 for failure
     call SDL_GetError() for more info    
 */
-SDK1_API inline int SDK_Display_Present(SDK_Display *display){
+inline int SDK_Display_Present(SDK_Display *display){
     return !SDL_RenderPresent(display->renderer);
 }
 
@@ -51,7 +51,7 @@ SDK1_API inline int SDK_Display_Present(SDK_Display *display){
     returns 0 for success, returns 1 for failure
     call SDL_GetError() for more info    
 */
-SDK1_API inline int SDK_Display_Clear(SDK_Display *display){
+inline int SDK_Display_Clear(SDK_Display *display){
     return !SDL_RenderClear(display->renderer);
 }
 

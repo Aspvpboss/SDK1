@@ -86,19 +86,37 @@ SDK1_API SDK_Sprite* SDK_Create_AnimatedSprite(SDK_Display *display, const char 
 
 
 /*
-    This function frees a SDK_Sprite (whether animated or static)
+    Frees a SDK_Sprite (whether animated or static)
 
     Will return early if SDK_Sprite is NULL
 */
 SDK1_API void SDK_DestroySprite(SDK_Sprite *sprite);
 
+/*
+    Renders a sprite onto the display
+
+    returns 0 for success, returns 1 for failure
+    call SDL_GetError() for more info
+*/
 SDK1_API int SDK_RenderSprite(SDK_Display *display, SDK_Sprite *sprite);
 
+/*
+    Adds an animation onto an animated sprite
+
+    returns 0 for success, returns 1 for failure
+    call SDL_GetError() for more info
+*/
 SDK1_API int SDK_Sprite_AddAnimation(
     SDK_Sprite *animated_sprite, SDL_FRect src_rect, 
     uint8_t amount_frames, double fps, double offset_width, 
     bool loop_animation, bool play_animation);
 
+/*
+    Updates timing and data needed for proper animation
+
+    returns 0 for success, returns 1 for failure
+    call SDL_GetError() for more info
+*/
 SDK1_API int SDK_Sprite_UpdateAnimation(SDK_Sprite *animated_sprite, SDK_Time *time);
 
 SDK1_API int SDK_Sprite_SelectAnimation(SDK_Sprite *animated_sprite, uint8_t animation_select);

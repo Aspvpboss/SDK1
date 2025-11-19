@@ -55,10 +55,6 @@ void SDK_DestroyDisplay(SDK_Display *display){
 
 
 
-
-
-
-
 int SDK_DisplaySetWindowed(SDK_Display *display, int width, int height){
 
     if(!SDL_SetWindowFullscreen(display->window, 0)){
