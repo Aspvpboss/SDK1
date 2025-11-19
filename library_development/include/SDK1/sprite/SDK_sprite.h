@@ -28,7 +28,10 @@ enum SDK_CollisionType{
 
 
 
-
+/*
+    contains data for static / animated sprites
+    enum SDK_SpriteType sprite_type determines whether it is animated or static
+*/
 typedef struct{
 
     enum SDK_SpriteType sprite_type;
@@ -58,11 +61,35 @@ typedef struct{
 
 
 
+/*
+    Creates static SDK_Sprite with the specified attributes
 
+    SDK_Sprite needs to be freed by SDK_DestroySprite()
+
+    returns 0 for success, returns 1 for failure
+    call SDL_GetError() for more info
+*/
 SDK1_API SDK_Sprite* SDK_Create_StaticSprite(SDK_Display *display, const char *texture_path, SDL_FPoint sprite_pos, SDL_FRect src_rect);
 
+
+
+/*
+    Creates animated SDK_Sprite with the specified attributes
+    this doesn't add animations to the sprite yet, use SDK_Sprite_AddAnimation() to do so
+
+    SDK_Sprite needs to be freed by SDK_DestroySprite()
+
+    returns 0 for success, returns 1 for failure
+    call SDL_GetError() for more info
+*/
 SDK1_API SDK_Sprite* SDK_Create_AnimatedSprite(SDK_Display *display, const char *texture_path, SDL_FPoint sprite_pos, SDL_FRect src_rect);
 
+
+/*
+    This function frees a SDK_Sprite (whether animated or static)
+
+    Will return early if SDK_Sprite is NULL
+*/
 SDK1_API void SDK_DestroySprite(SDK_Sprite *sprite);
 
 SDK1_API int SDK_RenderSprite(SDK_Display *display, SDK_Sprite *sprite);

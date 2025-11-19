@@ -35,6 +35,7 @@ SDK_Display* SDK_CreateDisplay(const char* window_title, int window_width, int w
 }
 
 
+
 void SDK_DestroyDisplay(SDK_Display *display){
 
     if(!display) return;
@@ -53,6 +54,11 @@ void SDK_DestroyDisplay(SDK_Display *display){
 }
 
 
+
+
+
+
+
 int SDK_DisplaySetWindowed(SDK_Display *display, int width, int height){
 
     if(!SDL_SetWindowFullscreen(display->window, 0)){
@@ -68,6 +74,7 @@ int SDK_DisplaySetWindowed(SDK_Display *display, int width, int height){
 
     return 0;
 }
+
 
 
 int SDK_DisplaySetFullscreen(SDK_Display *display){

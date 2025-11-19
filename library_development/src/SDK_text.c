@@ -1,10 +1,23 @@
-#include "SDK_text.h"
+#include "SDK_Text.h"
 
 
+typedef struct{
 
-SDK_TextDisplay* SDK_CreateText(SDK_Display *display, const char *font_path, float font_size, int x, int y, SDL_Color color){
+    TTF_Font *font;
+    SDL_Color color;
+    TTF_Text *text;
+    TTF_TextEngine *engine;
+    SDL_FRect rect;
+    int wrap_width;
+    float font_size;
+
+} Text_Data;
+
+typedef struct SDK_Text SDK_Text;
+
+struct SDK_Text* SDK_CreateText(SDK_Display *display, const char *font_path, float font_size, int x, int y, SDL_Color color){
     
-    SDK_TextDisplay *text = t_malloc(sizeof(SDK_TextDisplay));
+    struct SDK_Text *text = t_malloc(sizeof(struct SDK_Text));
 
     text->engine = display->text_engine;
     text->color = color;
@@ -61,7 +74,7 @@ SDK_TextDisplay* SDK_CreateText(SDK_Display *display, const char *font_path, flo
 }
 
 
-void SDK_DestroyText(SDK_TextDisplay *text){
+void SDK_DestroyText(struct SDK_Text *text){
 
     if(!text) return;
 
@@ -73,7 +86,7 @@ void SDK_DestroyText(SDK_TextDisplay *text){
 }
 
 
-int SDK_Text_UpdateFont(SDK_TextDisplay *text, const char *font_path, float font_size){
+int struct SDK_Text_UpdateFont(struct SDK_Text *text, const char *font_path, float font_size){
     
     if(font_path == NULL){
         printf("font_path can't be null\n");
@@ -100,7 +113,7 @@ int SDK_Text_UpdateFont(SDK_TextDisplay *text, const char *font_path, float font
 }
 
 
-int SDK_Text_UpdateFontSize(SDK_TextDisplay *text, float font_size){
+int struct SDK_Text_UpdateFontSize(struct SDK_Text *text, float font_size){
     
     if(!TTF_SetFontSize(text->font, font_size))
         return 1;
@@ -111,7 +124,7 @@ int SDK_Text_UpdateFontSize(SDK_TextDisplay *text, float font_size){
 }
 
 
-int SDK_Text_UpdateString(SDK_TextDisplay *text, const char *string){
+int struct SDK_Text_UpdateString(struct SDK_Text *text, const char *string){
 
     if(!TTF_SetTextString(text->text, string, 0)){
         return 1;
@@ -121,7 +134,7 @@ int SDK_Text_UpdateString(SDK_TextDisplay *text, const char *string){
 }
 
 
-int SDK_Text_UpdatePosition(SDK_TextDisplay *text, int x, int y){
+int struct SDK_Text_UpdatePosition(struct SDK_Text *text, int x, int y){
 
     if(!TTF_SetTextPosition(text->text, x, y)){
         return 1;
@@ -134,7 +147,7 @@ int SDK_Text_UpdatePosition(SDK_TextDisplay *text, int x, int y){
 }
 
 
-int SDK_Text_UpdateSize(SDK_TextDisplay *text){
+int struct SDK_Text_UpdateSize(struct SDK_Text *text){
 
     int w, h;
 
@@ -149,7 +162,7 @@ int SDK_Text_UpdateSize(SDK_TextDisplay *text){
 }
 
 
-int SDK_Text_UpdateWrapWidth(SDK_TextDisplay *text, int wrap_width){
+int struct SDK_Text_UpdateWrapWidth(struct SDK_Text *text, int wrap_width){
 
     if(!TTF_SetTextWrapWidth(text->text, wrap_width)){
         return 1;
@@ -161,7 +174,7 @@ int SDK_Text_UpdateWrapWidth(SDK_TextDisplay *text, int wrap_width){
 }
 
 
-int SDK_Text_UpdateColor(SDK_TextDisplay *text, SDL_Color color){
+int struct SDK_Text_UpdateColor(struct SDK_Text *text, SDL_Color color){
 
     if(!TTF_SetTextColor(text->text, color.r, color.g, color.b, color.a)){
         return 1;
@@ -173,7 +186,7 @@ int SDK_Text_UpdateColor(SDK_TextDisplay *text, SDL_Color color){
 }
 
 
-int SDK_Text_Render(SDK_TextDisplay *text){
+int struct SDK_Text_Render(struct SDK_Text *text){
 
     if(!TTF_DrawRendererText(text->text, text->rect.x, text->rect.y))
         return 1;

@@ -32,9 +32,9 @@ typedef struct{
 SDK1_API SDK_Time* SDK_CreateTime(int fps_limit);
 
 /*
-    Destroys an SDK_Time struct
+    This functions frees a SDK_Time
 
-    make sure to set pointer to NULL after calling
+    Will return early if SDK_Time is NULL
 */
 SDK1_API void SDK_DestroyTime(SDK_Time *time);
 
