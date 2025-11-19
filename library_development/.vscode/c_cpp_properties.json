@@ -5,7 +5,6 @@
             "includePath": [
                 "${default}",
                 "${workspaceFolder}/include",
-                "${workspaceFolder}/SDK1/include/SDK1",
                 "${workspaceFolder}/include/SDK1",
                 "${workspaceFolder}/include/SDK1/sprite",
                 "${workspaceFolder}/include/SDK1/entity"
