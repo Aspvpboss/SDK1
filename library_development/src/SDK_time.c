@@ -36,9 +36,12 @@ SDK_Time* SDK_CreateTime(int fps_limit){
     data->previous_counter = 0;
     data->counter_frequency = 0;
 
+    memset(data->dt_buffer, 0, sizeof(data->dt_buffer));
+
     time->fps_limit = fps_limit;
     time->dt = 0;
     time->fps = 0;
+    time->fps_updated = false;
 
 
 
@@ -56,9 +59,9 @@ void SDK_DestroyTime(SDK_Time *time){
 }
 
 
-void SDK_CalculateDT(SDK_Time *time){
+int SDK_CalculateDT(SDK_Time *time){
 
-    if(!time) return;
+    if(!time) return 1;
 
     Time_Data *data = (Time_Data*)time->data;
 
@@ -66,7 +69,7 @@ void SDK_CalculateDT(SDK_Time *time){
         data->counter_frequency = SDL_GetPerformanceFrequency();
         data->previous_counter = SDL_GetPerformanceCounter();
         time->dt = 0.0f;
-        return;
+        return 0;
     }
     
 
@@ -74,12 +77,13 @@ void SDK_CalculateDT(SDK_Time *time){
     time->dt = (double)(current - data->previous_counter) / (double)data->counter_frequency;
     data->previous_counter = current;
 
+    return 0;
 }
 
 
-void SDK_CalculateFPS(SDK_Time *time){
+int SDK_CalculateFPS(SDK_Time *time){
 
-    if(!time) return;
+    if(!time) return 1;
     Time_Data *data = (Time_Data*)time->data;
 
     if(time->fps_updated == 1){
@@ -103,54 +107,53 @@ void SDK_CalculateFPS(SDK_Time *time){
         data->update_count = 0;
     }
         
+    return 0;
 }
 
 
-void SDK_LimitFPS(SDK_Time *time){
+int SDK_LimitFPS(SDK_Time *time){
 
-    if(!time) return;
+    if(!time) return 1;
     Time_Data *data = (Time_Data*)time->data;
 
-    if(data->counter_frequency == 0){
-        data->counter_frequency = SDL_GetPerformanceFrequency();
-        data->previous_counter = SDL_GetPerformanceCounter();
-        time->dt = 0.0f;
-        return;
-    }
 
-    double target_delta_time = (1.0 / time->fps_limit);
-    double delta_time = time->dt;
+
     uint64_t counter_frequency = data->counter_frequency;
-    uint64_t previous_counter = data->previous_counter;
     uint64_t current_counter = SDL_GetPerformanceCounter();
-    
+    uint64_t previous_counter = data->previous_counter;
+    double delta_time = (double)(current_counter - previous_counter) / (double)counter_frequency;
+    double target_delta_time = (1.0 / time->fps_limit); 
     
 
 
     double remaining = target_delta_time - delta_time;
     if(remaining < 0){
-        data->previous_counter = SDL_GetPerformanceCounter();
-        return;
+        return 0;
     }
 
 
     if(remaining > 0.002){
-        SDL_Delay((Uint32)((remaining - 0.001) * 1000.0));
+        Uint32 ms = (Uint32)((remaining - 0.001) * 1000.0);
+        if (ms > 0) SDL_Delay(ms);
     }
 
     do{
         current_counter = SDL_GetPerformanceCounter();
         delta_time = (double)(current_counter - previous_counter) / (double)counter_frequency;
-    } while (delta_time < target_delta_time);
+    } while(delta_time < target_delta_time);
 
+    data->previous_counter = current_counter;
 
+    time->dt = delta_time;
 
-    data->previous_counter = SDL_GetPerformanceCounter();
+    return 0;
 }
 
 
-void SDK_TimeFunctions(SDK_Time *time){
-    SDK_CalculateDT(time);
-    SDK_LimitFPS(time);
-    SDK_CalculateFPS(time);
+int SDK_TimeFunctions(SDK_Time *time){
+    if(SDK_CalculateDT(time)) return 1;
+    if(SDK_LimitFPS(time)) return 1;
+    if(SDK_CalculateFPS(time)) return 1;
+
+    return 0;
 }

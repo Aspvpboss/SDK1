@@ -186,10 +186,12 @@ int main(){
 
 
         SDL_RenderPresent(display->renderer);
+
  
 
         SDK_TimeFunctions(time);
         SDK_Update_Previous_Inputs(input);
+
 
     }
 

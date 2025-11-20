@@ -56,7 +56,7 @@ SDK1_API void SDK_DestroyTime(SDK_Time *time);
     returns 0 for success, returns 1 for failure
     call SDL_GetError() for more info
 */
-SDK1_API void SDK_TimeFunctions(SDK_Time *time);
+SDK1_API int SDK_TimeFunctions(SDK_Time *time);
 
 /*
     Updates 'dt' within SDK_Time with current delta time
@@ -64,7 +64,7 @@ SDK1_API void SDK_TimeFunctions(SDK_Time *time);
     returns 0 for success, returns 1 for failure
     call SDL_GetError() for more info
 */
-SDK1_API void SDK_CalculateDT(SDK_Time *time);
+SDK1_API int SDK_CalculateDT(SDK_Time *time);
 
 /*
     Updates 'fps' within SDK_Time with current fps
@@ -76,7 +76,7 @@ SDK1_API void SDK_CalculateDT(SDK_Time *time);
     returns 0 for success, returns 1 for failure
     call SDL_GetError() for more info
 */
-SDK1_API void SDK_CalculateFPS(SDK_Time *time);
+SDK1_API int SDK_CalculateFPS(SDK_Time *time);
 
 /*
     This function limits the fps of the application. 
@@ -86,5 +86,5 @@ SDK1_API void SDK_CalculateFPS(SDK_Time *time);
     returns 0 for success, returns 1 for failure
     call SDL_GetError() for more info
 */
-SDK1_API void SDK_LimitFPS(SDK_Time *time);
+SDK1_API int SDK_LimitFPS(SDK_Time *time);
 
