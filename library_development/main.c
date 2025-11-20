@@ -5,7 +5,7 @@
 
 
 
-void update_text(SDK_TextDisplay *text, double fps){
+void update_text(SDK_Text *text, double fps){
 
     static char fps_text[40];
 
@@ -40,21 +40,6 @@ void update_sprite_info(SDK_Sprite *sprite, SDK_Sprite *sprite_two, SDK_Input *i
 }
 
 
-void render(SDK_Display *display, SDK_TextDisplay *text, SDK_Sprite *sprite, SDK_Sprite *sprite_two){
-
-    SDL_RenderClear(display->renderer);
-    
-    if(SDK_Sprite_CheckCollision(sprite, sprite_two)){
-        SDK_RenderSprite(display, sprite_two);
-    }
-        
-    SDK_RenderSprite(display, sprite);
-    SDK_Text_Render(text);
-
-    SDL_RenderPresent(display->renderer);
-
-}
-
 
 
 SDK_Entity* init_entity_one(SDK_Display *display){
@@ -88,27 +73,15 @@ SDK_Entity* init_entity_one(SDK_Display *display){
 
 int main(){
 
-    if(SDK_Init(true, true, true)){
+    if(SDK_Init(NULL, NULL, true, true, true)){
         return 1;
-    }
-
-    char *vorp = t_malloc(4);
-
-    vorp[1] = 'a';
-
-    // t_free(vorp);
-
-    if(vorp){
-        printf("burger\n");
-    } else{
-        printf("hotdog\n");
     }
 
 
     SDK_Display *display = SDK_CreateDisplay("SDK window", 800, 800, SDL_WINDOW_MAXIMIZED);
     SDK_Time *time = SDK_CreateTime(144);
     SDK_Input *input = SDK_CreateInput();
-    SDK_TextDisplay *text = SDK_CreateText(display, NULL, 20, 5, 5, (SDL_Color){255, 255, 255, 255});
+    SDK_Text *text = SDK_CreateText(display, NULL, 20, 5, 5, (SDL_Color){255, 255, 255, 255});
     SDK_Sprite_Manager *manager = SDK_Create_SpriteManager(16, 16);
 
 
@@ -208,7 +181,7 @@ int main(){
 
 
         SDK_Render_SpriteManager(display, manager);
-        SDK_Text_Render(text);
+        SDK_Render_Text(text);
 
 
 

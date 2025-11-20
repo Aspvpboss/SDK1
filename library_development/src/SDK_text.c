@@ -96,6 +96,7 @@ void SDK_DestroyText(SDK_Text *text){
     TTF_DestroyText(data->text);
     TTF_CloseFont(data->font);
     data->engine = NULL;
+    t_free(data);
     t_free(text);
 
 }

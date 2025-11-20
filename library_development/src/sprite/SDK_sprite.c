@@ -219,7 +219,7 @@ int SDK_Sprite_UpdateAnimation(SDK_Sprite *animated_sprite, SDK_Time *time){
 
 
 
-int SDK_RenderSprite(SDK_Display *display, SDK_Sprite *sprite){
+int SDK_Render_Sprite(SDK_Display *display, SDK_Sprite *sprite){
 
     SDL_FRect *src_rect;
 
@@ -278,13 +278,13 @@ int SDK_Sprite_UpdateScale(SDK_Sprite *sprite, double new_scale){
 
 
 
-enum SDK_CollisionType SDK_Sprite_CheckCollision(SDK_Sprite *sprite_a, SDK_Sprite *sprite_b){
+enum SDK_CollisionType SDK_Sprite_CheckCollision(SDK_Sprite *sprite_src, SDK_Sprite *sprite_dest){
 
-    if(!sprite_a || !sprite_b)
+    if(!sprite_src || !sprite_dest)
         return SDK_COLLISION_NONE;
 
-    SDL_FRect a = sprite_a->render_rect;
-    SDL_FRect b = sprite_b->render_rect;
+    SDL_FRect a = sprite_src->render_rect;
+    SDL_FRect b = sprite_dest->render_rect;
 
     if(a.x + a.w < b.x) return SDK_COLLISION_NONE;
     if(a.x > b.x + b.w) return SDK_COLLISION_NONE;

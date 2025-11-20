@@ -35,7 +35,7 @@ void SDK_CalculateDT(SDK_Time *time){
     static uint64_t previous = 0;
     static uint64_t frequency = 0;
 
-    if (frequency == 0) {
+    if(frequency == 0){
         frequency = SDL_GetPerformanceFrequency();
         previous = SDL_GetPerformanceCounter();
         time->dt = 0.0f;
