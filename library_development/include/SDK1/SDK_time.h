@@ -5,17 +5,18 @@
 /*
 
     SDK_Time holds variable that are used for time calculations
-    You use dt and fps for functions
 
-    fps_updated becomes true whenever the fps gets updated
+    You use dt and fps for functions
+    fps_updated becomes true whenever the new fps gets calculated
     becomes false after the update
 
 */
 typedef struct{
 
     double dt, fps;
-    int fps_limit, prev_fps_limit;
+    int fps_limit;
     bool fps_updated;
+    void *data;
 
 } SDK_Time;
 

@@ -4,18 +4,42 @@
 #define MAX_SAMPLES 100
 
 
+typedef struct{
+
+    uint64_t previous_counter;
+    uint64_t counter_frequency;
+    uint64_t update_count;
+    uint16_t frame;
+    uint16_t collected_frames;
+    double total;
+    double dt_buffer[MAX_SAMPLES];
+
+} Time_Data;
+
+
 SDK_Time* SDK_CreateTime(int fps_limit){
 
-    SDK_Time *time = t_malloc(sizeof(SDK_Time));
-    time->fps_limit = fps_limit;
-    time->prev_fps_limit = fps_limit;
-    time->dt = 0;
-    time->fps = 0;
+    if(fps_limit <= 0) return NULL;
 
-    if(fps_limit <= 0){
+    SDK_Time *time = t_malloc(sizeof(SDK_Time));
+    time->data = t_malloc(sizeof(Time_Data));
+    if(!time->data){
         t_free(time);
         return NULL;
     }
+    Time_Data *data = (Time_Data*)time->data;
+
+    data->collected_frames = 0;
+    data->frame = 0;
+    data->total = 0.0f;
+    data->update_count = 0;
+    data->previous_counter = 0;
+    data->counter_frequency = 0;
+
+    time->fps_limit = fps_limit;
+    time->dt = 0;
+    time->fps = 0;
+
 
 
     return time;
@@ -25,6 +49,8 @@ void SDK_DestroyTime(SDK_Time *time){
 
     if(!time) return;
 
+    t_free(time->data);
+
     t_free(time);
 
 }
@@ -32,48 +58,49 @@ void SDK_DestroyTime(SDK_Time *time){
 
 void SDK_CalculateDT(SDK_Time *time){
 
-    static uint64_t previous = 0;
-    static uint64_t frequency = 0;
+    if(!time) return;
 
-    if(frequency == 0){
-        frequency = SDL_GetPerformanceFrequency();
-        previous = SDL_GetPerformanceCounter();
+    Time_Data *data = (Time_Data*)time->data;
+
+    if(data->counter_frequency == 0){
+        data->counter_frequency = SDL_GetPerformanceFrequency();
+        data->previous_counter = SDL_GetPerformanceCounter();
         time->dt = 0.0f;
         return;
     }
+    
 
     uint64_t current = SDL_GetPerformanceCounter();
-    time->dt = (double)(current - previous) / (double)frequency;
-    previous = current;
+    time->dt = (double)(current - data->previous_counter) / (double)data->counter_frequency;
+    data->previous_counter = current;
 
 }
 
 
 void SDK_CalculateFPS(SDK_Time *time){
 
-    static uint64_t update_count = 0;
-    static uint16_t frame = 0;
-    static uint16_t collected_frames = 0;
-    static double total = 0.0;
-    static double dt_buffer[MAX_SAMPLES] = {0};
+    if(!time) return;
+    Time_Data *data = (Time_Data*)time->data;
 
     if(time->fps_updated == 1){
         time->fps_updated = 0;
     }
 
-    total -= dt_buffer[frame];
-    dt_buffer[frame] = time->dt;
-    total += time->dt;
+    double *dt_buffer = data->dt_buffer;
+
+    data->total -= dt_buffer[data->frame];
+    dt_buffer[data->frame] = time->dt;
+    data->total += time->dt;
     
-    if(collected_frames < MAX_SAMPLES) collected_frames++;
+    if(data->collected_frames < MAX_SAMPLES) data->collected_frames++;
 
-    frame = (frame + 1) % MAX_SAMPLES;
-    time->fps = 1 / (total / collected_frames);
-    update_count++;
+    data->frame = (data->frame + 1) % MAX_SAMPLES;
+    time->fps = 1 / (data->total / data->collected_frames);
+    data->update_count++;
 
-    if(update_count > time->fps_limit){
+    if(data->update_count > time->fps_limit){
         time->fps_updated = 1;
-        update_count = 0;
+        data->update_count = 0;
     }
         
 }
@@ -81,40 +108,44 @@ void SDK_CalculateFPS(SDK_Time *time){
 
 void SDK_LimitFPS(SDK_Time *time){
 
-    static uint64_t last_counter = 0;
-    static uint64_t freq = 0;
+    if(!time) return;
+    Time_Data *data = (Time_Data*)time->data;
 
-    if (freq == 0) {
-        freq = SDL_GetPerformanceFrequency();
-        last_counter = SDL_GetPerformanceCounter();
+    if(data->counter_frequency == 0){
+        data->counter_frequency = SDL_GetPerformanceFrequency();
+        data->previous_counter = SDL_GetPerformanceCounter();
+        time->dt = 0.0f;
         return;
     }
 
-    double target_frame_time = (1.0 / time->fps_limit);
+    double target_delta_time = (1.0 / time->fps_limit);
+    double delta_time = time->dt;
+    uint64_t counter_frequency = data->counter_frequency;
+    uint64_t previous_counter = data->previous_counter;
+    uint64_t current_counter = SDL_GetPerformanceCounter();
+    
+    
 
-    uint64_t now_counter = SDL_GetPerformanceCounter();
-    double elapsed = (double)(now_counter - last_counter) / (double)freq;
 
-
-    double remaining = target_frame_time - elapsed;
+    double remaining = target_delta_time - delta_time;
     if(remaining < 0){
-        last_counter = SDL_GetPerformanceCounter();
+        data->previous_counter = SDL_GetPerformanceCounter();
         return;
     }
 
 
-    if (remaining > 0.002) {
+    if(remaining > 0.002){
         SDL_Delay((Uint32)((remaining - 0.001) * 1000.0));
     }
 
-    do {
-        now_counter = SDL_GetPerformanceCounter();
-        elapsed = (double)(now_counter - last_counter) / (double)freq;
-    } while (elapsed < target_frame_time);
+    do{
+        current_counter = SDL_GetPerformanceCounter();
+        delta_time = (double)(current_counter - previous_counter) / (double)counter_frequency;
+    } while (delta_time < target_delta_time);
 
 
 
-    last_counter = SDL_GetPerformanceCounter();
+    data->previous_counter = SDL_GetPerformanceCounter();
 }
 
 
