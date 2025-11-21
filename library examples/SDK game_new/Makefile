@@ -2,9 +2,9 @@
 GCC = gcc
 
 
-INCLUDE = -IC:\\msys64\\mingw64\\include -Iinclude -ISDK1/include -ISDK1/include/SDK1/entity -ISDK1/include/SDK1/sprite
-LIB = -LC:\\msys64\\mingw64\\lib -LSDK1/lib
-LINK = -lSDL3 -lSDL3_image -lSDL3_ttf -lMemTrack
+INCLUDE = -IC:\\msys64\\ucrt64\\include -Iinclude -ISDK1/include -ISDK1/include/SDK1/entity -ISDK1/include/SDK1/sprite
+LIB = -LC:\\msys64\\ucrt64\\lib -LSDK1/lib
+LINK =  -lMemTrack -lSDL3 -lSDL3_image -lSDL3_ttf
 SRC = src/*.c
 
 
@@ -18,10 +18,10 @@ default: debug_build run
 opt: opt_build run
 
 debug_build: 
-	@${GCC} ${SRC} -o ${OUTPUT} -Iinclude ${INCLUDE} -DTRACK_ALLOCATIONS ${LINK} -lSDK1_debug ${LIB} ${FLAGS}  
+	@${GCC} ${SRC} -o ${OUTPUT} -Iinclude ${INCLUDE} -DTRACK_ALLOCATIONS -lSDK1_debug ${LINK} ${LIB} ${FLAGS}  
 
 opt_build: 
-	@${GCC} ${SRC} -o ${OUTPUT} -Iinclude ${INCLUDE} ${LINK} -lSDK1 ${LIB} ${FLAGS}  
+	@${GCC} ${SRC} -o ${OUTPUT} -Iinclude ${INCLUDE}-lSDK1 ${LINK} ${LIB} ${FLAGS}  
 
 run:
 	@${OUTPUT}

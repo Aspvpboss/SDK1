@@ -1,6 +1,6 @@
 #pragma once
 
-#include "sprite/SDK_sprite.h"
+#include "SDK_sprite.h"
 #include "../entity/SDK_entity.h"
 #include "../common_libs.h"
 
