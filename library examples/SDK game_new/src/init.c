@@ -67,8 +67,8 @@ int init_textdisplays(TextDisplay_Manager *manager, SDK_Display *display){
         return 1;
 
     manager->amount_text = 1;
-    manager->texts = t_malloc(sizeof(SDK_TextDisplay**) * manager->amount_text);
-    SDK_TextDisplay **texts = manager->texts;
+    manager->texts = t_malloc(sizeof(SDK_Text*) * manager->amount_text);
+    SDK_Text **texts = manager->texts;
     
     texts[0] = SDK_CreateText(display, NULL, 20, 0, 0, (SDL_Color){255, 255, 255, 255});
     if(!texts[0]) return 1;
@@ -81,7 +81,7 @@ int init_textdisplays(TextDisplay_Manager *manager, SDK_Display *display){
 
 SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[]){
 
-    SDK_Init(true, true, false);
+    SDK_Init(NULL, NULL, true, true, false);
 
     (*appstate) = t_malloc(sizeof(Appstate));
     Appstate *state = (Appstate*)(*appstate);

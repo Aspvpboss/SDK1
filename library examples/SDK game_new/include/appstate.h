@@ -5,7 +5,7 @@
 
 typedef struct{
 
-    SDK_TextDisplay **texts;
+    SDK_Text **texts;
     uint8_t amount_text;
 
 } TextDisplay_Manager;

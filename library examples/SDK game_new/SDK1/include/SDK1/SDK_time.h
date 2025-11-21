@@ -5,17 +5,18 @@
 /*
 
     SDK_Time holds variable that are used for time calculations
-    You use dt and fps for functions
 
-    fps_updated becomes true whenever the fps gets updated
+    You use dt and fps for functions
+    fps_updated becomes true whenever the new fps gets calculated
     becomes false after the update
 
 */
 typedef struct{
 
     double dt, fps;
-    int fps_limit, prev_fps_limit;
+    int fps_limit;
     bool fps_updated;
+    void *data;
 
 } SDK_Time;
 
@@ -32,9 +33,9 @@ typedef struct{
 SDK1_API SDK_Time* SDK_CreateTime(int fps_limit);
 
 /*
-    Destroys an SDK_Time struct
+    Frees a SDK_Time
 
-    make sure to set pointer to NULL after calling
+    Will return early if SDK_Time is NULL
 */
 SDK1_API void SDK_DestroyTime(SDK_Time *time);
 
@@ -55,7 +56,7 @@ SDK1_API void SDK_DestroyTime(SDK_Time *time);
     returns 0 for success, returns 1 for failure
     call SDL_GetError() for more info
 */
-SDK1_API void SDK_TimeFunctions(SDK_Time *time);
+SDK1_API int SDK_TimeFunctions(SDK_Time *time);
 
 /*
     Updates 'dt' within SDK_Time with current delta time
@@ -63,7 +64,7 @@ SDK1_API void SDK_TimeFunctions(SDK_Time *time);
     returns 0 for success, returns 1 for failure
     call SDL_GetError() for more info
 */
-SDK1_API void SDK_CalculateDT(SDK_Time *time);
+SDK1_API int SDK_CalculateDT(SDK_Time *time);
 
 /*
     Updates 'fps' within SDK_Time with current fps
@@ -75,7 +76,7 @@ SDK1_API void SDK_CalculateDT(SDK_Time *time);
     returns 0 for success, returns 1 for failure
     call SDL_GetError() for more info
 */
-SDK1_API void SDK_CalculateFPS(SDK_Time *time);
+SDK1_API int SDK_CalculateFPS(SDK_Time *time);
 
 /*
     This function limits the fps of the application. 
@@ -85,5 +86,5 @@ SDK1_API void SDK_CalculateFPS(SDK_Time *time);
     returns 0 for success, returns 1 for failure
     call SDL_GetError() for more info
 */
-SDK1_API void SDK_LimitFPS(SDK_Time *time);
+SDK1_API int SDK_LimitFPS(SDK_Time *time);
 

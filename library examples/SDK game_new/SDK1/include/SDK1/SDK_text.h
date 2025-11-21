@@ -4,24 +4,20 @@
 
 /*
     contains variables needed to display a string onto the screen
-    you can read the x_pos and y_pos values for use within your program
+    you can read values from rect, but to change the actual values
+    you must use SDK_Text_UpdatePosition
     
     Do not modify the values directly, use the SDK_Text functions
 */
-typedef struct{
+typedef struct SDK_Text{
 
-    TTF_Font *font;
-    SDL_Color color;
-    TTF_Text *text;
-    TTF_TextEngine *engine;
+    void *data;
     SDL_FRect rect;
-    int wrap_width;
-    float font_size;
 
-} SDK_TextDisplay;
+} SDK_Text;
 
 /*
-    Initializes a SDK_TextDisplay object, this must be freed using SDK_DestroyText()
+    Creates a SDK_Text, this must be freed using SDK_DestroyText()
 
     You can pass NULL into 'const char *font_path' and 'const char *display_text'.
     If you do you must update the font using SDK_TextUpdateFont() 
@@ -30,74 +26,82 @@ typedef struct{
     returns 0 for success, 1 for failure
     Use SDL_GetError() for more error details
 */
-SDK1_API SDK_TextDisplay* SDK_CreateText(SDK_Display *display, const char *font_path, float font_size, int x, int y, SDL_Color color);
+SDK1_API SDK_Text* SDK_CreateText(SDK_Display *display, const char *font_path, float font_size, int x, int y, SDL_Color color);
 
 
 /*
-    destroys a SDK_TextDisplay object
+    Frees a SDK_Text
+
+    Will return early if SDK_Text is NULL
 */
-SDK1_API void SDK_DestroyText(SDK_TextDisplay *text);
+SDK1_API void SDK_DestroyText(SDK_Text *text);
 
 
 /*
-    updates the font, and font size of a SDK_TextDisplay object
+    updates the font, and font size of a SDK_Text
 
     returns 0 for success, 1 for failure
     Use SDL_GetError() for more error details
 */
-SDK1_API int SDK_Text_UpdateFont(SDK_TextDisplay *text, const char *font_path, float font_size);
+SDK1_API int SDK_Text_UpdateFont(SDK_Text *text, const char *font_path, float font_size);
 
 
 /*
-    updates font size of a SDK_TextDisplay object
+    updates font size of a SDK_Text
 
     returns 0 for success, 1 for failure
     Use SDL_GetError() for more error details
 */
-SDK1_API int SDK_Text_UpdateFontSize(SDK_TextDisplay *text, float font_size);
+SDK1_API int SDK_Text_UpdateFontSize(SDK_Text *text, float font_size);
 
 
 /*
-    updates display text of a SDK_TextDisplay object
+    updates text of a SDK_Text
 
     returns 0 for success, 1 for failure
     Use SDL_GetError() for more error details
 */
-SDK1_API int SDK_Text_UpdateString(SDK_TextDisplay *text, const char *string);
+SDK1_API int SDK_Text_UpdateString(SDK_Text *text, const char *string);
 
 
 /*
-    updates display text of a SDK_TextDisplay object
+    updates text position of a SDK_Text
 
     returns 0 for success, 1 for failure
     Use SDL_GetError() for more error details
 */
-SDK1_API int SDK_Text_UpdatePosition(SDK_TextDisplay *text, int x, int y);
+SDK1_API int SDK_Text_UpdatePosition(SDK_Text *text, int x, int y);
+
+/*
+    updates width and height of a SDK_Text
+
+*/
+SDK1_API int SDK_Text_UpdateSize(SDK_Text *text);
 
 
 /*
-    updates wrap width of a SDK_TextDisplay object
+    updates wrap width of a SDK_Text
     set wrap_width to 0 for no wrap around
 
     returns 0 for success, 1 for failure
     Use SDL_GetError() for more error details
 */
-SDK1_API int SDK_Text_UpdateWrapWidth(SDK_TextDisplay *text, int wrap_width);
+SDK1_API int SDK_Text_UpdateWrapWidth(SDK_Text *text, int wrap_width);
 
 
 /*
-    updates color of a SDK_TextDisplay object
+    updates color of a SDK_Text
 
     returns 0 for success, 1 for failure
     Use SDL_GetError() for more error details
 */
-SDK1_API int SDK_Text_UpdateColor(SDK_TextDisplay *text, SDL_Color color);
+SDK1_API int SDK_Text_UpdateColor(SDK_Text *text, SDL_Color color);
 
 
 /*
-    renders the SDK_TextDisplay object to the renderer
+    renders the SDK_Text to the display it was created with
 
     returns 0 for success, 1 for failure
     Use SDL_GetError() for more error details
 */
-SDK1_API int SDK_Text_Render(SDK_TextDisplay *text);
+SDK1_API int SDK_Render_Text(SDK_Text *text);

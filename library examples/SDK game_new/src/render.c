@@ -24,7 +24,7 @@ int render_entitys(SDK_Display *display, Entity_Manager *e_manager, SDK_Sprite_M
 int render_text(TextDisplay_Manager *manager){
 
     for(int i = 0; i < manager->amount_text; i++){
-        SDK_Text_Render(manager->texts[i]);
+        SDK_Render_Text(manager->texts[i]);
     }
 
     return 0;
@@ -35,14 +35,14 @@ int render(Appstate *state){
 
     SDK_Display *display = state->display;
 
-    SDL_RenderClear(display->renderer);
+    SDK_Display_Clear(display);
+
 
     render_entitys(display, &state->entity_manager, state->sprite_manager);
-
-
     render_text(&state->text_manager);
 
-    SDL_RenderPresent(display->renderer);
+
+    SDK_Display_Present(display);
 
     return 0;
 }

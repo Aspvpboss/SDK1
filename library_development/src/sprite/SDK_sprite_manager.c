@@ -1,4 +1,4 @@
-#include "SDK_sprite_manager.h"
+#include "sprite/SDK_sprite_manager.h"
 
 typedef struct{
 

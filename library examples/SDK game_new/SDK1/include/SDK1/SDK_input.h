@@ -21,7 +21,7 @@ typedef struct{
 
 
 /*
-    Creates SDK_Input
+    Creates a SDK_Input
     Access mouse_x && mouse_y for mouse coordiates
 
     SDK_Input must be freed with SDK_DestroyInput
@@ -32,7 +32,9 @@ typedef struct{
 SDK1_API SDK_Input* SDK_CreateInput();
 
 /*
-    destroys a SDK_Input object
+    Frees a SDK_Input
+
+    Will return early if SDK_Input is NULL
 */
 SDK1_API void SDK_DestroyInput(SDK_Input *input);
 
