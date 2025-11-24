@@ -12,7 +12,6 @@ void update_animated_entitys(Entity_Manager *manager, SDK_Time *time){
         SDK_Entity_UpdateAnimation(sprites[i], time);
     }
         
-
 }
 
 
