@@ -7,38 +7,13 @@
 
 void update_text(SDK_Text *text, double fps){
 
-    static char fps_text[40];
+    char fps_text[40];
 
     snprintf(fps_text, sizeof(fps_text), "FPS: %.2f", fps);
 
     SDK_Text_UpdateString(text, fps_text);
 
 }
-
-
-void update_sprite_info(SDK_Sprite *sprite, SDK_Sprite *sprite_two, SDK_Input *input, SDK_Time *time){
-
-
-    if(SDK_Keyboard_Pressed(input, SDL_SCANCODE_W)){
-        sprite->render_rect.y -= (128 * time->dt);
-    }
-    if(SDK_Keyboard_Pressed(input, SDL_SCANCODE_S)){
-        sprite->render_rect.y += (128 * time->dt);
-    }
-    if(SDK_Keyboard_Pressed(input, SDL_SCANCODE_A)){
-        sprite->render_rect.x -= (128 * time->dt);
-    }
-    if(SDK_Keyboard_Pressed(input, SDL_SCANCODE_D)){
-        sprite->render_rect.x += (128 * time->dt);
-    }
-
-    if(SDK_Sprite_CheckCollision(sprite, sprite_two))
-        SDK_Sprite_SetPlayAnimation(sprite, true);
-
-    SDK_Sprite_UpdateAnimation(sprite, time);
-
-}
-
 
 
 
@@ -151,18 +126,6 @@ int main(){
             entity_one->collision_rect.y += movement;
             entity_one->is_updated = true;
         }
-        if(SDK_Keyboard_Pressed(input, SDL_SCANCODE_RIGHT)){
-            double movement = 128 * time->dt;
-            entity_one->angle += movement;
-            entity_one->is_updated = true;
-        }
-        if(SDK_Keyboard_Pressed(input, SDL_SCANCODE_LEFT)){
-            double movement = 128 * time->dt;
-            entity_one->angle -= movement;
-            entity_one->is_updated = true;
-        }
-
-        // SDK_Entity_SetPlayAnimation(entity_one, false);
 
         if(SDK_Keyboard_Pressed(input, SDL_SCANCODE_UP)){
             SDK_Entity_SetPlayAnimation(entity_one, true);
