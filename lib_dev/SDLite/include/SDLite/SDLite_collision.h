@@ -12,7 +12,7 @@
 extern "C"{
 #endif
 
-#include "common_libs.h"
+#include "SDLite/common_libs.h"
 
 /*
     These functions can be called from any thread

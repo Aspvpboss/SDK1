@@ -12,11 +12,11 @@
 extern "C"{
 #endif
 
-#include "common_libs.h"
+#include "SDLite/common_libs.h"
 
 #define SDLITE_MAJOR_VERSION 1
 #define SDLITE_MINOR_VERSION 2
-#define SDLITE_MICRO_VERSION 2
+#define SDLITE_MICRO_VERSION 3
 
 /* 
     takes in int* and writes the version numbers to those pointers
