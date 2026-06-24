@@ -13,7 +13,7 @@
 extern "C"{
 #endif
 
-#include "common_libs.h"
+#include "SDLite/common_libs.h"
 
 typedef struct{
 

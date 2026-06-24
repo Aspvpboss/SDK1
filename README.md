@@ -1,4 +1,5 @@
-# SDLite Version 1.2.2
+# SDLite Version 1.2.3
+
 
 SDLite is a lightweight C / C++ framework built on top of **SDL3**, designed to simplify common SDL workflows while providing game-oriented utilities such as sprites, animation, audio handling, timing, input helpers, and collision functions.
 
@@ -9,8 +10,7 @@ This framework is intended to be a **generic SDL helper library**, slightly tail
 
 ## Patch Notes
 
-- Added a getter function to get the TTF_Font* for SDLite_Text
-- Updated Memtrack to v1.2
+- Put all SDLite header files in a folder called 'SDLite' in the include folder. This help keeps a global environment clean.
 
 ---
 
@@ -38,16 +38,16 @@ Two prebuilt DLL versions of the framework are included:
 
 - **debugSDLite.dll**  
   Debug build with **MemTrack** memory allocation tracking enabled.  
-  Useful for detecting memory leaks and tracking allocations during development.
+  Can detect memory leaks and track allocations during development.
 
-Choose the DLL that fits your use case and link against the corresponding import library.
+I would recommmend using debugSDLite.dll during development, and SDLite.dll for release builds
 
 ---
 
 ## Documentation
 
 All public functions are documented in their header files.  
-Additionally, the included **MemTrack** library header contains documentation for memory tracking utilitiess.
+Additionally, the included **MemTrack** library header contains documentation for memory tracking utilities and necessary macros.
 
 ---
 
@@ -60,26 +60,10 @@ Knowing how SDL works internally will make the SDLite much easier to understand 
 
 ## Examples
 
-Several example projects are included:
+Only one example project as of right is included:
 
 - **Template Example**  
   Opens a window and displays the current FPS.
-
-- **Simple 2D Game Example**  
-  Demonstrates sprites, animation, input, collision, audio, and text rendering.
-
-These examples serve as both references and starting templates.
-
----
-
-## Purpose
-
-This SDLite is designed to:
-
-- Reduce SDL boilerplate code  
-- Provide reusable game-oriented helpers  
-- Stay lightweight and flexible  
-- Avoid forcing a rigid engine structure
 
 ---
 

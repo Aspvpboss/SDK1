@@ -22,18 +22,18 @@ extern "C"{
 */
 
 
-#include "SDLite_display.h"
-#include "SDLite_input.h"
-#include "SDLite_text.h"
-#include "SDLite_time.h"
-#include "SDLite_init.h"
-#include "SDLite_collision.h"
-#include "SDLite_audio.h"
-#include "SDLite_version.h"
-#include "SDLite_texture.h"
+#include "SDLite/SDLite_display.h"
+#include "SDLite/SDLite_input.h"
+#include "SDLite/SDLite_text.h"
+#include "SDLite/SDLite_time.h"
+#include "SDLite/SDLite_init.h"
+#include "SDLite/SDLite_collision.h"
+#include "SDLite/SDLite_audio.h"
+#include "SDLite/SDLite_version.h"
+#include "SDLite/SDLite_texture.h"
 
-#include "sprite/SDLite_sprite.h"
-#include "sprite/SDLite_sprite_manager.h"
+#include "SDLite/sprite/SDLite_sprite.h"
+#include "SDLite/sprite/SDLite_sprite_manager.h"
 
 
 #ifdef __cplusplus

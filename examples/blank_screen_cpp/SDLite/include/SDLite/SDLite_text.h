@@ -13,8 +13,8 @@ extern "C" {
 #endif
 
 
-#include "common_libs.h"
-#include "SDLite_display.h"
+#include "SDLite/common_libs.h"
+#include "SDLite/SDLite_display.h"
 
 /*
     These functions should only be called on the thread that created the SDLite_Text

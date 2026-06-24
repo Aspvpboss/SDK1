@@ -1,6 +1,6 @@
 #pragma once
 
-#include "SDLite.h"
+#include "SDLite/SDLite.h"
 #include <math.h>
 
 
