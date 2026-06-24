@@ -5,7 +5,7 @@
  * See the LICENSE file in the project root for license information.
 */
 
-#include "sprite/SDLite_sprite_manager.h"
+#include "SDLite/sprite/SDLite_sprite_manager.h"
 
 
 struct SDLite_Sprite_Manager{

@@ -15,8 +15,8 @@ extern "C" {
 
 
 
-#include "SDLite_sprite.h"
-#include "../common_libs.h"
+#include "SDLite/sprite/SDLite_sprite.h"
+#include "SDLite/common_libs.h"
 
 
 

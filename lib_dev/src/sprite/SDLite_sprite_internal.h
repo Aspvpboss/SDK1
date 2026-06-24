@@ -1,10 +1,10 @@
 #ifndef SDLite_SPRITE_INTERNAL_H
 #define SDLite_SPRITE_INTERNAL_H
 
-#include "common_libs.h"
-#include "SDLite_display.h"
-#include "SDLite_time.h"
-#include "SDLite_texture.h"
+#include "SDLite/common_libs.h"
+#include "SDLite/SDLite_display.h"
+#include "SDLite/SDLite_time.h"
+#include "SDLite/SDLite_texture.h"
 #include "SDLite_texture_internal.h"
 
 

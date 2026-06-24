@@ -5,7 +5,7 @@
  * See the LICENSE file in the project root for license information.
 */
 
-#include "SDLite_input.h"
+#include "SDLite/SDLite_input.h"
 
 
 struct SDLite_Input{

@@ -5,7 +5,7 @@
  * See the LICENSE file in the project root for license information.
 */
 
-#include "SDLite_init.h"
+#include "SDLite/SDLite_init.h"
 
 
 int SDLite_Init(void (*func)(void*), void *func_data, bool memory_failure_abort, bool auto_null_pointers){

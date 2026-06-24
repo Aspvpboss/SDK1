@@ -1,7 +1,7 @@
 // this is the test file for the framework
 // the entire file is just bad practice, but idc
 
-#include "SDLite.h"
+#include "SDLite/SDLite.h"
 
 #define TEXTURE_PATH_BLUE "./assets/blue.bmp"
 #define TEXTURE_PATH_COOL "./assets/char_spritesheet.png"
@@ -130,14 +130,16 @@ int main(){
 
 
     SDLite_Audio_Handler *audio_handler = SDLite_Create_AudioHandler(4, 1.0f);
-    SDLite_Display *display = SDLite_CreateDisplay("SDK window", 800, 800, SDL_WINDOW_MAXIMIZED);
+    SDLite_Display *display = SDLite_CreateDisplay("SDLite window", 800, 800, SDL_WINDOW_MAXIMIZED);
     SDLite_Time *time = SDLite_CreateTime(144);
     SDLite_Input *input = SDLite_CreateInput();
     if(!input){
         SDL_Log("%s\n", SDL_GetError());
         return 1;
     }
-    SDLite_Text *text = SDLite_CreateText(display, NULL, NULL, 20, 5, 5, (SDL_Color){255, 255, 255, 255});
+
+    const SDL_Color WHITE = {255, 255, 255, 255};
+    SDLite_Text *text = SDLite_CreateText(display, NULL, NULL, 20, 5, 5, WHITE);
     SDLite_Sprite_Manager *manager = SDLite_Create_SpriteManager(16, 16);
 
     
@@ -151,7 +153,9 @@ int main(){
     SDLite_Audio_SetTrackProp(audio_handler, 0, MIX_PROP_PLAY_MAX_MILLISECONDS_NUMBER, 10000);
 
     // goat player
-    SDLite_Sprite *player = SDLite_Create_AnimatedSprite(display, TEXTURE_PATH_COOL, (SDL_FPoint){100, 0}, (SDL_FRect){18, 16, 13, 16});
+    const SDL_FPoint player_coord = {100, 0};
+    const SDL_FRect player_rect = {18, 16, 13, 16};
+    SDLite_Sprite *player = SDLite_Create_AnimatedSprite(display, TEXTURE_PATH_COOL, player_coord, player_rect);
     if(!player){
         SDL_Log("Error loading player: %s\n", SDL_GetError());
         return 1;
@@ -175,18 +179,21 @@ int main(){
     // player->flip_mode = SDL_FLIP_HORIZONTAL;
 
     
-    SDLite_Sprite *square = SDLite_Create_StaticSprite(display, TEXTURE_PATH_BLUE, (SDL_FPoint){10.0f, 0.0f}, (SDL_FRect){0.0f, 0.0f, 400.0f, 400.0f});
+    const SDL_FRect static_rect = {0, 0, 400, 400};
+    const SDL_FPoint static_pos = {10, 0};
+    SDLite_Sprite *square = SDLite_Create_StaticSprite(display, TEXTURE_PATH_BLUE, static_pos, static_rect);
     if(!square){
         SDL_Log("Error loading square: %s\n", SDL_GetError());
         return 1;
     } 
 
     SDLite_Sprite_SetScale(player, 8.0f);
-    SDL_SetTextureScaleMode(SDLite_Sprite_GetTexture(player), SDL_SCALEMODE_NEAREST);
-
+    SDL_SetTextureScaleMode(SDLite_Sprite_GetSDLTexture(player), SDL_SCALEMODE_NEAREST);
     
 
-    SDLite_Sprite *rectangle = SDLite_Create_RectSprite((SDL_FRect){350, 0, 150, 150}, (SDL_Color){255, 0, 0, 0}, true);
+    const SDL_Color red = {255, 0, 0, 0};
+    const SDL_FRect rect_rect = {350, 0, 150, 150};
+    SDLite_Sprite *rectangle = SDLite_Create_RectSprite(rect_rect, red, true);
 
     if(!rectangle)
         return 1;
@@ -236,7 +243,7 @@ int main(){
     SDL_Event e;
 
 
-    if(SDLite_Display_IsFullscreen(display)){
+    if(SDLite_Display_GetWindowFlags(display) & SDL_WINDOW_FULLSCREEN){
         printf("is fullscreen\n");
     } else{
         printf("not fullscreen\n");

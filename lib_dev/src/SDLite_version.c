@@ -7,7 +7,7 @@
 
 
 // some complex stuff here
-#include "SDLite_version.h"
+#include "SDLite/SDLite_version.h"
 void SDLite_Version_GetNumbers(int *major, int *minor, int *micro){
     if(!major || !minor || !micro) return; 
 

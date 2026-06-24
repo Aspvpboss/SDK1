@@ -5,7 +5,7 @@
  * See the LICENSE file in the project root for license information.
 */
 
-#include "SDLite_Text.h"
+#include "SDLite/SDLite_Text.h"
 #include "SDLite_display_internal.h"
 
 struct SDLite_Text{
