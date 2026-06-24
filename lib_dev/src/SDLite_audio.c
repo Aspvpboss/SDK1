@@ -5,7 +5,7 @@
  * See the LICENSE file in the project root for license information.
 */
 
-#include "SDLite_audio.h"
+#include "SDLite/SDLite_audio.h"
 
 struct SDLite_Audio_Handler{
 

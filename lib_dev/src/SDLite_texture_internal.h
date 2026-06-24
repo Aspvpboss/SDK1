@@ -1,7 +1,7 @@
 #ifndef SDLITE_TEXTURE_INTERNAL_H
 #define SDLITE_TEXTURE_INTERNAL_H
 
-#include "common_libs.h"
+#include "SDLite/common_libs.h"
 
 struct SDLite_Texture{
 

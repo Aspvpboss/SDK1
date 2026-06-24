@@ -1,4 +1,4 @@
-#include "sprite/SDLite_sprite.h"
+#include "SDLite/sprite/SDLite_sprite.h"
 #include "SDLite_sprite_internal.h"
 
 

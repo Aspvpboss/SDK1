@@ -12,7 +12,7 @@ extern "C" SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[]){
     (*appstate) = t_malloc(sizeof(Appstate));
     Appstate *state = (Appstate*)(*appstate);
 
-    state->display = SDLite_CreateDisplay("SDK game", 1000, 800, SDL_WINDOW_MAXIMIZED);
+    state->display = SDLite_CreateDisplay("SDLite game", 1000, 800, SDL_WINDOW_MAXIMIZED);
     if(!state->display){
         SDL_Log("Error: %s\n", SDL_GetError());
         return SDL_APP_FAILURE;

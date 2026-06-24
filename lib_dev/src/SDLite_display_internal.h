@@ -1,7 +1,7 @@
 #ifndef SDLite_DISPLAY_INTERNAL_H
 #define SDLite_DISPLAY_INTERNAL_H
 
-#include "common_libs.h"
+#include "SDLite/common_libs.h"
 
 struct SDLite_Display{
 

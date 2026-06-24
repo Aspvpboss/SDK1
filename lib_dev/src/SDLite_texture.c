@@ -1,4 +1,4 @@
-#include "SDLite_texture.h"
+#include "SDLite/SDLite_texture.h"
 #include "SDLite_texture_internal.h"
 #include "SDLite_display_internal.h"
 

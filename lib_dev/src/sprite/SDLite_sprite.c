@@ -5,7 +5,7 @@
  * See the LICENSE file in the project root for license information.
 */
 
-#include "sprite/SDLite_sprite.h"
+#include "SDLite/sprite/SDLite_sprite.h"
 #include "SDLite_sprite_internal.h"
 #include "SDLite_display_internal.h"
 
